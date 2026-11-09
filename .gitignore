@@ -3,3 +3,9 @@
 /build
 erl_crash.dump
 .allium-loop/
+
+# Generated app build output (rebuild with app/scripts/build_static.sh)
+app/priv/
+
+# ExportPdfPlaceholder downloads during local testing
+/*.pdf
