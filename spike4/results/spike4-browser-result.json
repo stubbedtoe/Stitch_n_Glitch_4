@@ -1,0 +1,41 @@
+{
+  "pass": true,
+  "checks": {
+    "oauth_dpop": true,
+    "account_identity": true,
+    "spaces_pds": true,
+    "custom_lexicon_write": true,
+    "custom_lexicon_read": true,
+    "round_trip_verified": true
+  },
+  "result": {
+    "status": "done",
+    "auth": "atproto-oauth-dpop",
+    "handle": "spike4.test",
+    "did": "did:plc:go75jer5nwy72aqyr527bifh",
+    "pds": "http://localhost:2583",
+    "issuer": "http://localhost:2583",
+    "scope": "atproto transition:generic",
+    "customCollection": "online.stitchnglitch.spike",
+    "recordKey": "self",
+    "writeUri": "at://did:plc:go75jer5nwy72aqyr527bifh/online.stitchnglitch.spike/self",
+    "writeCid": "bafyreid6335u7aufpyjuij4xoaokdbgmusa3edrauywnnl4gu3eiqijcby",
+    "readUri": "at://did:plc:go75jer5nwy72aqyr527bifh/online.stitchnglitch.spike/self",
+    "readCid": "bafyreid6335u7aufpyjuij4xoaokdbgmusa3edrauywnnl4gu3eiqijcby",
+    "readName": "S4 OAuth Lexicon round trip",
+    "readSeed": 42,
+    "roundTripVerified": true
+  },
+  "pds": {
+    "image": "ghcr.io/bluesky-social/atproto:pds-spaces-alpha",
+    "version": "0.5.32",
+    "url": "http://localhost:2583"
+  },
+  "account": {
+    "handle": "spike4.test",
+    "did": "did:plc:go75jer5nwy72aqyr527bifh"
+  },
+  "chrome": "/Applications/Google Chrome.app/Contents/MacOS/Google Chrome",
+  "node": "v23.11.0",
+  "ranAt": "2026-11-07T17:18:47.254Z"
+}

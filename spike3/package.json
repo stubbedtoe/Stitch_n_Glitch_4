@@ -1,0 +1,22 @@
+{
+  "name": "sng-spike3-gleam-lustre-thing-webgl",
+  "private": true,
+  "version": "0.1.0",
+  "type": "module",
+  "description": "Spike S3: prove the Gleam/Lustre ↔ TypeScript/thi.ng/WebGL2 integration skeleton end to end",
+  "scripts": {
+    "dev": "gleam build && vite",
+    "build": "gleam build && vite build",
+    "preview": "vite preview --port 4173 --strictPort",
+    "check": "gleam check",
+    "spike": "node scripts/run-spike.mjs"
+  },
+  "dependencies": {
+    "@thi.ng/pixel": "*"
+  },
+  "devDependencies": {
+    "@types/node": "^26.6.6",
+    "typescript": "^5.6.3",
+    "vite": "^6.0.0"
+  }
+}

@@ -1,0 +1,86 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Spike S1 — NFR-P1 thi.ng engine benchmark</title>
+    <style>
+      :root { color-scheme: light dark; font-family: system-ui, sans-serif; }
+      body { max-width: 1100px; margin: 2rem auto; padding: 0 1rem; line-height: 1.45; }
+      h1 { font-size: 1.4rem; }
+      h2 { font-size: 1.1rem; margin-top: 2rem; }
+      fieldset { border: 1px solid #8884; border-radius: 8px; padding: 0.75rem 1rem; display: flex; gap: 1.5rem; flex-wrap: wrap; align-items: center; }
+      label { display: flex; gap: 0.4rem; align-items: center; font-size: 0.9rem; }
+      input, select, button { font: inherit; }
+      button { padding: 0.45rem 1.2rem; border-radius: 6px; border: 1px solid #8886; cursor: pointer; }
+      button:disabled { opacity: 0.5; cursor: default; }
+      #progress { margin: 1rem 0; font-variant-numeric: tabular-nums; }
+      #bar { height: 6px; background: #8883; border-radius: 3px; overflow: hidden; margin-top: 0.3rem; }
+      #bar > div { height: 100%; background: #4a90d9; width: 0%; transition: width 0.2s; }
+      table { border-collapse: collapse; width: 100%; font-size: 0.82rem; font-variant-numeric: tabular-nums; }
+      th, td { border: 1px solid #8884; padding: 0.3rem 0.5rem; text-align: right; }
+      th:first-child, td:first-child { text-align: left; }
+      .pass { color: #2e9e5b; font-weight: 600; }
+      .fail { color: #d64545; font-weight: 600; }
+      #verdict { font-size: 1.05rem; font-weight: 600; }
+      #env, #fps { font-size: 0.85rem; color: #888; }
+      canvas { image-rendering: pixelated; border: 1px solid #8884; margin-top: 0.5rem; }
+      details { margin-top: 1rem; font-size: 0.85rem; }
+      pre { overflow-x: auto; background: #8881; padding: 0.5rem; border-radius: 6px; }
+    </style>
+  </head>
+  <body>
+    <h1>Spike S1 — NFR-P1: thi.ng engine benchmark (12&nbsp;MP → 300×300 chart)</h1>
+    <p>
+      Pipeline: decode → <code>@thi.ng/pixel</code> filtered resize (bilinear/bicubic) →
+      <code>@thi.ng/color</code> CIEDE2000 thread quantization (optional <code>@thi.ng/pixel-dither</code>
+      Floyd–Steinberg), in a Web Worker. Pass bar: worst-cell total <strong>P95 ≤ 2500 ms</strong>
+      (2× margin under the NFR-P1 5000 ms budget).
+    </p>
+
+    <fieldset>
+      <legend>Configuration</legend>
+      <label>Timed runs/cell <input id="runs" type="number" value="15" min="3" max="100" style="width:4.5em" /></label>
+      <label>Warmup runs/cell <input id="warmup" type="number" value="3" min="0" max="10" style="width:4em" /></label>
+      <button id="start">Run benchmark</button>
+      <span id="status">idle</span>
+    </fieldset>
+
+    <div id="progress"></div>
+    <div id="bar"><div></div></div>
+
+    <p id="fps"></p>
+    <p id="verdict"></p>
+
+    <h2>Results</h2>
+    <table id="results">
+      <thead>
+        <tr>
+          <th>Configuration</th>
+          <th>total P50 (ms)</th>
+          <th>total P95 (ms)</th>
+          <th>total P99 (ms)</th>
+          <th>decode P95</th>
+          <th>resize P95</th>
+          <th>quantize P95</th>
+          <th>dither P95</th>
+          <th>P95 ≤ 2500 ms</th>
+        </tr>
+      </thead>
+      <tbody></tbody>
+    </table>
+
+    <canvas id="preview" width="300" height="300" hidden></canvas>
+
+    <details>
+      <summary>Environment</summary>
+      <pre id="env"></pre>
+    </details>
+    <details>
+      <summary>Raw JSON</summary>
+      <pre id="raw"></pre>
+    </details>
+
+    <script type="module" src="/src/main.ts"></script>
+  </body>
+</html>

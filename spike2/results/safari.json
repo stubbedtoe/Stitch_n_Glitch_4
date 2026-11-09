@@ -1,0 +1,6979 @@
+{
+  "browser": "safari",
+  "userAgent": "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/605.1.15 (KHTML, like Gecko) Version/26.4 Safari/605.1.15",
+  "seedsPerCell": 40,
+  "maxAttempts": 10,
+  "samples": [
+    {
+      "mode": "jpeg-swap",
+      "amount": 2,
+      "seed": 0,
+      "attempts": 1,
+      "converged": true
+    },
+    {
+      "mode": "jpeg-swap",
+      "amount": 5,
+      "seed": 0,
+      "attempts": 1,
+      "converged": true
+    },
+    {
+      "mode": "jpeg-swap",
+      "amount": 10,
+      "seed": 0,
+      "attempts": 1,
+      "converged": true
+    },
+    {
+      "mode": "jpeg-swap",
+      "amount": 20,
+      "seed": 0,
+      "attempts": 1,
+      "converged": true
+    },
+    {
+      "mode": "png-idat-raw",
+      "amount": 1,
+      "seed": 0,
+      "attempts": 1,
+      "converged": true
+    },
+    {
+      "mode": "png-idat-raw",
+      "amount": 2,
+      "seed": 0,
+      "attempts": 1,
+      "converged": true
+    },
+    {
+      "mode": "png-idat-raw",
+      "amount": 4,
+      "seed": 0,
+      "attempts": 1,
+      "converged": true
+    },
+    {
+      "mode": "png-idat-raw",
+      "amount": 8,
+      "seed": 0,
+      "attempts": 1,
+      "converged": true
+    },
+    {
+      "mode": "jpeg-swap",
+      "amount": 2,
+      "seed": 1,
+      "attempts": 1,
+      "converged": true
+    },
+    {
+      "mode": "jpeg-swap",
+      "amount": 5,
+      "seed": 1,
+      "attempts": 1,
+      "converged": true
+    },
+    {
+      "mode": "jpeg-swap",
+      "amount": 10,
+      "seed": 1,
+      "attempts": 1,
+      "converged": true
+    },
+    {
+      "mode": "jpeg-swap",
+      "amount": 20,
+      "seed": 1,
+      "attempts": 1,
+      "converged": true
+    },
+    {
+      "mode": "png-idat-raw",
+      "amount": 1,
+      "seed": 1,
+      "attempts": 1,
+      "converged": true
+    },
+    {
+      "mode": "png-idat-raw",
+      "amount": 2,
+      "seed": 1,
+      "attempts": 1,
+      "converged": true
+    },
+    {
+      "mode": "png-idat-raw",
+      "amount": 4,
+      "seed": 1,
+      "attempts": 1,
+      "converged": true
+    },
+    {
+      "mode": "png-idat-raw",
+      "amount": 8,
+      "seed": 1,
+      "attempts": 1,
+      "converged": true
+    },
+    {
+      "mode": "jpeg-swap",
+      "amount": 2,
+      "seed": 2,
+      "attempts": 1,
+      "converged": true
+    },
+    {
+      "mode": "jpeg-swap",
+      "amount": 5,
+      "seed": 2,
+      "attempts": 1,
+      "converged": true
+    },
+    {
+      "mode": "jpeg-swap",
+      "amount": 10,
+      "seed": 2,
+      "attempts": 1,
+      "converged": true
+    },
+    {
+      "mode": "jpeg-swap",
+      "amount": 20,
+      "seed": 2,
+      "attempts": 1,
+      "converged": true
+    },
+    {
+      "mode": "png-idat-raw",
+      "amount": 1,
+      "seed": 2,
+      "attempts": 1,
+      "converged": true
+    },
+    {
+      "mode": "png-idat-raw",
+      "amount": 2,
+      "seed": 2,
+      "attempts": 1,
+      "converged": true
+    },
+    {
+      "mode": "png-idat-raw",
+      "amount": 4,
+      "seed": 2,
+      "attempts": 1,
+      "converged": true
+    },
+    {
+      "mode": "png-idat-raw",
+      "amount": 8,
+      "seed": 2,
+      "attempts": 1,
+      "converged": true
+    },
+    {
+      "mode": "jpeg-swap",
+      "amount": 2,
+      "seed": 3,
+      "attempts": 1,
+      "converged": true
+    },
+    {
+      "mode": "jpeg-swap",
+      "amount": 5,
+      "seed": 3,
+      "attempts": 1,
+      "converged": true
+    },
+    {
+      "mode": "jpeg-swap",
+      "amount": 10,
+      "seed": 3,
+      "attempts": 1,
+      "converged": true
+    },
+    {
+      "mode": "jpeg-swap",
+      "amount": 20,
+      "seed": 3,
+      "attempts": 1,
+      "converged": true
+    },
+    {
+      "mode": "png-idat-raw",
+      "amount": 1,
+      "seed": 3,
+      "attempts": 1,
+      "converged": true
+    },
+    {
+      "mode": "png-idat-raw",
+      "amount": 2,
+      "seed": 3,
+      "attempts": 1,
+      "converged": true
+    },
+    {
+      "mode": "png-idat-raw",
+      "amount": 4,
+      "seed": 3,
+      "attempts": 1,
+      "converged": true
+    },
+    {
+      "mode": "png-idat-raw",
+      "amount": 8,
+      "seed": 3,
+      "attempts": 1,
+      "converged": true
+    },
+    {
+      "mode": "jpeg-swap",
+      "amount": 2,
+      "seed": 4,
+      "attempts": 1,
+      "converged": true
+    },
+    {
+      "mode": "jpeg-swap",
+      "amount": 5,
+      "seed": 4,
+      "attempts": 1,
+      "converged": true
+    },
+    {
+      "mode": "jpeg-swap",
+      "amount": 10,
+      "seed": 4,
+      "attempts": 1,
+      "converged": true
+    },
+    {
+      "mode": "jpeg-swap",
+      "amount": 20,
+      "seed": 4,
+      "attempts": 1,
+      "converged": true
+    },
+    {
+      "mode": "png-idat-raw",
+      "amount": 1,
+      "seed": 4,
+      "attempts": 1,
+      "converged": true
+    },
+    {
+      "mode": "png-idat-raw",
+      "amount": 2,
+      "seed": 4,
+      "attempts": 1,
+      "converged": true
+    },
+    {
+      "mode": "png-idat-raw",
+      "amount": 4,
+      "seed": 4,
+      "attempts": 1,
+      "converged": true
+    },
+    {
+      "mode": "png-idat-raw",
+      "amount": 8,
+      "seed": 4,
+      "attempts": 1,
+      "converged": true
+    },
+    {
+      "mode": "jpeg-swap",
+      "amount": 2,
+      "seed": 5,
+      "attempts": 1,
+      "converged": true
+    },
+    {
+      "mode": "jpeg-swap",
+      "amount": 5,
+      "seed": 5,
+      "attempts": 1,
+      "converged": true
+    },
+    {
+      "mode": "jpeg-swap",
+      "amount": 10,
+      "seed": 5,
+      "attempts": 1,
+      "converged": true
+    },
+    {
+      "mode": "jpeg-swap",
+      "amount": 20,
+      "seed": 5,
+      "attempts": 1,
+      "converged": true
+    },
+    {
+      "mode": "png-idat-raw",
+      "amount": 1,
+      "seed": 5,
+      "attempts": 1,
+      "converged": true
+    },
+    {
+      "mode": "png-idat-raw",
+      "amount": 2,
+      "seed": 5,
+      "attempts": 1,
+      "converged": true
+    },
+    {
+      "mode": "png-idat-raw",
+      "amount": 4,
+      "seed": 5,
+      "attempts": 1,
+      "converged": true
+    },
+    {
+      "mode": "png-idat-raw",
+      "amount": 8,
+      "seed": 5,
+      "attempts": 1,
+      "converged": true
+    },
+    {
+      "mode": "jpeg-swap",
+      "amount": 2,
+      "seed": 6,
+      "attempts": 1,
+      "converged": true
+    },
+    {
+      "mode": "jpeg-swap",
+      "amount": 5,
+      "seed": 6,
+      "attempts": 1,
+      "converged": true
+    },
+    {
+      "mode": "jpeg-swap",
+      "amount": 10,
+      "seed": 6,
+      "attempts": 1,
+      "converged": true
+    },
+    {
+      "mode": "jpeg-swap",
+      "amount": 20,
+      "seed": 6,
+      "attempts": 1,
+      "converged": true
+    },
+    {
+      "mode": "png-idat-raw",
+      "amount": 1,
+      "seed": 6,
+      "attempts": 1,
+      "converged": true
+    },
+    {
+      "mode": "png-idat-raw",
+      "amount": 2,
+      "seed": 6,
+      "attempts": 1,
+      "converged": true
+    },
+    {
+      "mode": "png-idat-raw",
+      "amount": 4,
+      "seed": 6,
+      "attempts": 1,
+      "converged": true
+    },
+    {
+      "mode": "png-idat-raw",
+      "amount": 8,
+      "seed": 6,
+      "attempts": 1,
+      "converged": true
+    },
+    {
+      "mode": "jpeg-swap",
+      "amount": 2,
+      "seed": 7,
+      "attempts": 1,
+      "converged": true
+    },
+    {
+      "mode": "jpeg-swap",
+      "amount": 5,
+      "seed": 7,
+      "attempts": 1,
+      "converged": true
+    },
+    {
+      "mode": "jpeg-swap",
+      "amount": 10,
+      "seed": 7,
+      "attempts": 1,
+      "converged": true
+    },
+    {
+      "mode": "jpeg-swap",
+      "amount": 20,
+      "seed": 7,
+      "attempts": 1,
+      "converged": true
+    },
+    {
+      "mode": "png-idat-raw",
+      "amount": 1,
+      "seed": 7,
+      "attempts": 1,
+      "converged": true
+    },
+    {
+      "mode": "png-idat-raw",
+      "amount": 2,
+      "seed": 7,
+      "attempts": 1,
+      "converged": true
+    },
+    {
+      "mode": "png-idat-raw",
+      "amount": 4,
+      "seed": 7,
+      "attempts": 1,
+      "converged": true
+    },
+    {
+      "mode": "png-idat-raw",
+      "amount": 8,
+      "seed": 7,
+      "attempts": 1,
+      "converged": true
+    },
+    {
+      "mode": "jpeg-swap",
+      "amount": 2,
+      "seed": 8,
+      "attempts": 1,
+      "converged": true
+    },
+    {
+      "mode": "jpeg-swap",
+      "amount": 5,
+      "seed": 8,
+      "attempts": 1,
+      "converged": true
+    },
+    {
+      "mode": "jpeg-swap",
+      "amount": 10,
+      "seed": 8,
+      "attempts": 1,
+      "converged": true
+    },
+    {
+      "mode": "jpeg-swap",
+      "amount": 20,
+      "seed": 8,
+      "attempts": 1,
+      "converged": true
+    },
+    {
+      "mode": "png-idat-raw",
+      "amount": 1,
+      "seed": 8,
+      "attempts": 1,
+      "converged": true
+    },
+    {
+      "mode": "png-idat-raw",
+      "amount": 2,
+      "seed": 8,
+      "attempts": 1,
+      "converged": true
+    },
+    {
+      "mode": "png-idat-raw",
+      "amount": 4,
+      "seed": 8,
+      "attempts": 1,
+      "converged": true
+    },
+    {
+      "mode": "png-idat-raw",
+      "amount": 8,
+      "seed": 8,
+      "attempts": 1,
+      "converged": true
+    },
+    {
+      "mode": "jpeg-swap",
+      "amount": 2,
+      "seed": 9,
+      "attempts": 1,
+      "converged": true
+    },
+    {
+      "mode": "jpeg-swap",
+      "amount": 5,
+      "seed": 9,
+      "attempts": 1,
+      "converged": true
+    },
+    {
+      "mode": "jpeg-swap",
+      "amount": 10,
+      "seed": 9,
+      "attempts": 1,
+      "converged": true
+    },
+    {
+      "mode": "jpeg-swap",
+      "amount": 20,
+      "seed": 9,
+      "attempts": 1,
+      "converged": true
+    },
+    {
+      "mode": "png-idat-raw",
+      "amount": 1,
+      "seed": 9,
+      "attempts": 1,
+      "converged": true
+    },
+    {
+      "mode": "png-idat-raw",
+      "amount": 2,
+      "seed": 9,
+      "attempts": 1,
+      "converged": true
+    },
+    {
+      "mode": "png-idat-raw",
+      "amount": 4,
+      "seed": 9,
+      "attempts": 1,
+      "converged": true
+    },
+    {
+      "mode": "png-idat-raw",
+      "amount": 8,
+      "seed": 9,
+      "attempts": 1,
+      "converged": true
+    },
+    {
+      "mode": "jpeg-swap",
+      "amount": 2,
+      "seed": 10,
+      "attempts": 1,
+      "converged": true
+    },
+    {
+      "mode": "jpeg-swap",
+      "amount": 5,
+      "seed": 10,
+      "attempts": 1,
+      "converged": true
+    },
+    {
+      "mode": "jpeg-swap",
+      "amount": 10,
+      "seed": 10,
+      "attempts": 1,
+      "converged": true
+    },
+    {
+      "mode": "jpeg-swap",
+      "amount": 20,
+      "seed": 10,
+      "attempts": 1,
+      "converged": true
+    },
+    {
+      "mode": "png-idat-raw",
+      "amount": 1,
+      "seed": 10,
+      "attempts": 1,
+      "converged": true
+    },
+    {
+      "mode": "png-idat-raw",
+      "amount": 2,
+      "seed": 10,
+      "attempts": 1,
+      "converged": true
+    },
+    {
+      "mode": "png-idat-raw",
+      "amount": 4,
+      "seed": 10,
+      "attempts": 1,
+      "converged": true
+    },
+    {
+      "mode": "png-idat-raw",
+      "amount": 8,
+      "seed": 10,
+      "attempts": 1,
+      "converged": true
+    },
+    {
+      "mode": "jpeg-swap",
+      "amount": 2,
+      "seed": 11,
+      "attempts": 1,
+      "converged": true
+    },
+    {
+      "mode": "jpeg-swap",
+      "amount": 5,
+      "seed": 11,
+      "attempts": 1,
+      "converged": true
+    },
+    {
+      "mode": "jpeg-swap",
+      "amount": 10,
+      "seed": 11,
+      "attempts": 1,
+      "converged": true
+    },
+    {
+      "mode": "jpeg-swap",
+      "amount": 20,
+      "seed": 11,
+      "attempts": 1,
+      "converged": true
+    },
+    {
+      "mode": "png-idat-raw",
+      "amount": 1,
+      "seed": 11,
+      "attempts": 1,
+      "converged": true
+    },
+    {
+      "mode": "png-idat-raw",
+      "amount": 2,
+      "seed": 11,
+      "attempts": 1,
+      "converged": true
+    },
+    {
+      "mode": "png-idat-raw",
+      "amount": 4,
+      "seed": 11,
+      "attempts": 1,
+      "converged": true
+    },
+    {
+      "mode": "png-idat-raw",
+      "amount": 8,
+      "seed": 11,
+      "attempts": 1,
+      "converged": true
+    },
+    {
+      "mode": "jpeg-swap",
+      "amount": 2,
+      "seed": 12,
+      "attempts": 1,
+      "converged": true
+    },
+    {
+      "mode": "jpeg-swap",
+      "amount": 5,
+      "seed": 12,
+      "attempts": 1,
+      "converged": true
+    },
+    {
+      "mode": "jpeg-swap",
+      "amount": 10,
+      "seed": 12,
+      "attempts": 1,
+      "converged": true
+    },
+    {
+      "mode": "jpeg-swap",
+      "amount": 20,
+      "seed": 12,
+      "attempts": 1,
+      "converged": true
+    },
+    {
+      "mode": "png-idat-raw",
+      "amount": 1,
+      "seed": 12,
+      "attempts": 1,
+      "converged": true
+    },
+    {
+      "mode": "png-idat-raw",
+      "amount": 2,
+      "seed": 12,
+      "attempts": 1,
+      "converged": true
+    },
+    {
+      "mode": "png-idat-raw",
+      "amount": 4,
+      "seed": 12,
+      "attempts": 1,
+      "converged": true
+    },
+    {
+      "mode": "png-idat-raw",
+      "amount": 8,
+      "seed": 12,
+      "attempts": 1,
+      "converged": true
+    },
+    {
+      "mode": "jpeg-swap",
+      "amount": 2,
+      "seed": 13,
+      "attempts": 1,
+      "converged": true
+    },
+    {
+      "mode": "jpeg-swap",
+      "amount": 5,
+      "seed": 13,
+      "attempts": 1,
+      "converged": true
+    },
+    {
+      "mode": "jpeg-swap",
+      "amount": 10,
+      "seed": 13,
+      "attempts": 1,
+      "converged": true
+    },
+    {
+      "mode": "jpeg-swap",
+      "amount": 20,
+      "seed": 13,
+      "attempts": 1,
+      "converged": true
+    },
+    {
+      "mode": "png-idat-raw",
+      "amount": 1,
+      "seed": 13,
+      "attempts": 1,
+      "converged": true
+    },
+    {
+      "mode": "png-idat-raw",
+      "amount": 2,
+      "seed": 13,
+      "attempts": 1,
+      "converged": true
+    },
+    {
+      "mode": "png-idat-raw",
+      "amount": 4,
+      "seed": 13,
+      "attempts": 1,
+      "converged": true
+    },
+    {
+      "mode": "png-idat-raw",
+      "amount": 8,
+      "seed": 13,
+      "attempts": 1,
+      "converged": true
+    },
+    {
+      "mode": "jpeg-swap",
+      "amount": 2,
+      "seed": 14,
+      "attempts": 1,
+      "converged": true
+    },
+    {
+      "mode": "jpeg-swap",
+      "amount": 5,
+      "seed": 14,
+      "attempts": 1,
+      "converged": true
+    },
+    {
+      "mode": "jpeg-swap",
+      "amount": 10,
+      "seed": 14,
+      "attempts": 1,
+      "converged": true
+    },
+    {
+      "mode": "jpeg-swap",
+      "amount": 20,
+      "seed": 14,
+      "attempts": 1,
+      "converged": true
+    },
+    {
+      "mode": "png-idat-raw",
+      "amount": 1,
+      "seed": 14,
+      "attempts": 1,
+      "converged": true
+    },
+    {
+      "mode": "png-idat-raw",
+      "amount": 2,
+      "seed": 14,
+      "attempts": 1,
+      "converged": true
+    },
+    {
+      "mode": "png-idat-raw",
+      "amount": 4,
+      "seed": 14,
+      "attempts": 1,
+      "converged": true
+    },
+    {
+      "mode": "png-idat-raw",
+      "amount": 8,
+      "seed": 14,
+      "attempts": 1,
+      "converged": true
+    },
+    {
+      "mode": "jpeg-swap",
+      "amount": 2,
+      "seed": 15,
+      "attempts": 1,
+      "converged": true
+    },
+    {
+      "mode": "jpeg-swap",
+      "amount": 5,
+      "seed": 15,
+      "attempts": 1,
+      "converged": true
+    },
+    {
+      "mode": "jpeg-swap",
+      "amount": 10,
+      "seed": 15,
+      "attempts": 1,
+      "converged": true
+    },
+    {
+      "mode": "jpeg-swap",
+      "amount": 20,
+      "seed": 15,
+      "attempts": 1,
+      "converged": true
+    },
+    {
+      "mode": "png-idat-raw",
+      "amount": 1,
+      "seed": 15,
+      "attempts": 1,
+      "converged": true
+    },
+    {
+      "mode": "png-idat-raw",
+      "amount": 2,
+      "seed": 15,
+      "attempts": 1,
+      "converged": true
+    },
+    {
+      "mode": "png-idat-raw",
+      "amount": 4,
+      "seed": 15,
+      "attempts": 1,
+      "converged": true
+    },
+    {
+      "mode": "png-idat-raw",
+      "amount": 8,
+      "seed": 15,
+      "attempts": 1,
+      "converged": true
+    },
+    {
+      "mode": "jpeg-swap",
+      "amount": 2,
+      "seed": 16,
+      "attempts": 1,
+      "converged": true
+    },
+    {
+      "mode": "jpeg-swap",
+      "amount": 5,
+      "seed": 16,
+      "attempts": 1,
+      "converged": true
+    },
+    {
+      "mode": "jpeg-swap",
+      "amount": 10,
+      "seed": 16,
+      "attempts": 1,
+      "converged": true
+    },
+    {
+      "mode": "jpeg-swap",
+      "amount": 20,
+      "seed": 16,
+      "attempts": 1,
+      "converged": true
+    },
+    {
+      "mode": "png-idat-raw",
+      "amount": 1,
+      "seed": 16,
+      "attempts": 1,
+      "converged": true
+    },
+    {
+      "mode": "png-idat-raw",
+      "amount": 2,
+      "seed": 16,
+      "attempts": 1,
+      "converged": true
+    },
+    {
+      "mode": "png-idat-raw",
+      "amount": 4,
+      "seed": 16,
+      "attempts": 1,
+      "converged": true
+    },
+    {
+      "mode": "png-idat-raw",
+      "amount": 8,
+      "seed": 16,
+      "attempts": 1,
+      "converged": true
+    },
+    {
+      "mode": "jpeg-swap",
+      "amount": 2,
+      "seed": 17,
+      "attempts": 1,
+      "converged": true
+    },
+    {
+      "mode": "jpeg-swap",
+      "amount": 5,
+      "seed": 17,
+      "attempts": 1,
+      "converged": true
+    },
+    {
+      "mode": "jpeg-swap",
+      "amount": 10,
+      "seed": 17,
+      "attempts": 1,
+      "converged": true
+    },
+    {
+      "mode": "jpeg-swap",
+      "amount": 20,
+      "seed": 17,
+      "attempts": 1,
+      "converged": true
+    },
+    {
+      "mode": "png-idat-raw",
+      "amount": 1,
+      "seed": 17,
+      "attempts": 1,
+      "converged": true
+    },
+    {
+      "mode": "png-idat-raw",
+      "amount": 2,
+      "seed": 17,
+      "attempts": 1,
+      "converged": true
+    },
+    {
+      "mode": "png-idat-raw",
+      "amount": 4,
+      "seed": 17,
+      "attempts": 1,
+      "converged": true
+    },
+    {
+      "mode": "png-idat-raw",
+      "amount": 8,
+      "seed": 17,
+      "attempts": 1,
+      "converged": true
+    },
+    {
+      "mode": "jpeg-swap",
+      "amount": 2,
+      "seed": 18,
+      "attempts": 1,
+      "converged": true
+    },
+    {
+      "mode": "jpeg-swap",
+      "amount": 5,
+      "seed": 18,
+      "attempts": 1,
+      "converged": true
+    },
+    {
+      "mode": "jpeg-swap",
+      "amount": 10,
+      "seed": 18,
+      "attempts": 1,
+      "converged": true
+    },
+    {
+      "mode": "jpeg-swap",
+      "amount": 20,
+      "seed": 18,
+      "attempts": 1,
+      "converged": true
+    },
+    {
+      "mode": "png-idat-raw",
+      "amount": 1,
+      "seed": 18,
+      "attempts": 1,
+      "converged": true
+    },
+    {
+      "mode": "png-idat-raw",
+      "amount": 2,
+      "seed": 18,
+      "attempts": 1,
+      "converged": true
+    },
+    {
+      "mode": "png-idat-raw",
+      "amount": 4,
+      "seed": 18,
+      "attempts": 1,
+      "converged": true
+    },
+    {
+      "mode": "png-idat-raw",
+      "amount": 8,
+      "seed": 18,
+      "attempts": 1,
+      "converged": true
+    },
+    {
+      "mode": "jpeg-swap",
+      "amount": 2,
+      "seed": 19,
+      "attempts": 1,
+      "converged": true
+    },
+    {
+      "mode": "jpeg-swap",
+      "amount": 5,
+      "seed": 19,
+      "attempts": 1,
+      "converged": true
+    },
+    {
+      "mode": "jpeg-swap",
+      "amount": 10,
+      "seed": 19,
+      "attempts": 1,
+      "converged": true
+    },
+    {
+      "mode": "jpeg-swap",
+      "amount": 20,
+      "seed": 19,
+      "attempts": 1,
+      "converged": true
+    },
+    {
+      "mode": "png-idat-raw",
+      "amount": 1,
+      "seed": 19,
+      "attempts": 1,
+      "converged": true
+    },
+    {
+      "mode": "png-idat-raw",
+      "amount": 2,
+      "seed": 19,
+      "attempts": 1,
+      "converged": true
+    },
+    {
+      "mode": "png-idat-raw",
+      "amount": 4,
+      "seed": 19,
+      "attempts": 1,
+      "converged": true
+    },
+    {
+      "mode": "png-idat-raw",
+      "amount": 8,
+      "seed": 19,
+      "attempts": 1,
+      "converged": true
+    },
+    {
+      "mode": "jpeg-swap",
+      "amount": 2,
+      "seed": 20,
+      "attempts": 1,
+      "converged": true
+    },
+    {
+      "mode": "jpeg-swap",
+      "amount": 5,
+      "seed": 20,
+      "attempts": 1,
+      "converged": true
+    },
+    {
+      "mode": "jpeg-swap",
+      "amount": 10,
+      "seed": 20,
+      "attempts": 1,
+      "converged": true
+    },
+    {
+      "mode": "jpeg-swap",
+      "amount": 20,
+      "seed": 20,
+      "attempts": 1,
+      "converged": true
+    },
+    {
+      "mode": "png-idat-raw",
+      "amount": 1,
+      "seed": 20,
+      "attempts": 1,
+      "converged": true
+    },
+    {
+      "mode": "png-idat-raw",
+      "amount": 2,
+      "seed": 20,
+      "attempts": 1,
+      "converged": true
+    },
+    {
+      "mode": "png-idat-raw",
+      "amount": 4,
+      "seed": 20,
+      "attempts": 1,
+      "converged": true
+    },
+    {
+      "mode": "png-idat-raw",
+      "amount": 8,
+      "seed": 20,
+      "attempts": 1,
+      "converged": true
+    },
+    {
+      "mode": "jpeg-swap",
+      "amount": 2,
+      "seed": 21,
+      "attempts": 1,
+      "converged": true
+    },
+    {
+      "mode": "jpeg-swap",
+      "amount": 5,
+      "seed": 21,
+      "attempts": 1,
+      "converged": true
+    },
+    {
+      "mode": "jpeg-swap",
+      "amount": 10,
+      "seed": 21,
+      "attempts": 1,
+      "converged": true
+    },
+    {
+      "mode": "jpeg-swap",
+      "amount": 20,
+      "seed": 21,
+      "attempts": 1,
+      "converged": true
+    },
+    {
+      "mode": "png-idat-raw",
+      "amount": 1,
+      "seed": 21,
+      "attempts": 1,
+      "converged": true
+    },
+    {
+      "mode": "png-idat-raw",
+      "amount": 2,
+      "seed": 21,
+      "attempts": 1,
+      "converged": true
+    },
+    {
+      "mode": "png-idat-raw",
+      "amount": 4,
+      "seed": 21,
+      "attempts": 1,
+      "converged": true
+    },
+    {
+      "mode": "png-idat-raw",
+      "amount": 8,
+      "seed": 21,
+      "attempts": 1,
+      "converged": true
+    },
+    {
+      "mode": "jpeg-swap",
+      "amount": 2,
+      "seed": 22,
+      "attempts": 1,
+      "converged": true
+    },
+    {
+      "mode": "jpeg-swap",
+      "amount": 5,
+      "seed": 22,
+      "attempts": 1,
+      "converged": true
+    },
+    {
+      "mode": "jpeg-swap",
+      "amount": 10,
+      "seed": 22,
+      "attempts": 1,
+      "converged": true
+    },
+    {
+      "mode": "jpeg-swap",
+      "amount": 20,
+      "seed": 22,
+      "attempts": 1,
+      "converged": true
+    },
+    {
+      "mode": "png-idat-raw",
+      "amount": 1,
+      "seed": 22,
+      "attempts": 1,
+      "converged": true
+    },
+    {
+      "mode": "png-idat-raw",
+      "amount": 2,
+      "seed": 22,
+      "attempts": 1,
+      "converged": true
+    },
+    {
+      "mode": "png-idat-raw",
+      "amount": 4,
+      "seed": 22,
+      "attempts": 1,
+      "converged": true
+    },
+    {
+      "mode": "png-idat-raw",
+      "amount": 8,
+      "seed": 22,
+      "attempts": 1,
+      "converged": true
+    },
+    {
+      "mode": "jpeg-swap",
+      "amount": 2,
+      "seed": 23,
+      "attempts": 1,
+      "converged": true
+    },
+    {
+      "mode": "jpeg-swap",
+      "amount": 5,
+      "seed": 23,
+      "attempts": 1,
+      "converged": true
+    },
+    {
+      "mode": "jpeg-swap",
+      "amount": 10,
+      "seed": 23,
+      "attempts": 1,
+      "converged": true
+    },
+    {
+      "mode": "jpeg-swap",
+      "amount": 20,
+      "seed": 23,
+      "attempts": 1,
+      "converged": true
+    },
+    {
+      "mode": "png-idat-raw",
+      "amount": 1,
+      "seed": 23,
+      "attempts": 1,
+      "converged": true
+    },
+    {
+      "mode": "png-idat-raw",
+      "amount": 2,
+      "seed": 23,
+      "attempts": 1,
+      "converged": true
+    },
+    {
+      "mode": "png-idat-raw",
+      "amount": 4,
+      "seed": 23,
+      "attempts": 1,
+      "converged": true
+    },
+    {
+      "mode": "png-idat-raw",
+      "amount": 8,
+      "seed": 23,
+      "attempts": 1,
+      "converged": true
+    },
+    {
+      "mode": "jpeg-swap",
+      "amount": 2,
+      "seed": 24,
+      "attempts": 1,
+      "converged": true
+    },
+    {
+      "mode": "jpeg-swap",
+      "amount": 5,
+      "seed": 24,
+      "attempts": 1,
+      "converged": true
+    },
+    {
+      "mode": "jpeg-swap",
+      "amount": 10,
+      "seed": 24,
+      "attempts": 1,
+      "converged": true
+    },
+    {
+      "mode": "jpeg-swap",
+      "amount": 20,
+      "seed": 24,
+      "attempts": 1,
+      "converged": true
+    },
+    {
+      "mode": "png-idat-raw",
+      "amount": 1,
+      "seed": 24,
+      "attempts": 1,
+      "converged": true
+    },
+    {
+      "mode": "png-idat-raw",
+      "amount": 2,
+      "seed": 24,
+      "attempts": 1,
+      "converged": true
+    },
+    {
+      "mode": "png-idat-raw",
+      "amount": 4,
+      "seed": 24,
+      "attempts": 1,
+      "converged": true
+    },
+    {
+      "mode": "png-idat-raw",
+      "amount": 8,
+      "seed": 24,
+      "attempts": 1,
+      "converged": true
+    },
+    {
+      "mode": "jpeg-swap",
+      "amount": 2,
+      "seed": 25,
+      "attempts": 1,
+      "converged": true
+    },
+    {
+      "mode": "jpeg-swap",
+      "amount": 5,
+      "seed": 25,
+      "attempts": 1,
+      "converged": true
+    },
+    {
+      "mode": "jpeg-swap",
+      "amount": 10,
+      "seed": 25,
+      "attempts": 1,
+      "converged": true
+    },
+    {
+      "mode": "jpeg-swap",
+      "amount": 20,
+      "seed": 25,
+      "attempts": 1,
+      "converged": true
+    },
+    {
+      "mode": "png-idat-raw",
+      "amount": 1,
+      "seed": 25,
+      "attempts": 1,
+      "converged": true
+    },
+    {
+      "mode": "png-idat-raw",
+      "amount": 2,
+      "seed": 25,
+      "attempts": 1,
+      "converged": true
+    },
+    {
+      "mode": "png-idat-raw",
+      "amount": 4,
+      "seed": 25,
+      "attempts": 1,
+      "converged": true
+    },
+    {
+      "mode": "png-idat-raw",
+      "amount": 8,
+      "seed": 25,
+      "attempts": 1,
+      "converged": true
+    },
+    {
+      "mode": "jpeg-swap",
+      "amount": 2,
+      "seed": 26,
+      "attempts": 1,
+      "converged": true
+    },
+    {
+      "mode": "jpeg-swap",
+      "amount": 5,
+      "seed": 26,
+      "attempts": 1,
+      "converged": true
+    },
+    {
+      "mode": "jpeg-swap",
+      "amount": 10,
+      "seed": 26,
+      "attempts": 1,
+      "converged": true
+    },
+    {
+      "mode": "jpeg-swap",
+      "amount": 20,
+      "seed": 26,
+      "attempts": 1,
+      "converged": true
+    },
+    {
+      "mode": "png-idat-raw",
+      "amount": 1,
+      "seed": 26,
+      "attempts": 1,
+      "converged": true
+    },
+    {
+      "mode": "png-idat-raw",
+      "amount": 2,
+      "seed": 26,
+      "attempts": 1,
+      "converged": true
+    },
+    {
+      "mode": "png-idat-raw",
+      "amount": 4,
+      "seed": 26,
+      "attempts": 1,
+      "converged": true
+    },
+    {
+      "mode": "png-idat-raw",
+      "amount": 8,
+      "seed": 26,
+      "attempts": 1,
+      "converged": true
+    },
+    {
+      "mode": "jpeg-swap",
+      "amount": 2,
+      "seed": 27,
+      "attempts": 1,
+      "converged": true
+    },
+    {
+      "mode": "jpeg-swap",
+      "amount": 5,
+      "seed": 27,
+      "attempts": 1,
+      "converged": true
+    },
+    {
+      "mode": "jpeg-swap",
+      "amount": 10,
+      "seed": 27,
+      "attempts": 1,
+      "converged": true
+    },
+    {
+      "mode": "jpeg-swap",
+      "amount": 20,
+      "seed": 27,
+      "attempts": 1,
+      "converged": true
+    },
+    {
+      "mode": "png-idat-raw",
+      "amount": 1,
+      "seed": 27,
+      "attempts": 1,
+      "converged": true
+    },
+    {
+      "mode": "png-idat-raw",
+      "amount": 2,
+      "seed": 27,
+      "attempts": 1,
+      "converged": true
+    },
+    {
+      "mode": "png-idat-raw",
+      "amount": 4,
+      "seed": 27,
+      "attempts": 1,
+      "converged": true
+    },
+    {
+      "mode": "png-idat-raw",
+      "amount": 8,
+      "seed": 27,
+      "attempts": 1,
+      "converged": true
+    },
+    {
+      "mode": "jpeg-swap",
+      "amount": 2,
+      "seed": 28,
+      "attempts": 1,
+      "converged": true
+    },
+    {
+      "mode": "jpeg-swap",
+      "amount": 5,
+      "seed": 28,
+      "attempts": 1,
+      "converged": true
+    },
+    {
+      "mode": "jpeg-swap",
+      "amount": 10,
+      "seed": 28,
+      "attempts": 1,
+      "converged": true
+    },
+    {
+      "mode": "jpeg-swap",
+      "amount": 20,
+      "seed": 28,
+      "attempts": 1,
+      "converged": true
+    },
+    {
+      "mode": "png-idat-raw",
+      "amount": 1,
+      "seed": 28,
+      "attempts": 1,
+      "converged": true
+    },
+    {
+      "mode": "png-idat-raw",
+      "amount": 2,
+      "seed": 28,
+      "attempts": 1,
+      "converged": true
+    },
+    {
+      "mode": "png-idat-raw",
+      "amount": 4,
+      "seed": 28,
+      "attempts": 1,
+      "converged": true
+    },
+    {
+      "mode": "png-idat-raw",
+      "amount": 8,
+      "seed": 28,
+      "attempts": 1,
+      "converged": true
+    },
+    {
+      "mode": "jpeg-swap",
+      "amount": 2,
+      "seed": 29,
+      "attempts": 1,
+      "converged": true
+    },
+    {
+      "mode": "jpeg-swap",
+      "amount": 5,
+      "seed": 29,
+      "attempts": 1,
+      "converged": true
+    },
+    {
+      "mode": "jpeg-swap",
+      "amount": 10,
+      "seed": 29,
+      "attempts": 1,
+      "converged": true
+    },
+    {
+      "mode": "jpeg-swap",
+      "amount": 20,
+      "seed": 29,
+      "attempts": 1,
+      "converged": true
+    },
+    {
+      "mode": "png-idat-raw",
+      "amount": 1,
+      "seed": 29,
+      "attempts": 1,
+      "converged": true
+    },
+    {
+      "mode": "png-idat-raw",
+      "amount": 2,
+      "seed": 29,
+      "attempts": 1,
+      "converged": true
+    },
+    {
+      "mode": "png-idat-raw",
+      "amount": 4,
+      "seed": 29,
+      "attempts": 1,
+      "converged": true
+    },
+    {
+      "mode": "png-idat-raw",
+      "amount": 8,
+      "seed": 29,
+      "attempts": 1,
+      "converged": true
+    },
+    {
+      "mode": "jpeg-swap",
+      "amount": 2,
+      "seed": 30,
+      "attempts": 1,
+      "converged": true
+    },
+    {
+      "mode": "jpeg-swap",
+      "amount": 5,
+      "seed": 30,
+      "attempts": 1,
+      "converged": true
+    },
+    {
+      "mode": "jpeg-swap",
+      "amount": 10,
+      "seed": 30,
+      "attempts": 1,
+      "converged": true
+    },
+    {
+      "mode": "jpeg-swap",
+      "amount": 20,
+      "seed": 30,
+      "attempts": 1,
+      "converged": true
+    },
+    {
+      "mode": "png-idat-raw",
+      "amount": 1,
+      "seed": 30,
+      "attempts": 1,
+      "converged": true
+    },
+    {
+      "mode": "png-idat-raw",
+      "amount": 2,
+      "seed": 30,
+      "attempts": 1,
+      "converged": true
+    },
+    {
+      "mode": "png-idat-raw",
+      "amount": 4,
+      "seed": 30,
+      "attempts": 1,
+      "converged": true
+    },
+    {
+      "mode": "png-idat-raw",
+      "amount": 8,
+      "seed": 30,
+      "attempts": 1,
+      "converged": true
+    },
+    {
+      "mode": "jpeg-swap",
+      "amount": 2,
+      "seed": 31,
+      "attempts": 1,
+      "converged": true
+    },
+    {
+      "mode": "jpeg-swap",
+      "amount": 5,
+      "seed": 31,
+      "attempts": 1,
+      "converged": true
+    },
+    {
+      "mode": "jpeg-swap",
+      "amount": 10,
+      "seed": 31,
+      "attempts": 1,
+      "converged": true
+    },
+    {
+      "mode": "jpeg-swap",
+      "amount": 20,
+      "seed": 31,
+      "attempts": 1,
+      "converged": true
+    },
+    {
+      "mode": "png-idat-raw",
+      "amount": 1,
+      "seed": 31,
+      "attempts": 1,
+      "converged": true
+    },
+    {
+      "mode": "png-idat-raw",
+      "amount": 2,
+      "seed": 31,
+      "attempts": 1,
+      "converged": true
+    },
+    {
+      "mode": "png-idat-raw",
+      "amount": 4,
+      "seed": 31,
+      "attempts": 1,
+      "converged": true
+    },
+    {
+      "mode": "png-idat-raw",
+      "amount": 8,
+      "seed": 31,
+      "attempts": 1,
+      "converged": true
+    },
+    {
+      "mode": "jpeg-swap",
+      "amount": 2,
+      "seed": 32,
+      "attempts": 1,
+      "converged": true
+    },
+    {
+      "mode": "jpeg-swap",
+      "amount": 5,
+      "seed": 32,
+      "attempts": 1,
+      "converged": true
+    },
+    {
+      "mode": "jpeg-swap",
+      "amount": 10,
+      "seed": 32,
+      "attempts": 1,
+      "converged": true
+    },
+    {
+      "mode": "jpeg-swap",
+      "amount": 20,
+      "seed": 32,
+      "attempts": 1,
+      "converged": true
+    },
+    {
+      "mode": "png-idat-raw",
+      "amount": 1,
+      "seed": 32,
+      "attempts": 1,
+      "converged": true
+    },
+    {
+      "mode": "png-idat-raw",
+      "amount": 2,
+      "seed": 32,
+      "attempts": 1,
+      "converged": true
+    },
+    {
+      "mode": "png-idat-raw",
+      "amount": 4,
+      "seed": 32,
+      "attempts": 1,
+      "converged": true
+    },
+    {
+      "mode": "png-idat-raw",
+      "amount": 8,
+      "seed": 32,
+      "attempts": 1,
+      "converged": true
+    },
+    {
+      "mode": "jpeg-swap",
+      "amount": 2,
+      "seed": 33,
+      "attempts": 1,
+      "converged": true
+    },
+    {
+      "mode": "jpeg-swap",
+      "amount": 5,
+      "seed": 33,
+      "attempts": 1,
+      "converged": true
+    },
+    {
+      "mode": "jpeg-swap",
+      "amount": 10,
+      "seed": 33,
+      "attempts": 1,
+      "converged": true
+    },
+    {
+      "mode": "jpeg-swap",
+      "amount": 20,
+      "seed": 33,
+      "attempts": 1,
+      "converged": true
+    },
+    {
+      "mode": "png-idat-raw",
+      "amount": 1,
+      "seed": 33,
+      "attempts": 1,
+      "converged": true
+    },
+    {
+      "mode": "png-idat-raw",
+      "amount": 2,
+      "seed": 33,
+      "attempts": 1,
+      "converged": true
+    },
+    {
+      "mode": "png-idat-raw",
+      "amount": 4,
+      "seed": 33,
+      "attempts": 1,
+      "converged": true
+    },
+    {
+      "mode": "png-idat-raw",
+      "amount": 8,
+      "seed": 33,
+      "attempts": 1,
+      "converged": true
+    },
+    {
+      "mode": "jpeg-swap",
+      "amount": 2,
+      "seed": 34,
+      "attempts": 1,
+      "converged": true
+    },
+    {
+      "mode": "jpeg-swap",
+      "amount": 5,
+      "seed": 34,
+      "attempts": 1,
+      "converged": true
+    },
+    {
+      "mode": "jpeg-swap",
+      "amount": 10,
+      "seed": 34,
+      "attempts": 1,
+      "converged": true
+    },
+    {
+      "mode": "jpeg-swap",
+      "amount": 20,
+      "seed": 34,
+      "attempts": 1,
+      "converged": true
+    },
+    {
+      "mode": "png-idat-raw",
+      "amount": 1,
+      "seed": 34,
+      "attempts": 1,
+      "converged": true
+    },
+    {
+      "mode": "png-idat-raw",
+      "amount": 2,
+      "seed": 34,
+      "attempts": 1,
+      "converged": true
+    },
+    {
+      "mode": "png-idat-raw",
+      "amount": 4,
+      "seed": 34,
+      "attempts": 1,
+      "converged": true
+    },
+    {
+      "mode": "png-idat-raw",
+      "amount": 8,
+      "seed": 34,
+      "attempts": 1,
+      "converged": true
+    },
+    {
+      "mode": "jpeg-swap",
+      "amount": 2,
+      "seed": 35,
+      "attempts": 1,
+      "converged": true
+    },
+    {
+      "mode": "jpeg-swap",
+      "amount": 5,
+      "seed": 35,
+      "attempts": 1,
+      "converged": true
+    },
+    {
+      "mode": "jpeg-swap",
+      "amount": 10,
+      "seed": 35,
+      "attempts": 1,
+      "converged": true
+    },
+    {
+      "mode": "jpeg-swap",
+      "amount": 20,
+      "seed": 35,
+      "attempts": 1,
+      "converged": true
+    },
+    {
+      "mode": "png-idat-raw",
+      "amount": 1,
+      "seed": 35,
+      "attempts": 1,
+      "converged": true
+    },
+    {
+      "mode": "png-idat-raw",
+      "amount": 2,
+      "seed": 35,
+      "attempts": 1,
+      "converged": true
+    },
+    {
+      "mode": "png-idat-raw",
+      "amount": 4,
+      "seed": 35,
+      "attempts": 1,
+      "converged": true
+    },
+    {
+      "mode": "png-idat-raw",
+      "amount": 8,
+      "seed": 35,
+      "attempts": 1,
+      "converged": true
+    },
+    {
+      "mode": "jpeg-swap",
+      "amount": 2,
+      "seed": 36,
+      "attempts": 1,
+      "converged": true
+    },
+    {
+      "mode": "jpeg-swap",
+      "amount": 5,
+      "seed": 36,
+      "attempts": 1,
+      "converged": true
+    },
+    {
+      "mode": "jpeg-swap",
+      "amount": 10,
+      "seed": 36,
+      "attempts": 1,
+      "converged": true
+    },
+    {
+      "mode": "jpeg-swap",
+      "amount": 20,
+      "seed": 36,
+      "attempts": 1,
+      "converged": true
+    },
+    {
+      "mode": "png-idat-raw",
+      "amount": 1,
+      "seed": 36,
+      "attempts": 1,
+      "converged": true
+    },
+    {
+      "mode": "png-idat-raw",
+      "amount": 2,
+      "seed": 36,
+      "attempts": 1,
+      "converged": true
+    },
+    {
+      "mode": "png-idat-raw",
+      "amount": 4,
+      "seed": 36,
+      "attempts": 1,
+      "converged": true
+    },
+    {
+      "mode": "png-idat-raw",
+      "amount": 8,
+      "seed": 36,
+      "attempts": 1,
+      "converged": true
+    },
+    {
+      "mode": "jpeg-swap",
+      "amount": 2,
+      "seed": 37,
+      "attempts": 1,
+      "converged": true
+    },
+    {
+      "mode": "jpeg-swap",
+      "amount": 5,
+      "seed": 37,
+      "attempts": 1,
+      "converged": true
+    },
+    {
+      "mode": "jpeg-swap",
+      "amount": 10,
+      "seed": 37,
+      "attempts": 1,
+      "converged": true
+    },
+    {
+      "mode": "jpeg-swap",
+      "amount": 20,
+      "seed": 37,
+      "attempts": 1,
+      "converged": true
+    },
+    {
+      "mode": "png-idat-raw",
+      "amount": 1,
+      "seed": 37,
+      "attempts": 1,
+      "converged": true
+    },
+    {
+      "mode": "png-idat-raw",
+      "amount": 2,
+      "seed": 37,
+      "attempts": 1,
+      "converged": true
+    },
+    {
+      "mode": "png-idat-raw",
+      "amount": 4,
+      "seed": 37,
+      "attempts": 1,
+      "converged": true
+    },
+    {
+      "mode": "png-idat-raw",
+      "amount": 8,
+      "seed": 37,
+      "attempts": 1,
+      "converged": true
+    },
+    {
+      "mode": "jpeg-swap",
+      "amount": 2,
+      "seed": 38,
+      "attempts": 1,
+      "converged": true
+    },
+    {
+      "mode": "jpeg-swap",
+      "amount": 5,
+      "seed": 38,
+      "attempts": 1,
+      "converged": true
+    },
+    {
+      "mode": "jpeg-swap",
+      "amount": 10,
+      "seed": 38,
+      "attempts": 1,
+      "converged": true
+    },
+    {
+      "mode": "jpeg-swap",
+      "amount": 20,
+      "seed": 38,
+      "attempts": 1,
+      "converged": true
+    },
+    {
+      "mode": "png-idat-raw",
+      "amount": 1,
+      "seed": 38,
+      "attempts": 1,
+      "converged": true
+    },
+    {
+      "mode": "png-idat-raw",
+      "amount": 2,
+      "seed": 38,
+      "attempts": 1,
+      "converged": true
+    },
+    {
+      "mode": "png-idat-raw",
+      "amount": 4,
+      "seed": 38,
+      "attempts": 1,
+      "converged": true
+    },
+    {
+      "mode": "png-idat-raw",
+      "amount": 8,
+      "seed": 38,
+      "attempts": 1,
+      "converged": true
+    },
+    {
+      "mode": "jpeg-swap",
+      "amount": 2,
+      "seed": 39,
+      "attempts": 1,
+      "converged": true
+    },
+    {
+      "mode": "jpeg-swap",
+      "amount": 5,
+      "seed": 39,
+      "attempts": 1,
+      "converged": true
+    },
+    {
+      "mode": "jpeg-swap",
+      "amount": 10,
+      "seed": 39,
+      "attempts": 1,
+      "converged": true
+    },
+    {
+      "mode": "jpeg-swap",
+      "amount": 20,
+      "seed": 39,
+      "attempts": 1,
+      "converged": true
+    },
+    {
+      "mode": "png-idat-raw",
+      "amount": 1,
+      "seed": 39,
+      "attempts": 1,
+      "converged": true
+    },
+    {
+      "mode": "png-idat-zlib",
+      "amount": 1,
+      "seed": 0,
+      "attempts": 10,
+      "converged": false
+    },
+    {
+      "mode": "png-idat-zlib",
+      "amount": 1,
+      "seed": 1,
+      "attempts": 10,
+      "converged": false
+    },
+    {
+      "mode": "png-idat-zlib",
+      "amount": 1,
+      "seed": 2,
+      "attempts": 10,
+      "converged": false
+    },
+    {
+      "mode": "png-idat-zlib",
+      "amount": 1,
+      "seed": 3,
+      "attempts": 10,
+      "converged": false
+    },
+    {
+      "mode": "png-idat-zlib",
+      "amount": 1,
+      "seed": 4,
+      "attempts": 10,
+      "converged": false
+    },
+    {
+      "mode": "png-idat-zlib",
+      "amount": 1,
+      "seed": 5,
+      "attempts": 10,
+      "converged": false
+    },
+    {
+      "mode": "png-idat-zlib",
+      "amount": 1,
+      "seed": 6,
+      "attempts": 10,
+      "converged": false
+    },
+    {
+      "mode": "png-idat-zlib",
+      "amount": 1,
+      "seed": 7,
+      "attempts": 10,
+      "converged": false
+    },
+    {
+      "mode": "png-idat-zlib",
+      "amount": 1,
+      "seed": 8,
+      "attempts": 10,
+      "converged": false
+    },
+    {
+      "mode": "png-idat-zlib",
+      "amount": 1,
+      "seed": 9,
+      "attempts": 10,
+      "converged": false
+    },
+    {
+      "mode": "png-idat-zlib",
+      "amount": 1,
+      "seed": 10,
+      "attempts": 10,
+      "converged": false
+    },
+    {
+      "mode": "png-idat-zlib",
+      "amount": 1,
+      "seed": 11,
+      "attempts": 10,
+      "converged": false
+    },
+    {
+      "mode": "png-idat-zlib",
+      "amount": 1,
+      "seed": 12,
+      "attempts": 10,
+      "converged": false
+    },
+    {
+      "mode": "png-idat-zlib",
+      "amount": 1,
+      "seed": 13,
+      "attempts": 10,
+      "converged": false
+    },
+    {
+      "mode": "png-idat-zlib",
+      "amount": 1,
+      "seed": 14,
+      "attempts": 10,
+      "converged": false
+    },
+    {
+      "mode": "png-idat-zlib",
+      "amount": 1,
+      "seed": 15,
+      "attempts": 10,
+      "converged": false
+    },
+    {
+      "mode": "png-idat-zlib",
+      "amount": 1,
+      "seed": 16,
+      "attempts": 10,
+      "converged": false
+    },
+    {
+      "mode": "png-idat-zlib",
+      "amount": 1,
+      "seed": 17,
+      "attempts": 10,
+      "converged": false
+    },
+    {
+      "mode": "png-idat-zlib",
+      "amount": 1,
+      "seed": 18,
+      "attempts": 10,
+      "converged": false
+    },
+    {
+      "mode": "png-idat-zlib",
+      "amount": 1,
+      "seed": 19,
+      "attempts": 10,
+      "converged": false
+    },
+    {
+      "mode": "png-idat-zlib",
+      "amount": 1,
+      "seed": 20,
+      "attempts": 10,
+      "converged": false
+    },
+    {
+      "mode": "png-idat-zlib",
+      "amount": 1,
+      "seed": 21,
+      "attempts": 10,
+      "converged": false
+    },
+    {
+      "mode": "png-idat-zlib",
+      "amount": 1,
+      "seed": 22,
+      "attempts": 10,
+      "converged": false
+    },
+    {
+      "mode": "png-idat-zlib",
+      "amount": 1,
+      "seed": 23,
+      "attempts": 10,
+      "converged": false
+    },
+    {
+      "mode": "png-idat-zlib",
+      "amount": 1,
+      "seed": 24,
+      "attempts": 10,
+      "converged": false
+    },
+    {
+      "mode": "png-idat-zlib",
+      "amount": 1,
+      "seed": 25,
+      "attempts": 10,
+      "converged": false
+    },
+    {
+      "mode": "png-idat-zlib",
+      "amount": 1,
+      "seed": 26,
+      "attempts": 10,
+      "converged": false
+    },
+    {
+      "mode": "png-idat-zlib",
+      "amount": 1,
+      "seed": 27,
+      "attempts": 10,
+      "converged": false
+    },
+    {
+      "mode": "png-idat-zlib",
+      "amount": 1,
+      "seed": 28,
+      "attempts": 10,
+      "converged": false
+    },
+    {
+      "mode": "png-idat-zlib",
+      "amount": 1,
+      "seed": 29,
+      "attempts": 10,
+      "converged": false
+    },
+    {
+      "mode": "png-idat-zlib",
+      "amount": 1,
+      "seed": 30,
+      "attempts": 10,
+      "converged": false
+    },
+    {
+      "mode": "png-idat-zlib",
+      "amount": 1,
+      "seed": 31,
+      "attempts": 10,
+      "converged": false
+    },
+    {
+      "mode": "png-idat-zlib",
+      "amount": 1,
+      "seed": 32,
+      "attempts": 10,
+      "converged": false
+    },
+    {
+      "mode": "png-idat-zlib",
+      "amount": 1,
+      "seed": 33,
+      "attempts": 10,
+      "converged": false
+    },
+    {
+      "mode": "png-idat-zlib",
+      "amount": 1,
+      "seed": 34,
+      "attempts": 10,
+      "converged": false
+    },
+    {
+      "mode": "png-idat-zlib",
+      "amount": 1,
+      "seed": 35,
+      "attempts": 10,
+      "converged": false
+    },
+    {
+      "mode": "png-idat-zlib",
+      "amount": 1,
+      "seed": 36,
+      "attempts": 10,
+      "converged": false
+    },
+    {
+      "mode": "png-idat-zlib",
+      "amount": 1,
+      "seed": 37,
+      "attempts": 10,
+      "converged": false
+    },
+    {
+      "mode": "png-idat-zlib",
+      "amount": 1,
+      "seed": 38,
+      "attempts": 10,
+      "converged": false
+    },
+    {
+      "mode": "png-idat-zlib",
+      "amount": 1,
+      "seed": 39,
+      "attempts": 10,
+      "converged": false
+    },
+    {
+      "mode": "png-idat-zlib",
+      "amount": 2,
+      "seed": 0,
+      "attempts": 10,
+      "converged": false
+    },
+    {
+      "mode": "png-idat-zlib",
+      "amount": 2,
+      "seed": 1,
+      "attempts": 10,
+      "converged": false
+    },
+    {
+      "mode": "png-idat-zlib",
+      "amount": 2,
+      "seed": 2,
+      "attempts": 10,
+      "converged": false
+    },
+    {
+      "mode": "png-idat-zlib",
+      "amount": 2,
+      "seed": 3,
+      "attempts": 10,
+      "converged": false
+    },
+    {
+      "mode": "png-idat-zlib",
+      "amount": 2,
+      "seed": 4,
+      "attempts": 10,
+      "converged": false
+    },
+    {
+      "mode": "png-idat-zlib",
+      "amount": 2,
+      "seed": 5,
+      "attempts": 10,
+      "converged": false
+    },
+    {
+      "mode": "png-idat-zlib",
+      "amount": 2,
+      "seed": 6,
+      "attempts": 10,
+      "converged": false
+    },
+    {
+      "mode": "png-idat-zlib",
+      "amount": 2,
+      "seed": 7,
+      "attempts": 10,
+      "converged": false
+    },
+    {
+      "mode": "png-idat-zlib",
+      "amount": 2,
+      "seed": 8,
+      "attempts": 10,
+      "converged": false
+    },
+    {
+      "mode": "png-idat-zlib",
+      "amount": 2,
+      "seed": 9,
+      "attempts": 10,
+      "converged": false
+    },
+    {
+      "mode": "png-idat-zlib",
+      "amount": 2,
+      "seed": 10,
+      "attempts": 10,
+      "converged": false
+    },
+    {
+      "mode": "png-idat-zlib",
+      "amount": 2,
+      "seed": 11,
+      "attempts": 10,
+      "converged": false
+    },
+    {
+      "mode": "png-idat-zlib",
+      "amount": 2,
+      "seed": 12,
+      "attempts": 10,
+      "converged": false
+    },
+    {
+      "mode": "png-idat-zlib",
+      "amount": 2,
+      "seed": 13,
+      "attempts": 10,
+      "converged": false
+    },
+    {
+      "mode": "png-idat-zlib",
+      "amount": 2,
+      "seed": 14,
+      "attempts": 10,
+      "converged": false
+    },
+    {
+      "mode": "png-idat-zlib",
+      "amount": 2,
+      "seed": 15,
+      "attempts": 10,
+      "converged": false
+    },
+    {
+      "mode": "png-idat-zlib",
+      "amount": 2,
+      "seed": 16,
+      "attempts": 10,
+      "converged": false
+    },
+    {
+      "mode": "png-idat-zlib",
+      "amount": 2,
+      "seed": 17,
+      "attempts": 10,
+      "converged": false
+    },
+    {
+      "mode": "png-idat-zlib",
+      "amount": 2,
+      "seed": 18,
+      "attempts": 10,
+      "converged": false
+    },
+    {
+      "mode": "png-idat-zlib",
+      "amount": 2,
+      "seed": 19,
+      "attempts": 10,
+      "converged": false
+    },
+    {
+      "mode": "png-idat-zlib",
+      "amount": 2,
+      "seed": 20,
+      "attempts": 10,
+      "converged": false
+    },
+    {
+      "mode": "png-idat-zlib",
+      "amount": 2,
+      "seed": 21,
+      "attempts": 10,
+      "converged": false
+    },
+    {
+      "mode": "png-idat-zlib",
+      "amount": 2,
+      "seed": 22,
+      "attempts": 10,
+      "converged": false
+    },
+    {
+      "mode": "png-idat-zlib",
+      "amount": 2,
+      "seed": 23,
+      "attempts": 10,
+      "converged": false
+    },
+    {
+      "mode": "png-idat-zlib",
+      "amount": 2,
+      "seed": 24,
+      "attempts": 10,
+      "converged": false
+    },
+    {
+      "mode": "png-idat-zlib",
+      "amount": 2,
+      "seed": 25,
+      "attempts": 10,
+      "converged": false
+    },
+    {
+      "mode": "png-idat-zlib",
+      "amount": 2,
+      "seed": 26,
+      "attempts": 10,
+      "converged": false
+    },
+    {
+      "mode": "png-idat-zlib",
+      "amount": 2,
+      "seed": 27,
+      "attempts": 10,
+      "converged": false
+    },
+    {
+      "mode": "png-idat-zlib",
+      "amount": 2,
+      "seed": 28,
+      "attempts": 10,
+      "converged": false
+    },
+    {
+      "mode": "png-idat-zlib",
+      "amount": 2,
+      "seed": 29,
+      "attempts": 10,
+      "converged": false
+    },
+    {
+      "mode": "png-idat-zlib",
+      "amount": 2,
+      "seed": 30,
+      "attempts": 10,
+      "converged": false
+    },
+    {
+      "mode": "png-idat-zlib",
+      "amount": 2,
+      "seed": 31,
+      "attempts": 10,
+      "converged": false
+    },
+    {
+      "mode": "png-idat-zlib",
+      "amount": 2,
+      "seed": 32,
+      "attempts": 10,
+      "converged": false
+    },
+    {
+      "mode": "png-idat-zlib",
+      "amount": 2,
+      "seed": 33,
+      "attempts": 10,
+      "converged": false
+    },
+    {
+      "mode": "png-idat-zlib",
+      "amount": 2,
+      "seed": 34,
+      "attempts": 10,
+      "converged": false
+    },
+    {
+      "mode": "png-idat-zlib",
+      "amount": 2,
+      "seed": 35,
+      "attempts": 10,
+      "converged": false
+    },
+    {
+      "mode": "png-idat-zlib",
+      "amount": 2,
+      "seed": 36,
+      "attempts": 10,
+      "converged": false
+    },
+    {
+      "mode": "png-idat-zlib",
+      "amount": 2,
+      "seed": 37,
+      "attempts": 10,
+      "converged": false
+    },
+    {
+      "mode": "png-idat-zlib",
+      "amount": 2,
+      "seed": 38,
+      "attempts": 10,
+      "converged": false
+    },
+    {
+      "mode": "png-idat-zlib",
+      "amount": 2,
+      "seed": 39,
+      "attempts": 10,
+      "converged": false
+    },
+    {
+      "mode": "png-idat-zlib",
+      "amount": 4,
+      "seed": 0,
+      "attempts": 10,
+      "converged": false
+    },
+    {
+      "mode": "png-idat-zlib",
+      "amount": 4,
+      "seed": 1,
+      "attempts": 10,
+      "converged": false
+    },
+    {
+      "mode": "png-idat-zlib",
+      "amount": 4,
+      "seed": 2,
+      "attempts": 10,
+      "converged": false
+    },
+    {
+      "mode": "png-idat-zlib",
+      "amount": 4,
+      "seed": 3,
+      "attempts": 10,
+      "converged": false
+    },
+    {
+      "mode": "png-idat-zlib",
+      "amount": 4,
+      "seed": 4,
+      "attempts": 10,
+      "converged": false
+    },
+    {
+      "mode": "png-idat-zlib",
+      "amount": 4,
+      "seed": 5,
+      "attempts": 10,
+      "converged": false
+    },
+    {
+      "mode": "png-idat-zlib",
+      "amount": 4,
+      "seed": 6,
+      "attempts": 10,
+      "converged": false
+    },
+    {
+      "mode": "png-idat-zlib",
+      "amount": 4,
+      "seed": 7,
+      "attempts": 10,
+      "converged": false
+    },
+    {
+      "mode": "png-idat-zlib",
+      "amount": 4,
+      "seed": 8,
+      "attempts": 10,
+      "converged": false
+    },
+    {
+      "mode": "png-idat-zlib",
+      "amount": 4,
+      "seed": 9,
+      "attempts": 10,
+      "converged": false
+    },
+    {
+      "mode": "png-idat-zlib",
+      "amount": 4,
+      "seed": 10,
+      "attempts": 10,
+      "converged": false
+    },
+    {
+      "mode": "png-idat-zlib",
+      "amount": 4,
+      "seed": 11,
+      "attempts": 10,
+      "converged": false
+    },
+    {
+      "mode": "png-idat-zlib",
+      "amount": 4,
+      "seed": 12,
+      "attempts": 10,
+      "converged": false
+    },
+    {
+      "mode": "png-idat-zlib",
+      "amount": 4,
+      "seed": 13,
+      "attempts": 10,
+      "converged": false
+    },
+    {
+      "mode": "png-idat-zlib",
+      "amount": 4,
+      "seed": 14,
+      "attempts": 10,
+      "converged": false
+    },
+    {
+      "mode": "png-idat-zlib",
+      "amount": 4,
+      "seed": 15,
+      "attempts": 10,
+      "converged": false
+    },
+    {
+      "mode": "png-idat-zlib",
+      "amount": 4,
+      "seed": 16,
+      "attempts": 10,
+      "converged": false
+    },
+    {
+      "mode": "png-idat-zlib",
+      "amount": 4,
+      "seed": 17,
+      "attempts": 10,
+      "converged": false
+    },
+    {
+      "mode": "png-idat-zlib",
+      "amount": 4,
+      "seed": 18,
+      "attempts": 10,
+      "converged": false
+    },
+    {
+      "mode": "png-idat-zlib",
+      "amount": 4,
+      "seed": 19,
+      "attempts": 10,
+      "converged": false
+    },
+    {
+      "mode": "png-idat-zlib",
+      "amount": 4,
+      "seed": 20,
+      "attempts": 10,
+      "converged": false
+    },
+    {
+      "mode": "png-idat-zlib",
+      "amount": 4,
+      "seed": 21,
+      "attempts": 10,
+      "converged": false
+    },
+    {
+      "mode": "png-idat-zlib",
+      "amount": 4,
+      "seed": 22,
+      "attempts": 10,
+      "converged": false
+    },
+    {
+      "mode": "png-idat-zlib",
+      "amount": 4,
+      "seed": 23,
+      "attempts": 10,
+      "converged": false
+    },
+    {
+      "mode": "png-idat-zlib",
+      "amount": 4,
+      "seed": 24,
+      "attempts": 10,
+      "converged": false
+    },
+    {
+      "mode": "png-idat-zlib",
+      "amount": 4,
+      "seed": 25,
+      "attempts": 10,
+      "converged": false
+    },
+    {
+      "mode": "png-idat-zlib",
+      "amount": 4,
+      "seed": 26,
+      "attempts": 10,
+      "converged": false
+    },
+    {
+      "mode": "png-idat-zlib",
+      "amount": 4,
+      "seed": 27,
+      "attempts": 10,
+      "converged": false
+    },
+    {
+      "mode": "png-idat-zlib",
+      "amount": 4,
+      "seed": 28,
+      "attempts": 10,
+      "converged": false
+    },
+    {
+      "mode": "png-idat-zlib",
+      "amount": 4,
+      "seed": 29,
+      "attempts": 10,
+      "converged": false
+    },
+    {
+      "mode": "png-idat-zlib",
+      "amount": 4,
+      "seed": 30,
+      "attempts": 10,
+      "converged": false
+    },
+    {
+      "mode": "png-idat-zlib",
+      "amount": 4,
+      "seed": 31,
+      "attempts": 10,
+      "converged": false
+    },
+    {
+      "mode": "png-idat-zlib",
+      "amount": 4,
+      "seed": 32,
+      "attempts": 10,
+      "converged": false
+    },
+    {
+      "mode": "png-idat-zlib",
+      "amount": 4,
+      "seed": 33,
+      "attempts": 10,
+      "converged": false
+    },
+    {
+      "mode": "png-idat-zlib",
+      "amount": 4,
+      "seed": 34,
+      "attempts": 10,
+      "converged": false
+    },
+    {
+      "mode": "png-idat-zlib",
+      "amount": 4,
+      "seed": 35,
+      "attempts": 10,
+      "converged": false
+    },
+    {
+      "mode": "png-idat-zlib",
+      "amount": 4,
+      "seed": 36,
+      "attempts": 10,
+      "converged": false
+    },
+    {
+      "mode": "png-idat-zlib",
+      "amount": 4,
+      "seed": 37,
+      "attempts": 10,
+      "converged": false
+    },
+    {
+      "mode": "png-idat-zlib",
+      "amount": 4,
+      "seed": 38,
+      "attempts": 10,
+      "converged": false
+    },
+    {
+      "mode": "png-idat-zlib",
+      "amount": 4,
+      "seed": 39,
+      "attempts": 10,
+      "converged": false
+    },
+    {
+      "mode": "png-idat-raw",
+      "amount": 2,
+      "seed": 39,
+      "attempts": 1,
+      "converged": true
+    },
+    {
+      "mode": "png-idat-raw",
+      "amount": 4,
+      "seed": 39,
+      "attempts": 1,
+      "converged": true
+    },
+    {
+      "mode": "png-idat-raw",
+      "amount": 8,
+      "seed": 39,
+      "attempts": 1,
+      "converged": true
+    },
+    {
+      "mode": "png-idat-crc",
+      "amount": 1,
+      "seed": 0,
+      "attempts": 1,
+      "converged": true
+    },
+    {
+      "mode": "png-idat-crc",
+      "amount": 2,
+      "seed": 0,
+      "attempts": 1,
+      "converged": true
+    },
+    {
+      "mode": "png-idat-crc",
+      "amount": 4,
+      "seed": 0,
+      "attempts": 1,
+      "converged": true
+    },
+    {
+      "mode": "png-idat-crc",
+      "amount": 8,
+      "seed": 0,
+      "attempts": 1,
+      "converged": true
+    },
+    {
+      "mode": "bmp-insert",
+      "amount": 1,
+      "seed": 0,
+      "attempts": 1,
+      "converged": true
+    },
+    {
+      "mode": "bmp-insert",
+      "amount": 2,
+      "seed": 0,
+      "attempts": 1,
+      "converged": true
+    },
+    {
+      "mode": "bmp-insert",
+      "amount": 4,
+      "seed": 0,
+      "attempts": 1,
+      "converged": true
+    },
+    {
+      "mode": "bmp-insert",
+      "amount": 8,
+      "seed": 0,
+      "attempts": 1,
+      "converged": true
+    },
+    {
+      "mode": "png-idat-crc",
+      "amount": 1,
+      "seed": 1,
+      "attempts": 1,
+      "converged": true
+    },
+    {
+      "mode": "png-idat-crc",
+      "amount": 2,
+      "seed": 1,
+      "attempts": 1,
+      "converged": true
+    },
+    {
+      "mode": "png-idat-crc",
+      "amount": 4,
+      "seed": 1,
+      "attempts": 1,
+      "converged": true
+    },
+    {
+      "mode": "png-idat-crc",
+      "amount": 8,
+      "seed": 1,
+      "attempts": 1,
+      "converged": true
+    },
+    {
+      "mode": "bmp-insert",
+      "amount": 1,
+      "seed": 1,
+      "attempts": 1,
+      "converged": true
+    },
+    {
+      "mode": "bmp-insert",
+      "amount": 2,
+      "seed": 1,
+      "attempts": 1,
+      "converged": true
+    },
+    {
+      "mode": "bmp-insert",
+      "amount": 4,
+      "seed": 1,
+      "attempts": 1,
+      "converged": true
+    },
+    {
+      "mode": "bmp-insert",
+      "amount": 8,
+      "seed": 1,
+      "attempts": 1,
+      "converged": true
+    },
+    {
+      "mode": "png-idat-crc",
+      "amount": 1,
+      "seed": 2,
+      "attempts": 1,
+      "converged": true
+    },
+    {
+      "mode": "png-idat-crc",
+      "amount": 2,
+      "seed": 2,
+      "attempts": 1,
+      "converged": true
+    },
+    {
+      "mode": "png-idat-crc",
+      "amount": 4,
+      "seed": 2,
+      "attempts": 1,
+      "converged": true
+    },
+    {
+      "mode": "png-idat-crc",
+      "amount": 8,
+      "seed": 2,
+      "attempts": 1,
+      "converged": true
+    },
+    {
+      "mode": "bmp-insert",
+      "amount": 1,
+      "seed": 2,
+      "attempts": 1,
+      "converged": true
+    },
+    {
+      "mode": "bmp-insert",
+      "amount": 2,
+      "seed": 2,
+      "attempts": 1,
+      "converged": true
+    },
+    {
+      "mode": "bmp-insert",
+      "amount": 4,
+      "seed": 2,
+      "attempts": 1,
+      "converged": true
+    },
+    {
+      "mode": "bmp-insert",
+      "amount": 8,
+      "seed": 2,
+      "attempts": 1,
+      "converged": true
+    },
+    {
+      "mode": "png-idat-crc",
+      "amount": 1,
+      "seed": 3,
+      "attempts": 1,
+      "converged": true
+    },
+    {
+      "mode": "png-idat-crc",
+      "amount": 2,
+      "seed": 3,
+      "attempts": 1,
+      "converged": true
+    },
+    {
+      "mode": "png-idat-crc",
+      "amount": 4,
+      "seed": 3,
+      "attempts": 1,
+      "converged": true
+    },
+    {
+      "mode": "png-idat-crc",
+      "amount": 8,
+      "seed": 3,
+      "attempts": 1,
+      "converged": true
+    },
+    {
+      "mode": "bmp-insert",
+      "amount": 1,
+      "seed": 3,
+      "attempts": 1,
+      "converged": true
+    },
+    {
+      "mode": "bmp-insert",
+      "amount": 2,
+      "seed": 3,
+      "attempts": 1,
+      "converged": true
+    },
+    {
+      "mode": "bmp-insert",
+      "amount": 4,
+      "seed": 3,
+      "attempts": 1,
+      "converged": true
+    },
+    {
+      "mode": "bmp-insert",
+      "amount": 8,
+      "seed": 3,
+      "attempts": 1,
+      "converged": true
+    },
+    {
+      "mode": "png-idat-crc",
+      "amount": 1,
+      "seed": 4,
+      "attempts": 1,
+      "converged": true
+    },
+    {
+      "mode": "png-idat-crc",
+      "amount": 2,
+      "seed": 4,
+      "attempts": 1,
+      "converged": true
+    },
+    {
+      "mode": "png-idat-crc",
+      "amount": 4,
+      "seed": 4,
+      "attempts": 1,
+      "converged": true
+    },
+    {
+      "mode": "png-idat-crc",
+      "amount": 8,
+      "seed": 4,
+      "attempts": 1,
+      "converged": true
+    },
+    {
+      "mode": "bmp-insert",
+      "amount": 1,
+      "seed": 4,
+      "attempts": 1,
+      "converged": true
+    },
+    {
+      "mode": "bmp-insert",
+      "amount": 2,
+      "seed": 4,
+      "attempts": 1,
+      "converged": true
+    },
+    {
+      "mode": "bmp-insert",
+      "amount": 4,
+      "seed": 4,
+      "attempts": 1,
+      "converged": true
+    },
+    {
+      "mode": "bmp-insert",
+      "amount": 8,
+      "seed": 4,
+      "attempts": 1,
+      "converged": true
+    },
+    {
+      "mode": "png-idat-crc",
+      "amount": 1,
+      "seed": 5,
+      "attempts": 1,
+      "converged": true
+    },
+    {
+      "mode": "png-idat-crc",
+      "amount": 2,
+      "seed": 5,
+      "attempts": 1,
+      "converged": true
+    },
+    {
+      "mode": "png-idat-crc",
+      "amount": 4,
+      "seed": 5,
+      "attempts": 1,
+      "converged": true
+    },
+    {
+      "mode": "png-idat-crc",
+      "amount": 8,
+      "seed": 5,
+      "attempts": 1,
+      "converged": true
+    },
+    {
+      "mode": "bmp-insert",
+      "amount": 1,
+      "seed": 5,
+      "attempts": 1,
+      "converged": true
+    },
+    {
+      "mode": "bmp-insert",
+      "amount": 2,
+      "seed": 5,
+      "attempts": 1,
+      "converged": true
+    },
+    {
+      "mode": "bmp-insert",
+      "amount": 4,
+      "seed": 5,
+      "attempts": 1,
+      "converged": true
+    },
+    {
+      "mode": "bmp-insert",
+      "amount": 8,
+      "seed": 5,
+      "attempts": 1,
+      "converged": true
+    },
+    {
+      "mode": "png-idat-crc",
+      "amount": 1,
+      "seed": 6,
+      "attempts": 1,
+      "converged": true
+    },
+    {
+      "mode": "png-idat-crc",
+      "amount": 2,
+      "seed": 6,
+      "attempts": 1,
+      "converged": true
+    },
+    {
+      "mode": "png-idat-crc",
+      "amount": 4,
+      "seed": 6,
+      "attempts": 1,
+      "converged": true
+    },
+    {
+      "mode": "png-idat-crc",
+      "amount": 8,
+      "seed": 6,
+      "attempts": 1,
+      "converged": true
+    },
+    {
+      "mode": "bmp-insert",
+      "amount": 1,
+      "seed": 6,
+      "attempts": 1,
+      "converged": true
+    },
+    {
+      "mode": "bmp-insert",
+      "amount": 2,
+      "seed": 6,
+      "attempts": 1,
+      "converged": true
+    },
+    {
+      "mode": "bmp-insert",
+      "amount": 4,
+      "seed": 6,
+      "attempts": 1,
+      "converged": true
+    },
+    {
+      "mode": "bmp-insert",
+      "amount": 8,
+      "seed": 6,
+      "attempts": 1,
+      "converged": true
+    },
+    {
+      "mode": "png-idat-crc",
+      "amount": 1,
+      "seed": 7,
+      "attempts": 1,
+      "converged": true
+    },
+    {
+      "mode": "png-idat-crc",
+      "amount": 2,
+      "seed": 7,
+      "attempts": 1,
+      "converged": true
+    },
+    {
+      "mode": "png-idat-crc",
+      "amount": 4,
+      "seed": 7,
+      "attempts": 1,
+      "converged": true
+    },
+    {
+      "mode": "png-idat-crc",
+      "amount": 8,
+      "seed": 7,
+      "attempts": 1,
+      "converged": true
+    },
+    {
+      "mode": "bmp-insert",
+      "amount": 1,
+      "seed": 7,
+      "attempts": 1,
+      "converged": true
+    },
+    {
+      "mode": "bmp-insert",
+      "amount": 2,
+      "seed": 7,
+      "attempts": 1,
+      "converged": true
+    },
+    {
+      "mode": "bmp-insert",
+      "amount": 4,
+      "seed": 7,
+      "attempts": 1,
+      "converged": true
+    },
+    {
+      "mode": "bmp-insert",
+      "amount": 8,
+      "seed": 7,
+      "attempts": 1,
+      "converged": true
+    },
+    {
+      "mode": "png-idat-crc",
+      "amount": 1,
+      "seed": 8,
+      "attempts": 1,
+      "converged": true
+    },
+    {
+      "mode": "png-idat-crc",
+      "amount": 2,
+      "seed": 8,
+      "attempts": 1,
+      "converged": true
+    },
+    {
+      "mode": "png-idat-crc",
+      "amount": 4,
+      "seed": 8,
+      "attempts": 1,
+      "converged": true
+    },
+    {
+      "mode": "png-idat-crc",
+      "amount": 8,
+      "seed": 8,
+      "attempts": 1,
+      "converged": true
+    },
+    {
+      "mode": "bmp-insert",
+      "amount": 1,
+      "seed": 8,
+      "attempts": 1,
+      "converged": true
+    },
+    {
+      "mode": "bmp-insert",
+      "amount": 2,
+      "seed": 8,
+      "attempts": 1,
+      "converged": true
+    },
+    {
+      "mode": "bmp-insert",
+      "amount": 4,
+      "seed": 8,
+      "attempts": 1,
+      "converged": true
+    },
+    {
+      "mode": "bmp-insert",
+      "amount": 8,
+      "seed": 8,
+      "attempts": 1,
+      "converged": true
+    },
+    {
+      "mode": "png-idat-crc",
+      "amount": 1,
+      "seed": 9,
+      "attempts": 1,
+      "converged": true
+    },
+    {
+      "mode": "png-idat-crc",
+      "amount": 2,
+      "seed": 9,
+      "attempts": 1,
+      "converged": true
+    },
+    {
+      "mode": "png-idat-crc",
+      "amount": 4,
+      "seed": 9,
+      "attempts": 1,
+      "converged": true
+    },
+    {
+      "mode": "png-idat-crc",
+      "amount": 8,
+      "seed": 9,
+      "attempts": 1,
+      "converged": true
+    },
+    {
+      "mode": "bmp-insert",
+      "amount": 1,
+      "seed": 9,
+      "attempts": 1,
+      "converged": true
+    },
+    {
+      "mode": "bmp-insert",
+      "amount": 2,
+      "seed": 9,
+      "attempts": 1,
+      "converged": true
+    },
+    {
+      "mode": "bmp-insert",
+      "amount": 4,
+      "seed": 9,
+      "attempts": 1,
+      "converged": true
+    },
+    {
+      "mode": "bmp-insert",
+      "amount": 8,
+      "seed": 9,
+      "attempts": 1,
+      "converged": true
+    },
+    {
+      "mode": "png-idat-crc",
+      "amount": 1,
+      "seed": 10,
+      "attempts": 1,
+      "converged": true
+    },
+    {
+      "mode": "png-idat-crc",
+      "amount": 2,
+      "seed": 10,
+      "attempts": 1,
+      "converged": true
+    },
+    {
+      "mode": "png-idat-crc",
+      "amount": 4,
+      "seed": 10,
+      "attempts": 1,
+      "converged": true
+    },
+    {
+      "mode": "png-idat-crc",
+      "amount": 8,
+      "seed": 10,
+      "attempts": 1,
+      "converged": true
+    },
+    {
+      "mode": "bmp-insert",
+      "amount": 1,
+      "seed": 10,
+      "attempts": 1,
+      "converged": true
+    },
+    {
+      "mode": "bmp-insert",
+      "amount": 2,
+      "seed": 10,
+      "attempts": 1,
+      "converged": true
+    },
+    {
+      "mode": "bmp-insert",
+      "amount": 4,
+      "seed": 10,
+      "attempts": 1,
+      "converged": true
+    },
+    {
+      "mode": "bmp-insert",
+      "amount": 8,
+      "seed": 10,
+      "attempts": 1,
+      "converged": true
+    },
+    {
+      "mode": "png-idat-crc",
+      "amount": 1,
+      "seed": 11,
+      "attempts": 1,
+      "converged": true
+    },
+    {
+      "mode": "png-idat-crc",
+      "amount": 2,
+      "seed": 11,
+      "attempts": 1,
+      "converged": true
+    },
+    {
+      "mode": "png-idat-crc",
+      "amount": 4,
+      "seed": 11,
+      "attempts": 1,
+      "converged": true
+    },
+    {
+      "mode": "png-idat-crc",
+      "amount": 8,
+      "seed": 11,
+      "attempts": 1,
+      "converged": true
+    },
+    {
+      "mode": "bmp-insert",
+      "amount": 1,
+      "seed": 11,
+      "attempts": 1,
+      "converged": true
+    },
+    {
+      "mode": "bmp-insert",
+      "amount": 2,
+      "seed": 11,
+      "attempts": 1,
+      "converged": true
+    },
+    {
+      "mode": "bmp-insert",
+      "amount": 4,
+      "seed": 11,
+      "attempts": 1,
+      "converged": true
+    },
+    {
+      "mode": "bmp-insert",
+      "amount": 8,
+      "seed": 11,
+      "attempts": 1,
+      "converged": true
+    },
+    {
+      "mode": "png-idat-crc",
+      "amount": 1,
+      "seed": 12,
+      "attempts": 1,
+      "converged": true
+    },
+    {
+      "mode": "png-idat-crc",
+      "amount": 2,
+      "seed": 12,
+      "attempts": 1,
+      "converged": true
+    },
+    {
+      "mode": "png-idat-crc",
+      "amount": 4,
+      "seed": 12,
+      "attempts": 1,
+      "converged": true
+    },
+    {
+      "mode": "png-idat-crc",
+      "amount": 8,
+      "seed": 12,
+      "attempts": 1,
+      "converged": true
+    },
+    {
+      "mode": "bmp-insert",
+      "amount": 1,
+      "seed": 12,
+      "attempts": 1,
+      "converged": true
+    },
+    {
+      "mode": "bmp-insert",
+      "amount": 2,
+      "seed": 12,
+      "attempts": 1,
+      "converged": true
+    },
+    {
+      "mode": "bmp-insert",
+      "amount": 4,
+      "seed": 12,
+      "attempts": 1,
+      "converged": true
+    },
+    {
+      "mode": "bmp-insert",
+      "amount": 8,
+      "seed": 12,
+      "attempts": 1,
+      "converged": true
+    },
+    {
+      "mode": "png-idat-crc",
+      "amount": 1,
+      "seed": 13,
+      "attempts": 1,
+      "converged": true
+    },
+    {
+      "mode": "png-idat-crc",
+      "amount": 2,
+      "seed": 13,
+      "attempts": 1,
+      "converged": true
+    },
+    {
+      "mode": "png-idat-crc",
+      "amount": 4,
+      "seed": 13,
+      "attempts": 1,
+      "converged": true
+    },
+    {
+      "mode": "png-idat-crc",
+      "amount": 8,
+      "seed": 13,
+      "attempts": 1,
+      "converged": true
+    },
+    {
+      "mode": "bmp-insert",
+      "amount": 1,
+      "seed": 13,
+      "attempts": 1,
+      "converged": true
+    },
+    {
+      "mode": "bmp-insert",
+      "amount": 2,
+      "seed": 13,
+      "attempts": 1,
+      "converged": true
+    },
+    {
+      "mode": "bmp-insert",
+      "amount": 4,
+      "seed": 13,
+      "attempts": 1,
+      "converged": true
+    },
+    {
+      "mode": "bmp-insert",
+      "amount": 8,
+      "seed": 13,
+      "attempts": 1,
+      "converged": true
+    },
+    {
+      "mode": "png-idat-crc",
+      "amount": 1,
+      "seed": 14,
+      "attempts": 1,
+      "converged": true
+    },
+    {
+      "mode": "png-idat-crc",
+      "amount": 2,
+      "seed": 14,
+      "attempts": 1,
+      "converged": true
+    },
+    {
+      "mode": "png-idat-crc",
+      "amount": 4,
+      "seed": 14,
+      "attempts": 1,
+      "converged": true
+    },
+    {
+      "mode": "png-idat-crc",
+      "amount": 8,
+      "seed": 14,
+      "attempts": 1,
+      "converged": true
+    },
+    {
+      "mode": "bmp-insert",
+      "amount": 1,
+      "seed": 14,
+      "attempts": 1,
+      "converged": true
+    },
+    {
+      "mode": "bmp-insert",
+      "amount": 2,
+      "seed": 14,
+      "attempts": 1,
+      "converged": true
+    },
+    {
+      "mode": "bmp-insert",
+      "amount": 4,
+      "seed": 14,
+      "attempts": 1,
+      "converged": true
+    },
+    {
+      "mode": "bmp-insert",
+      "amount": 8,
+      "seed": 14,
+      "attempts": 1,
+      "converged": true
+    },
+    {
+      "mode": "png-idat-crc",
+      "amount": 1,
+      "seed": 15,
+      "attempts": 1,
+      "converged": true
+    },
+    {
+      "mode": "png-idat-crc",
+      "amount": 2,
+      "seed": 15,
+      "attempts": 1,
+      "converged": true
+    },
+    {
+      "mode": "png-idat-crc",
+      "amount": 4,
+      "seed": 15,
+      "attempts": 1,
+      "converged": true
+    },
+    {
+      "mode": "png-idat-crc",
+      "amount": 8,
+      "seed": 15,
+      "attempts": 1,
+      "converged": true
+    },
+    {
+      "mode": "bmp-insert",
+      "amount": 1,
+      "seed": 15,
+      "attempts": 1,
+      "converged": true
+    },
+    {
+      "mode": "bmp-insert",
+      "amount": 2,
+      "seed": 15,
+      "attempts": 1,
+      "converged": true
+    },
+    {
+      "mode": "bmp-insert",
+      "amount": 4,
+      "seed": 15,
+      "attempts": 1,
+      "converged": true
+    },
+    {
+      "mode": "bmp-insert",
+      "amount": 8,
+      "seed": 15,
+      "attempts": 1,
+      "converged": true
+    },
+    {
+      "mode": "png-idat-crc",
+      "amount": 1,
+      "seed": 16,
+      "attempts": 1,
+      "converged": true
+    },
+    {
+      "mode": "png-idat-crc",
+      "amount": 2,
+      "seed": 16,
+      "attempts": 1,
+      "converged": true
+    },
+    {
+      "mode": "png-idat-crc",
+      "amount": 4,
+      "seed": 16,
+      "attempts": 1,
+      "converged": true
+    },
+    {
+      "mode": "png-idat-crc",
+      "amount": 8,
+      "seed": 16,
+      "attempts": 1,
+      "converged": true
+    },
+    {
+      "mode": "bmp-insert",
+      "amount": 1,
+      "seed": 16,
+      "attempts": 1,
+      "converged": true
+    },
+    {
+      "mode": "bmp-insert",
+      "amount": 2,
+      "seed": 16,
+      "attempts": 1,
+      "converged": true
+    },
+    {
+      "mode": "bmp-insert",
+      "amount": 4,
+      "seed": 16,
+      "attempts": 1,
+      "converged": true
+    },
+    {
+      "mode": "bmp-insert",
+      "amount": 8,
+      "seed": 16,
+      "attempts": 1,
+      "converged": true
+    },
+    {
+      "mode": "png-idat-crc",
+      "amount": 1,
+      "seed": 17,
+      "attempts": 1,
+      "converged": true
+    },
+    {
+      "mode": "png-idat-crc",
+      "amount": 2,
+      "seed": 17,
+      "attempts": 1,
+      "converged": true
+    },
+    {
+      "mode": "png-idat-crc",
+      "amount": 4,
+      "seed": 17,
+      "attempts": 1,
+      "converged": true
+    },
+    {
+      "mode": "png-idat-crc",
+      "amount": 8,
+      "seed": 17,
+      "attempts": 1,
+      "converged": true
+    },
+    {
+      "mode": "bmp-insert",
+      "amount": 1,
+      "seed": 17,
+      "attempts": 1,
+      "converged": true
+    },
+    {
+      "mode": "bmp-insert",
+      "amount": 2,
+      "seed": 17,
+      "attempts": 1,
+      "converged": true
+    },
+    {
+      "mode": "bmp-insert",
+      "amount": 4,
+      "seed": 17,
+      "attempts": 1,
+      "converged": true
+    },
+    {
+      "mode": "bmp-insert",
+      "amount": 8,
+      "seed": 17,
+      "attempts": 1,
+      "converged": true
+    },
+    {
+      "mode": "png-idat-crc",
+      "amount": 1,
+      "seed": 18,
+      "attempts": 1,
+      "converged": true
+    },
+    {
+      "mode": "png-idat-crc",
+      "amount": 2,
+      "seed": 18,
+      "attempts": 1,
+      "converged": true
+    },
+    {
+      "mode": "png-idat-crc",
+      "amount": 4,
+      "seed": 18,
+      "attempts": 1,
+      "converged": true
+    },
+    {
+      "mode": "png-idat-crc",
+      "amount": 8,
+      "seed": 18,
+      "attempts": 1,
+      "converged": true
+    },
+    {
+      "mode": "bmp-insert",
+      "amount": 1,
+      "seed": 18,
+      "attempts": 1,
+      "converged": true
+    },
+    {
+      "mode": "bmp-insert",
+      "amount": 2,
+      "seed": 18,
+      "attempts": 1,
+      "converged": true
+    },
+    {
+      "mode": "bmp-insert",
+      "amount": 4,
+      "seed": 18,
+      "attempts": 1,
+      "converged": true
+    },
+    {
+      "mode": "bmp-insert",
+      "amount": 8,
+      "seed": 18,
+      "attempts": 1,
+      "converged": true
+    },
+    {
+      "mode": "png-idat-crc",
+      "amount": 1,
+      "seed": 19,
+      "attempts": 1,
+      "converged": true
+    },
+    {
+      "mode": "png-idat-crc",
+      "amount": 2,
+      "seed": 19,
+      "attempts": 1,
+      "converged": true
+    },
+    {
+      "mode": "png-idat-crc",
+      "amount": 4,
+      "seed": 19,
+      "attempts": 1,
+      "converged": true
+    },
+    {
+      "mode": "png-idat-crc",
+      "amount": 8,
+      "seed": 19,
+      "attempts": 1,
+      "converged": true
+    },
+    {
+      "mode": "bmp-insert",
+      "amount": 1,
+      "seed": 19,
+      "attempts": 1,
+      "converged": true
+    },
+    {
+      "mode": "bmp-insert",
+      "amount": 2,
+      "seed": 19,
+      "attempts": 1,
+      "converged": true
+    },
+    {
+      "mode": "bmp-insert",
+      "amount": 4,
+      "seed": 19,
+      "attempts": 1,
+      "converged": true
+    },
+    {
+      "mode": "bmp-insert",
+      "amount": 8,
+      "seed": 19,
+      "attempts": 1,
+      "converged": true
+    },
+    {
+      "mode": "png-idat-crc",
+      "amount": 1,
+      "seed": 20,
+      "attempts": 1,
+      "converged": true
+    },
+    {
+      "mode": "png-idat-crc",
+      "amount": 2,
+      "seed": 20,
+      "attempts": 1,
+      "converged": true
+    },
+    {
+      "mode": "png-idat-crc",
+      "amount": 4,
+      "seed": 20,
+      "attempts": 1,
+      "converged": true
+    },
+    {
+      "mode": "png-idat-crc",
+      "amount": 8,
+      "seed": 20,
+      "attempts": 1,
+      "converged": true
+    },
+    {
+      "mode": "bmp-insert",
+      "amount": 1,
+      "seed": 20,
+      "attempts": 1,
+      "converged": true
+    },
+    {
+      "mode": "bmp-insert",
+      "amount": 2,
+      "seed": 20,
+      "attempts": 1,
+      "converged": true
+    },
+    {
+      "mode": "bmp-insert",
+      "amount": 4,
+      "seed": 20,
+      "attempts": 1,
+      "converged": true
+    },
+    {
+      "mode": "bmp-insert",
+      "amount": 8,
+      "seed": 20,
+      "attempts": 1,
+      "converged": true
+    },
+    {
+      "mode": "png-idat-crc",
+      "amount": 1,
+      "seed": 21,
+      "attempts": 1,
+      "converged": true
+    },
+    {
+      "mode": "png-idat-crc",
+      "amount": 2,
+      "seed": 21,
+      "attempts": 1,
+      "converged": true
+    },
+    {
+      "mode": "png-idat-crc",
+      "amount": 4,
+      "seed": 21,
+      "attempts": 1,
+      "converged": true
+    },
+    {
+      "mode": "png-idat-crc",
+      "amount": 8,
+      "seed": 21,
+      "attempts": 1,
+      "converged": true
+    },
+    {
+      "mode": "bmp-insert",
+      "amount": 1,
+      "seed": 21,
+      "attempts": 1,
+      "converged": true
+    },
+    {
+      "mode": "bmp-insert",
+      "amount": 2,
+      "seed": 21,
+      "attempts": 1,
+      "converged": true
+    },
+    {
+      "mode": "bmp-insert",
+      "amount": 4,
+      "seed": 21,
+      "attempts": 1,
+      "converged": true
+    },
+    {
+      "mode": "bmp-insert",
+      "amount": 8,
+      "seed": 21,
+      "attempts": 1,
+      "converged": true
+    },
+    {
+      "mode": "png-idat-crc",
+      "amount": 1,
+      "seed": 22,
+      "attempts": 1,
+      "converged": true
+    },
+    {
+      "mode": "png-idat-crc",
+      "amount": 2,
+      "seed": 22,
+      "attempts": 1,
+      "converged": true
+    },
+    {
+      "mode": "png-idat-crc",
+      "amount": 4,
+      "seed": 22,
+      "attempts": 1,
+      "converged": true
+    },
+    {
+      "mode": "png-idat-crc",
+      "amount": 8,
+      "seed": 22,
+      "attempts": 1,
+      "converged": true
+    },
+    {
+      "mode": "bmp-insert",
+      "amount": 1,
+      "seed": 22,
+      "attempts": 1,
+      "converged": true
+    },
+    {
+      "mode": "bmp-insert",
+      "amount": 2,
+      "seed": 22,
+      "attempts": 1,
+      "converged": true
+    },
+    {
+      "mode": "bmp-insert",
+      "amount": 4,
+      "seed": 22,
+      "attempts": 1,
+      "converged": true
+    },
+    {
+      "mode": "bmp-insert",
+      "amount": 8,
+      "seed": 22,
+      "attempts": 1,
+      "converged": true
+    },
+    {
+      "mode": "png-idat-crc",
+      "amount": 1,
+      "seed": 23,
+      "attempts": 1,
+      "converged": true
+    },
+    {
+      "mode": "png-idat-crc",
+      "amount": 2,
+      "seed": 23,
+      "attempts": 1,
+      "converged": true
+    },
+    {
+      "mode": "png-idat-crc",
+      "amount": 4,
+      "seed": 23,
+      "attempts": 1,
+      "converged": true
+    },
+    {
+      "mode": "png-idat-crc",
+      "amount": 8,
+      "seed": 23,
+      "attempts": 1,
+      "converged": true
+    },
+    {
+      "mode": "bmp-insert",
+      "amount": 1,
+      "seed": 23,
+      "attempts": 1,
+      "converged": true
+    },
+    {
+      "mode": "bmp-insert",
+      "amount": 2,
+      "seed": 23,
+      "attempts": 1,
+      "converged": true
+    },
+    {
+      "mode": "bmp-insert",
+      "amount": 4,
+      "seed": 23,
+      "attempts": 1,
+      "converged": true
+    },
+    {
+      "mode": "bmp-insert",
+      "amount": 8,
+      "seed": 23,
+      "attempts": 1,
+      "converged": true
+    },
+    {
+      "mode": "png-idat-crc",
+      "amount": 1,
+      "seed": 24,
+      "attempts": 1,
+      "converged": true
+    },
+    {
+      "mode": "png-idat-crc",
+      "amount": 2,
+      "seed": 24,
+      "attempts": 1,
+      "converged": true
+    },
+    {
+      "mode": "png-idat-crc",
+      "amount": 4,
+      "seed": 24,
+      "attempts": 1,
+      "converged": true
+    },
+    {
+      "mode": "png-idat-crc",
+      "amount": 8,
+      "seed": 24,
+      "attempts": 1,
+      "converged": true
+    },
+    {
+      "mode": "bmp-insert",
+      "amount": 1,
+      "seed": 24,
+      "attempts": 1,
+      "converged": true
+    },
+    {
+      "mode": "bmp-insert",
+      "amount": 2,
+      "seed": 24,
+      "attempts": 1,
+      "converged": true
+    },
+    {
+      "mode": "bmp-insert",
+      "amount": 4,
+      "seed": 24,
+      "attempts": 1,
+      "converged": true
+    },
+    {
+      "mode": "bmp-insert",
+      "amount": 8,
+      "seed": 24,
+      "attempts": 1,
+      "converged": true
+    },
+    {
+      "mode": "png-idat-crc",
+      "amount": 1,
+      "seed": 25,
+      "attempts": 1,
+      "converged": true
+    },
+    {
+      "mode": "png-idat-crc",
+      "amount": 2,
+      "seed": 25,
+      "attempts": 1,
+      "converged": true
+    },
+    {
+      "mode": "png-idat-crc",
+      "amount": 4,
+      "seed": 25,
+      "attempts": 1,
+      "converged": true
+    },
+    {
+      "mode": "png-idat-crc",
+      "amount": 8,
+      "seed": 25,
+      "attempts": 1,
+      "converged": true
+    },
+    {
+      "mode": "bmp-insert",
+      "amount": 1,
+      "seed": 25,
+      "attempts": 1,
+      "converged": true
+    },
+    {
+      "mode": "bmp-insert",
+      "amount": 2,
+      "seed": 25,
+      "attempts": 1,
+      "converged": true
+    },
+    {
+      "mode": "bmp-insert",
+      "amount": 4,
+      "seed": 25,
+      "attempts": 1,
+      "converged": true
+    },
+    {
+      "mode": "bmp-insert",
+      "amount": 8,
+      "seed": 25,
+      "attempts": 1,
+      "converged": true
+    },
+    {
+      "mode": "png-idat-crc",
+      "amount": 1,
+      "seed": 26,
+      "attempts": 1,
+      "converged": true
+    },
+    {
+      "mode": "png-idat-crc",
+      "amount": 2,
+      "seed": 26,
+      "attempts": 1,
+      "converged": true
+    },
+    {
+      "mode": "png-idat-crc",
+      "amount": 4,
+      "seed": 26,
+      "attempts": 1,
+      "converged": true
+    },
+    {
+      "mode": "png-idat-crc",
+      "amount": 8,
+      "seed": 26,
+      "attempts": 1,
+      "converged": true
+    },
+    {
+      "mode": "bmp-insert",
+      "amount": 1,
+      "seed": 26,
+      "attempts": 1,
+      "converged": true
+    },
+    {
+      "mode": "bmp-insert",
+      "amount": 2,
+      "seed": 26,
+      "attempts": 1,
+      "converged": true
+    },
+    {
+      "mode": "bmp-insert",
+      "amount": 4,
+      "seed": 26,
+      "attempts": 1,
+      "converged": true
+    },
+    {
+      "mode": "bmp-insert",
+      "amount": 8,
+      "seed": 26,
+      "attempts": 1,
+      "converged": true
+    },
+    {
+      "mode": "png-idat-crc",
+      "amount": 1,
+      "seed": 27,
+      "attempts": 1,
+      "converged": true
+    },
+    {
+      "mode": "png-idat-crc",
+      "amount": 2,
+      "seed": 27,
+      "attempts": 1,
+      "converged": true
+    },
+    {
+      "mode": "png-idat-crc",
+      "amount": 4,
+      "seed": 27,
+      "attempts": 1,
+      "converged": true
+    },
+    {
+      "mode": "png-idat-crc",
+      "amount": 8,
+      "seed": 27,
+      "attempts": 1,
+      "converged": true
+    },
+    {
+      "mode": "bmp-insert",
+      "amount": 1,
+      "seed": 27,
+      "attempts": 1,
+      "converged": true
+    },
+    {
+      "mode": "bmp-insert",
+      "amount": 2,
+      "seed": 27,
+      "attempts": 1,
+      "converged": true
+    },
+    {
+      "mode": "bmp-insert",
+      "amount": 4,
+      "seed": 27,
+      "attempts": 1,
+      "converged": true
+    },
+    {
+      "mode": "bmp-insert",
+      "amount": 8,
+      "seed": 27,
+      "attempts": 1,
+      "converged": true
+    },
+    {
+      "mode": "png-idat-crc",
+      "amount": 1,
+      "seed": 28,
+      "attempts": 1,
+      "converged": true
+    },
+    {
+      "mode": "png-idat-crc",
+      "amount": 2,
+      "seed": 28,
+      "attempts": 1,
+      "converged": true
+    },
+    {
+      "mode": "png-idat-crc",
+      "amount": 4,
+      "seed": 28,
+      "attempts": 1,
+      "converged": true
+    },
+    {
+      "mode": "png-idat-crc",
+      "amount": 8,
+      "seed": 28,
+      "attempts": 1,
+      "converged": true
+    },
+    {
+      "mode": "bmp-insert",
+      "amount": 1,
+      "seed": 28,
+      "attempts": 1,
+      "converged": true
+    },
+    {
+      "mode": "bmp-insert",
+      "amount": 2,
+      "seed": 28,
+      "attempts": 1,
+      "converged": true
+    },
+    {
+      "mode": "bmp-insert",
+      "amount": 4,
+      "seed": 28,
+      "attempts": 1,
+      "converged": true
+    },
+    {
+      "mode": "bmp-insert",
+      "amount": 8,
+      "seed": 28,
+      "attempts": 1,
+      "converged": true
+    },
+    {
+      "mode": "png-idat-crc",
+      "amount": 1,
+      "seed": 29,
+      "attempts": 1,
+      "converged": true
+    },
+    {
+      "mode": "png-idat-crc",
+      "amount": 2,
+      "seed": 29,
+      "attempts": 1,
+      "converged": true
+    },
+    {
+      "mode": "png-idat-crc",
+      "amount": 4,
+      "seed": 29,
+      "attempts": 1,
+      "converged": true
+    },
+    {
+      "mode": "png-idat-crc",
+      "amount": 8,
+      "seed": 29,
+      "attempts": 1,
+      "converged": true
+    },
+    {
+      "mode": "bmp-insert",
+      "amount": 1,
+      "seed": 29,
+      "attempts": 1,
+      "converged": true
+    },
+    {
+      "mode": "bmp-insert",
+      "amount": 2,
+      "seed": 29,
+      "attempts": 1,
+      "converged": true
+    },
+    {
+      "mode": "bmp-insert",
+      "amount": 4,
+      "seed": 29,
+      "attempts": 1,
+      "converged": true
+    },
+    {
+      "mode": "bmp-insert",
+      "amount": 8,
+      "seed": 29,
+      "attempts": 1,
+      "converged": true
+    },
+    {
+      "mode": "png-idat-crc",
+      "amount": 1,
+      "seed": 30,
+      "attempts": 1,
+      "converged": true
+    },
+    {
+      "mode": "png-idat-crc",
+      "amount": 2,
+      "seed": 30,
+      "attempts": 1,
+      "converged": true
+    },
+    {
+      "mode": "png-idat-crc",
+      "amount": 4,
+      "seed": 30,
+      "attempts": 1,
+      "converged": true
+    },
+    {
+      "mode": "png-idat-crc",
+      "amount": 8,
+      "seed": 30,
+      "attempts": 1,
+      "converged": true
+    },
+    {
+      "mode": "bmp-insert",
+      "amount": 1,
+      "seed": 30,
+      "attempts": 1,
+      "converged": true
+    },
+    {
+      "mode": "bmp-insert",
+      "amount": 2,
+      "seed": 30,
+      "attempts": 1,
+      "converged": true
+    },
+    {
+      "mode": "bmp-insert",
+      "amount": 4,
+      "seed": 30,
+      "attempts": 1,
+      "converged": true
+    },
+    {
+      "mode": "bmp-insert",
+      "amount": 8,
+      "seed": 30,
+      "attempts": 1,
+      "converged": true
+    },
+    {
+      "mode": "png-idat-crc",
+      "amount": 1,
+      "seed": 31,
+      "attempts": 1,
+      "converged": true
+    },
+    {
+      "mode": "png-idat-crc",
+      "amount": 2,
+      "seed": 31,
+      "attempts": 1,
+      "converged": true
+    },
+    {
+      "mode": "png-idat-crc",
+      "amount": 4,
+      "seed": 31,
+      "attempts": 1,
+      "converged": true
+    },
+    {
+      "mode": "png-idat-crc",
+      "amount": 8,
+      "seed": 31,
+      "attempts": 1,
+      "converged": true
+    },
+    {
+      "mode": "bmp-insert",
+      "amount": 1,
+      "seed": 31,
+      "attempts": 1,
+      "converged": true
+    },
+    {
+      "mode": "bmp-insert",
+      "amount": 2,
+      "seed": 31,
+      "attempts": 1,
+      "converged": true
+    },
+    {
+      "mode": "bmp-insert",
+      "amount": 4,
+      "seed": 31,
+      "attempts": 1,
+      "converged": true
+    },
+    {
+      "mode": "bmp-insert",
+      "amount": 8,
+      "seed": 31,
+      "attempts": 1,
+      "converged": true
+    },
+    {
+      "mode": "png-idat-crc",
+      "amount": 1,
+      "seed": 32,
+      "attempts": 1,
+      "converged": true
+    },
+    {
+      "mode": "png-idat-crc",
+      "amount": 2,
+      "seed": 32,
+      "attempts": 1,
+      "converged": true
+    },
+    {
+      "mode": "png-idat-crc",
+      "amount": 4,
+      "seed": 32,
+      "attempts": 1,
+      "converged": true
+    },
+    {
+      "mode": "png-idat-crc",
+      "amount": 8,
+      "seed": 32,
+      "attempts": 1,
+      "converged": true
+    },
+    {
+      "mode": "bmp-insert",
+      "amount": 1,
+      "seed": 32,
+      "attempts": 1,
+      "converged": true
+    },
+    {
+      "mode": "bmp-insert",
+      "amount": 2,
+      "seed": 32,
+      "attempts": 1,
+      "converged": true
+    },
+    {
+      "mode": "bmp-insert",
+      "amount": 4,
+      "seed": 32,
+      "attempts": 1,
+      "converged": true
+    },
+    {
+      "mode": "bmp-insert",
+      "amount": 8,
+      "seed": 32,
+      "attempts": 1,
+      "converged": true
+    },
+    {
+      "mode": "png-idat-crc",
+      "amount": 1,
+      "seed": 33,
+      "attempts": 1,
+      "converged": true
+    },
+    {
+      "mode": "png-idat-crc",
+      "amount": 2,
+      "seed": 33,
+      "attempts": 1,
+      "converged": true
+    },
+    {
+      "mode": "png-idat-crc",
+      "amount": 4,
+      "seed": 33,
+      "attempts": 1,
+      "converged": true
+    },
+    {
+      "mode": "png-idat-crc",
+      "amount": 8,
+      "seed": 33,
+      "attempts": 1,
+      "converged": true
+    },
+    {
+      "mode": "bmp-insert",
+      "amount": 1,
+      "seed": 33,
+      "attempts": 1,
+      "converged": true
+    },
+    {
+      "mode": "bmp-insert",
+      "amount": 2,
+      "seed": 33,
+      "attempts": 1,
+      "converged": true
+    },
+    {
+      "mode": "bmp-insert",
+      "amount": 4,
+      "seed": 33,
+      "attempts": 1,
+      "converged": true
+    },
+    {
+      "mode": "bmp-insert",
+      "amount": 8,
+      "seed": 33,
+      "attempts": 1,
+      "converged": true
+    },
+    {
+      "mode": "png-idat-crc",
+      "amount": 1,
+      "seed": 34,
+      "attempts": 1,
+      "converged": true
+    },
+    {
+      "mode": "png-idat-crc",
+      "amount": 2,
+      "seed": 34,
+      "attempts": 1,
+      "converged": true
+    },
+    {
+      "mode": "png-idat-crc",
+      "amount": 4,
+      "seed": 34,
+      "attempts": 1,
+      "converged": true
+    },
+    {
+      "mode": "png-idat-crc",
+      "amount": 8,
+      "seed": 34,
+      "attempts": 1,
+      "converged": true
+    },
+    {
+      "mode": "bmp-insert",
+      "amount": 1,
+      "seed": 34,
+      "attempts": 1,
+      "converged": true
+    },
+    {
+      "mode": "bmp-insert",
+      "amount": 2,
+      "seed": 34,
+      "attempts": 1,
+      "converged": true
+    },
+    {
+      "mode": "bmp-insert",
+      "amount": 4,
+      "seed": 34,
+      "attempts": 1,
+      "converged": true
+    },
+    {
+      "mode": "bmp-insert",
+      "amount": 8,
+      "seed": 34,
+      "attempts": 1,
+      "converged": true
+    },
+    {
+      "mode": "png-idat-crc",
+      "amount": 1,
+      "seed": 35,
+      "attempts": 1,
+      "converged": true
+    },
+    {
+      "mode": "png-idat-crc",
+      "amount": 2,
+      "seed": 35,
+      "attempts": 1,
+      "converged": true
+    },
+    {
+      "mode": "png-idat-crc",
+      "amount": 4,
+      "seed": 35,
+      "attempts": 1,
+      "converged": true
+    },
+    {
+      "mode": "png-idat-crc",
+      "amount": 8,
+      "seed": 35,
+      "attempts": 1,
+      "converged": true
+    },
+    {
+      "mode": "bmp-insert",
+      "amount": 1,
+      "seed": 35,
+      "attempts": 1,
+      "converged": true
+    },
+    {
+      "mode": "bmp-insert",
+      "amount": 2,
+      "seed": 35,
+      "attempts": 1,
+      "converged": true
+    },
+    {
+      "mode": "bmp-insert",
+      "amount": 4,
+      "seed": 35,
+      "attempts": 1,
+      "converged": true
+    },
+    {
+      "mode": "bmp-insert",
+      "amount": 8,
+      "seed": 35,
+      "attempts": 1,
+      "converged": true
+    },
+    {
+      "mode": "png-idat-crc",
+      "amount": 1,
+      "seed": 36,
+      "attempts": 1,
+      "converged": true
+    },
+    {
+      "mode": "png-idat-crc",
+      "amount": 2,
+      "seed": 36,
+      "attempts": 1,
+      "converged": true
+    },
+    {
+      "mode": "png-idat-crc",
+      "amount": 4,
+      "seed": 36,
+      "attempts": 1,
+      "converged": true
+    },
+    {
+      "mode": "png-idat-crc",
+      "amount": 8,
+      "seed": 36,
+      "attempts": 1,
+      "converged": true
+    },
+    {
+      "mode": "bmp-insert",
+      "amount": 1,
+      "seed": 36,
+      "attempts": 1,
+      "converged": true
+    },
+    {
+      "mode": "bmp-insert",
+      "amount": 2,
+      "seed": 36,
+      "attempts": 1,
+      "converged": true
+    },
+    {
+      "mode": "bmp-insert",
+      "amount": 4,
+      "seed": 36,
+      "attempts": 1,
+      "converged": true
+    },
+    {
+      "mode": "bmp-insert",
+      "amount": 8,
+      "seed": 36,
+      "attempts": 1,
+      "converged": true
+    },
+    {
+      "mode": "png-idat-crc",
+      "amount": 1,
+      "seed": 37,
+      "attempts": 1,
+      "converged": true
+    },
+    {
+      "mode": "png-idat-crc",
+      "amount": 2,
+      "seed": 37,
+      "attempts": 1,
+      "converged": true
+    },
+    {
+      "mode": "png-idat-crc",
+      "amount": 4,
+      "seed": 37,
+      "attempts": 1,
+      "converged": true
+    },
+    {
+      "mode": "png-idat-crc",
+      "amount": 8,
+      "seed": 37,
+      "attempts": 1,
+      "converged": true
+    },
+    {
+      "mode": "bmp-insert",
+      "amount": 1,
+      "seed": 37,
+      "attempts": 1,
+      "converged": true
+    },
+    {
+      "mode": "bmp-insert",
+      "amount": 2,
+      "seed": 37,
+      "attempts": 1,
+      "converged": true
+    },
+    {
+      "mode": "bmp-insert",
+      "amount": 4,
+      "seed": 37,
+      "attempts": 1,
+      "converged": true
+    },
+    {
+      "mode": "bmp-insert",
+      "amount": 8,
+      "seed": 37,
+      "attempts": 1,
+      "converged": true
+    },
+    {
+      "mode": "png-idat-crc",
+      "amount": 1,
+      "seed": 38,
+      "attempts": 1,
+      "converged": true
+    },
+    {
+      "mode": "png-idat-crc",
+      "amount": 2,
+      "seed": 38,
+      "attempts": 1,
+      "converged": true
+    },
+    {
+      "mode": "png-idat-crc",
+      "amount": 4,
+      "seed": 38,
+      "attempts": 1,
+      "converged": true
+    },
+    {
+      "mode": "png-idat-crc",
+      "amount": 8,
+      "seed": 38,
+      "attempts": 1,
+      "converged": true
+    },
+    {
+      "mode": "bmp-insert",
+      "amount": 1,
+      "seed": 38,
+      "attempts": 1,
+      "converged": true
+    },
+    {
+      "mode": "bmp-insert",
+      "amount": 2,
+      "seed": 38,
+      "attempts": 1,
+      "converged": true
+    },
+    {
+      "mode": "bmp-insert",
+      "amount": 4,
+      "seed": 38,
+      "attempts": 1,
+      "converged": true
+    },
+    {
+      "mode": "bmp-insert",
+      "amount": 8,
+      "seed": 38,
+      "attempts": 1,
+      "converged": true
+    },
+    {
+      "mode": "png-idat-crc",
+      "amount": 1,
+      "seed": 39,
+      "attempts": 1,
+      "converged": true
+    },
+    {
+      "mode": "tga-insert",
+      "amount": 1,
+      "seed": 0,
+      "attempts": 1,
+      "converged": true
+    },
+    {
+      "mode": "tga-insert",
+      "amount": 1,
+      "seed": 1,
+      "attempts": 1,
+      "converged": true
+    },
+    {
+      "mode": "tga-insert",
+      "amount": 1,
+      "seed": 2,
+      "attempts": 1,
+      "converged": true
+    },
+    {
+      "mode": "tga-insert",
+      "amount": 1,
+      "seed": 3,
+      "attempts": 1,
+      "converged": true
+    },
+    {
+      "mode": "tga-insert",
+      "amount": 1,
+      "seed": 4,
+      "attempts": 1,
+      "converged": true
+    },
+    {
+      "mode": "tga-insert",
+      "amount": 1,
+      "seed": 5,
+      "attempts": 1,
+      "converged": true
+    },
+    {
+      "mode": "tga-insert",
+      "amount": 1,
+      "seed": 6,
+      "attempts": 1,
+      "converged": true
+    },
+    {
+      "mode": "tga-insert",
+      "amount": 1,
+      "seed": 7,
+      "attempts": 1,
+      "converged": true
+    },
+    {
+      "mode": "tga-insert",
+      "amount": 1,
+      "seed": 8,
+      "attempts": 1,
+      "converged": true
+    },
+    {
+      "mode": "tga-insert",
+      "amount": 1,
+      "seed": 9,
+      "attempts": 1,
+      "converged": true
+    },
+    {
+      "mode": "tga-insert",
+      "amount": 1,
+      "seed": 10,
+      "attempts": 1,
+      "converged": true
+    },
+    {
+      "mode": "tga-insert",
+      "amount": 1,
+      "seed": 11,
+      "attempts": 1,
+      "converged": true
+    },
+    {
+      "mode": "tga-insert",
+      "amount": 1,
+      "seed": 12,
+      "attempts": 1,
+      "converged": true
+    },
+    {
+      "mode": "tga-insert",
+      "amount": 1,
+      "seed": 13,
+      "attempts": 1,
+      "converged": true
+    },
+    {
+      "mode": "tga-insert",
+      "amount": 1,
+      "seed": 14,
+      "attempts": 1,
+      "converged": true
+    },
+    {
+      "mode": "tga-insert",
+      "amount": 1,
+      "seed": 15,
+      "attempts": 1,
+      "converged": true
+    },
+    {
+      "mode": "tga-insert",
+      "amount": 1,
+      "seed": 16,
+      "attempts": 1,
+      "converged": true
+    },
+    {
+      "mode": "tga-insert",
+      "amount": 1,
+      "seed": 17,
+      "attempts": 1,
+      "converged": true
+    },
+    {
+      "mode": "tga-insert",
+      "amount": 1,
+      "seed": 18,
+      "attempts": 1,
+      "converged": true
+    },
+    {
+      "mode": "tga-insert",
+      "amount": 1,
+      "seed": 19,
+      "attempts": 1,
+      "converged": true
+    },
+    {
+      "mode": "tga-insert",
+      "amount": 1,
+      "seed": 20,
+      "attempts": 1,
+      "converged": true
+    },
+    {
+      "mode": "tga-insert",
+      "amount": 1,
+      "seed": 21,
+      "attempts": 1,
+      "converged": true
+    },
+    {
+      "mode": "tga-insert",
+      "amount": 1,
+      "seed": 22,
+      "attempts": 1,
+      "converged": true
+    },
+    {
+      "mode": "tga-insert",
+      "amount": 1,
+      "seed": 23,
+      "attempts": 1,
+      "converged": true
+    },
+    {
+      "mode": "tga-insert",
+      "amount": 1,
+      "seed": 24,
+      "attempts": 1,
+      "converged": true
+    },
+    {
+      "mode": "tga-insert",
+      "amount": 1,
+      "seed": 25,
+      "attempts": 1,
+      "converged": true
+    },
+    {
+      "mode": "tga-insert",
+      "amount": 1,
+      "seed": 26,
+      "attempts": 1,
+      "converged": true
+    },
+    {
+      "mode": "tga-insert",
+      "amount": 1,
+      "seed": 27,
+      "attempts": 1,
+      "converged": true
+    },
+    {
+      "mode": "tga-insert",
+      "amount": 1,
+      "seed": 28,
+      "attempts": 1,
+      "converged": true
+    },
+    {
+      "mode": "tga-insert",
+      "amount": 1,
+      "seed": 29,
+      "attempts": 1,
+      "converged": true
+    },
+    {
+      "mode": "tga-insert",
+      "amount": 1,
+      "seed": 30,
+      "attempts": 1,
+      "converged": true
+    },
+    {
+      "mode": "tga-insert",
+      "amount": 1,
+      "seed": 31,
+      "attempts": 1,
+      "converged": true
+    },
+    {
+      "mode": "tga-insert",
+      "amount": 1,
+      "seed": 32,
+      "attempts": 1,
+      "converged": true
+    },
+    {
+      "mode": "tga-insert",
+      "amount": 1,
+      "seed": 33,
+      "attempts": 1,
+      "converged": true
+    },
+    {
+      "mode": "tga-insert",
+      "amount": 1,
+      "seed": 34,
+      "attempts": 1,
+      "converged": true
+    },
+    {
+      "mode": "tga-insert",
+      "amount": 1,
+      "seed": 35,
+      "attempts": 1,
+      "converged": true
+    },
+    {
+      "mode": "tga-insert",
+      "amount": 1,
+      "seed": 36,
+      "attempts": 1,
+      "converged": true
+    },
+    {
+      "mode": "tga-insert",
+      "amount": 1,
+      "seed": 37,
+      "attempts": 1,
+      "converged": true
+    },
+    {
+      "mode": "tga-insert",
+      "amount": 1,
+      "seed": 38,
+      "attempts": 1,
+      "converged": true
+    },
+    {
+      "mode": "tga-insert",
+      "amount": 1,
+      "seed": 39,
+      "attempts": 1,
+      "converged": true
+    },
+    {
+      "mode": "tga-insert",
+      "amount": 2,
+      "seed": 0,
+      "attempts": 1,
+      "converged": true
+    },
+    {
+      "mode": "tga-insert",
+      "amount": 2,
+      "seed": 1,
+      "attempts": 1,
+      "converged": true
+    },
+    {
+      "mode": "tga-insert",
+      "amount": 2,
+      "seed": 2,
+      "attempts": 1,
+      "converged": true
+    },
+    {
+      "mode": "tga-insert",
+      "amount": 2,
+      "seed": 3,
+      "attempts": 1,
+      "converged": true
+    },
+    {
+      "mode": "tga-insert",
+      "amount": 2,
+      "seed": 4,
+      "attempts": 1,
+      "converged": true
+    },
+    {
+      "mode": "tga-insert",
+      "amount": 2,
+      "seed": 5,
+      "attempts": 1,
+      "converged": true
+    },
+    {
+      "mode": "tga-insert",
+      "amount": 2,
+      "seed": 6,
+      "attempts": 1,
+      "converged": true
+    },
+    {
+      "mode": "tga-insert",
+      "amount": 2,
+      "seed": 7,
+      "attempts": 1,
+      "converged": true
+    },
+    {
+      "mode": "tga-insert",
+      "amount": 2,
+      "seed": 8,
+      "attempts": 1,
+      "converged": true
+    },
+    {
+      "mode": "tga-insert",
+      "amount": 2,
+      "seed": 9,
+      "attempts": 1,
+      "converged": true
+    },
+    {
+      "mode": "tga-insert",
+      "amount": 2,
+      "seed": 10,
+      "attempts": 1,
+      "converged": true
+    },
+    {
+      "mode": "tga-insert",
+      "amount": 2,
+      "seed": 11,
+      "attempts": 1,
+      "converged": true
+    },
+    {
+      "mode": "tga-insert",
+      "amount": 2,
+      "seed": 12,
+      "attempts": 1,
+      "converged": true
+    },
+    {
+      "mode": "tga-insert",
+      "amount": 2,
+      "seed": 13,
+      "attempts": 1,
+      "converged": true
+    },
+    {
+      "mode": "tga-insert",
+      "amount": 2,
+      "seed": 14,
+      "attempts": 1,
+      "converged": true
+    },
+    {
+      "mode": "tga-insert",
+      "amount": 2,
+      "seed": 15,
+      "attempts": 1,
+      "converged": true
+    },
+    {
+      "mode": "tga-insert",
+      "amount": 2,
+      "seed": 16,
+      "attempts": 1,
+      "converged": true
+    },
+    {
+      "mode": "tga-insert",
+      "amount": 2,
+      "seed": 17,
+      "attempts": 1,
+      "converged": true
+    },
+    {
+      "mode": "tga-insert",
+      "amount": 2,
+      "seed": 18,
+      "attempts": 1,
+      "converged": true
+    },
+    {
+      "mode": "tga-insert",
+      "amount": 2,
+      "seed": 19,
+      "attempts": 1,
+      "converged": true
+    },
+    {
+      "mode": "tga-insert",
+      "amount": 2,
+      "seed": 20,
+      "attempts": 1,
+      "converged": true
+    },
+    {
+      "mode": "tga-insert",
+      "amount": 2,
+      "seed": 21,
+      "attempts": 1,
+      "converged": true
+    },
+    {
+      "mode": "tga-insert",
+      "amount": 2,
+      "seed": 22,
+      "attempts": 1,
+      "converged": true
+    },
+    {
+      "mode": "tga-insert",
+      "amount": 2,
+      "seed": 23,
+      "attempts": 1,
+      "converged": true
+    },
+    {
+      "mode": "tga-insert",
+      "amount": 2,
+      "seed": 24,
+      "attempts": 1,
+      "converged": true
+    },
+    {
+      "mode": "tga-insert",
+      "amount": 2,
+      "seed": 25,
+      "attempts": 1,
+      "converged": true
+    },
+    {
+      "mode": "tga-insert",
+      "amount": 2,
+      "seed": 26,
+      "attempts": 1,
+      "converged": true
+    },
+    {
+      "mode": "tga-insert",
+      "amount": 2,
+      "seed": 27,
+      "attempts": 1,
+      "converged": true
+    },
+    {
+      "mode": "tga-insert",
+      "amount": 2,
+      "seed": 28,
+      "attempts": 1,
+      "converged": true
+    },
+    {
+      "mode": "tga-insert",
+      "amount": 2,
+      "seed": 29,
+      "attempts": 1,
+      "converged": true
+    },
+    {
+      "mode": "tga-insert",
+      "amount": 2,
+      "seed": 30,
+      "attempts": 1,
+      "converged": true
+    },
+    {
+      "mode": "tga-insert",
+      "amount": 2,
+      "seed": 31,
+      "attempts": 1,
+      "converged": true
+    },
+    {
+      "mode": "tga-insert",
+      "amount": 2,
+      "seed": 32,
+      "attempts": 1,
+      "converged": true
+    },
+    {
+      "mode": "tga-insert",
+      "amount": 2,
+      "seed": 33,
+      "attempts": 1,
+      "converged": true
+    },
+    {
+      "mode": "tga-insert",
+      "amount": 2,
+      "seed": 34,
+      "attempts": 1,
+      "converged": true
+    },
+    {
+      "mode": "tga-insert",
+      "amount": 2,
+      "seed": 35,
+      "attempts": 1,
+      "converged": true
+    },
+    {
+      "mode": "tga-insert",
+      "amount": 2,
+      "seed": 36,
+      "attempts": 1,
+      "converged": true
+    },
+    {
+      "mode": "tga-insert",
+      "amount": 2,
+      "seed": 37,
+      "attempts": 1,
+      "converged": true
+    },
+    {
+      "mode": "tga-insert",
+      "amount": 2,
+      "seed": 38,
+      "attempts": 1,
+      "converged": true
+    },
+    {
+      "mode": "tga-insert",
+      "amount": 2,
+      "seed": 39,
+      "attempts": 1,
+      "converged": true
+    },
+    {
+      "mode": "tga-insert",
+      "amount": 4,
+      "seed": 0,
+      "attempts": 1,
+      "converged": true
+    },
+    {
+      "mode": "tga-insert",
+      "amount": 4,
+      "seed": 1,
+      "attempts": 1,
+      "converged": true
+    },
+    {
+      "mode": "tga-insert",
+      "amount": 4,
+      "seed": 2,
+      "attempts": 1,
+      "converged": true
+    },
+    {
+      "mode": "tga-insert",
+      "amount": 4,
+      "seed": 3,
+      "attempts": 1,
+      "converged": true
+    },
+    {
+      "mode": "tga-insert",
+      "amount": 4,
+      "seed": 4,
+      "attempts": 1,
+      "converged": true
+    },
+    {
+      "mode": "tga-insert",
+      "amount": 4,
+      "seed": 5,
+      "attempts": 1,
+      "converged": true
+    },
+    {
+      "mode": "tga-insert",
+      "amount": 4,
+      "seed": 6,
+      "attempts": 1,
+      "converged": true
+    },
+    {
+      "mode": "tga-insert",
+      "amount": 4,
+      "seed": 7,
+      "attempts": 1,
+      "converged": true
+    },
+    {
+      "mode": "tga-insert",
+      "amount": 4,
+      "seed": 8,
+      "attempts": 1,
+      "converged": true
+    },
+    {
+      "mode": "tga-insert",
+      "amount": 4,
+      "seed": 9,
+      "attempts": 1,
+      "converged": true
+    },
+    {
+      "mode": "tga-insert",
+      "amount": 4,
+      "seed": 10,
+      "attempts": 1,
+      "converged": true
+    },
+    {
+      "mode": "tga-insert",
+      "amount": 4,
+      "seed": 11,
+      "attempts": 1,
+      "converged": true
+    },
+    {
+      "mode": "tga-insert",
+      "amount": 4,
+      "seed": 12,
+      "attempts": 1,
+      "converged": true
+    },
+    {
+      "mode": "tga-insert",
+      "amount": 4,
+      "seed": 13,
+      "attempts": 1,
+      "converged": true
+    },
+    {
+      "mode": "tga-insert",
+      "amount": 4,
+      "seed": 14,
+      "attempts": 1,
+      "converged": true
+    },
+    {
+      "mode": "tga-insert",
+      "amount": 4,
+      "seed": 15,
+      "attempts": 1,
+      "converged": true
+    },
+    {
+      "mode": "tga-insert",
+      "amount": 4,
+      "seed": 16,
+      "attempts": 1,
+      "converged": true
+    },
+    {
+      "mode": "tga-insert",
+      "amount": 4,
+      "seed": 17,
+      "attempts": 1,
+      "converged": true
+    },
+    {
+      "mode": "tga-insert",
+      "amount": 4,
+      "seed": 18,
+      "attempts": 1,
+      "converged": true
+    },
+    {
+      "mode": "tga-insert",
+      "amount": 4,
+      "seed": 19,
+      "attempts": 1,
+      "converged": true
+    },
+    {
+      "mode": "tga-insert",
+      "amount": 4,
+      "seed": 20,
+      "attempts": 1,
+      "converged": true
+    },
+    {
+      "mode": "tga-insert",
+      "amount": 4,
+      "seed": 21,
+      "attempts": 1,
+      "converged": true
+    },
+    {
+      "mode": "tga-insert",
+      "amount": 4,
+      "seed": 22,
+      "attempts": 1,
+      "converged": true
+    },
+    {
+      "mode": "tga-insert",
+      "amount": 4,
+      "seed": 23,
+      "attempts": 1,
+      "converged": true
+    },
+    {
+      "mode": "tga-insert",
+      "amount": 4,
+      "seed": 24,
+      "attempts": 1,
+      "converged": true
+    },
+    {
+      "mode": "tga-insert",
+      "amount": 4,
+      "seed": 25,
+      "attempts": 1,
+      "converged": true
+    },
+    {
+      "mode": "tga-insert",
+      "amount": 4,
+      "seed": 26,
+      "attempts": 1,
+      "converged": true
+    },
+    {
+      "mode": "tga-insert",
+      "amount": 4,
+      "seed": 27,
+      "attempts": 1,
+      "converged": true
+    },
+    {
+      "mode": "tga-insert",
+      "amount": 4,
+      "seed": 28,
+      "attempts": 1,
+      "converged": true
+    },
+    {
+      "mode": "tga-insert",
+      "amount": 4,
+      "seed": 29,
+      "attempts": 1,
+      "converged": true
+    },
+    {
+      "mode": "tga-insert",
+      "amount": 4,
+      "seed": 30,
+      "attempts": 1,
+      "converged": true
+    },
+    {
+      "mode": "tga-insert",
+      "amount": 4,
+      "seed": 31,
+      "attempts": 1,
+      "converged": true
+    },
+    {
+      "mode": "tga-insert",
+      "amount": 4,
+      "seed": 32,
+      "attempts": 1,
+      "converged": true
+    },
+    {
+      "mode": "tga-insert",
+      "amount": 4,
+      "seed": 33,
+      "attempts": 1,
+      "converged": true
+    },
+    {
+      "mode": "tga-insert",
+      "amount": 4,
+      "seed": 34,
+      "attempts": 1,
+      "converged": true
+    },
+    {
+      "mode": "tga-insert",
+      "amount": 4,
+      "seed": 35,
+      "attempts": 1,
+      "converged": true
+    },
+    {
+      "mode": "tga-insert",
+      "amount": 4,
+      "seed": 36,
+      "attempts": 1,
+      "converged": true
+    },
+    {
+      "mode": "tga-insert",
+      "amount": 4,
+      "seed": 37,
+      "attempts": 1,
+      "converged": true
+    },
+    {
+      "mode": "tga-insert",
+      "amount": 4,
+      "seed": 38,
+      "attempts": 1,
+      "converged": true
+    },
+    {
+      "mode": "tga-insert",
+      "amount": 4,
+      "seed": 39,
+      "attempts": 1,
+      "converged": true
+    },
+    {
+      "mode": "tga-insert",
+      "amount": 8,
+      "seed": 0,
+      "attempts": 1,
+      "converged": true
+    },
+    {
+      "mode": "tga-insert",
+      "amount": 8,
+      "seed": 1,
+      "attempts": 1,
+      "converged": true
+    },
+    {
+      "mode": "tga-insert",
+      "amount": 8,
+      "seed": 2,
+      "attempts": 1,
+      "converged": true
+    },
+    {
+      "mode": "tga-insert",
+      "amount": 8,
+      "seed": 3,
+      "attempts": 1,
+      "converged": true
+    },
+    {
+      "mode": "tga-insert",
+      "amount": 8,
+      "seed": 4,
+      "attempts": 1,
+      "converged": true
+    },
+    {
+      "mode": "tga-insert",
+      "amount": 8,
+      "seed": 5,
+      "attempts": 1,
+      "converged": true
+    },
+    {
+      "mode": "tga-insert",
+      "amount": 8,
+      "seed": 6,
+      "attempts": 1,
+      "converged": true
+    },
+    {
+      "mode": "tga-insert",
+      "amount": 8,
+      "seed": 7,
+      "attempts": 1,
+      "converged": true
+    },
+    {
+      "mode": "tga-insert",
+      "amount": 8,
+      "seed": 8,
+      "attempts": 1,
+      "converged": true
+    },
+    {
+      "mode": "tga-insert",
+      "amount": 8,
+      "seed": 9,
+      "attempts": 1,
+      "converged": true
+    },
+    {
+      "mode": "tga-insert",
+      "amount": 8,
+      "seed": 10,
+      "attempts": 1,
+      "converged": true
+    },
+    {
+      "mode": "tga-insert",
+      "amount": 8,
+      "seed": 11,
+      "attempts": 1,
+      "converged": true
+    },
+    {
+      "mode": "tga-insert",
+      "amount": 8,
+      "seed": 12,
+      "attempts": 1,
+      "converged": true
+    },
+    {
+      "mode": "tga-insert",
+      "amount": 8,
+      "seed": 13,
+      "attempts": 1,
+      "converged": true
+    },
+    {
+      "mode": "tga-insert",
+      "amount": 8,
+      "seed": 14,
+      "attempts": 1,
+      "converged": true
+    },
+    {
+      "mode": "tga-insert",
+      "amount": 8,
+      "seed": 15,
+      "attempts": 1,
+      "converged": true
+    },
+    {
+      "mode": "tga-insert",
+      "amount": 8,
+      "seed": 16,
+      "attempts": 1,
+      "converged": true
+    },
+    {
+      "mode": "tga-insert",
+      "amount": 8,
+      "seed": 17,
+      "attempts": 1,
+      "converged": true
+    },
+    {
+      "mode": "tga-insert",
+      "amount": 8,
+      "seed": 18,
+      "attempts": 1,
+      "converged": true
+    },
+    {
+      "mode": "tga-insert",
+      "amount": 8,
+      "seed": 19,
+      "attempts": 1,
+      "converged": true
+    },
+    {
+      "mode": "tga-insert",
+      "amount": 8,
+      "seed": 20,
+      "attempts": 1,
+      "converged": true
+    },
+    {
+      "mode": "tga-insert",
+      "amount": 8,
+      "seed": 21,
+      "attempts": 1,
+      "converged": true
+    },
+    {
+      "mode": "tga-insert",
+      "amount": 8,
+      "seed": 22,
+      "attempts": 1,
+      "converged": true
+    },
+    {
+      "mode": "tga-insert",
+      "amount": 8,
+      "seed": 23,
+      "attempts": 1,
+      "converged": true
+    },
+    {
+      "mode": "tga-insert",
+      "amount": 8,
+      "seed": 24,
+      "attempts": 1,
+      "converged": true
+    },
+    {
+      "mode": "tga-insert",
+      "amount": 8,
+      "seed": 25,
+      "attempts": 1,
+      "converged": true
+    },
+    {
+      "mode": "tga-insert",
+      "amount": 8,
+      "seed": 26,
+      "attempts": 1,
+      "converged": true
+    },
+    {
+      "mode": "tga-insert",
+      "amount": 8,
+      "seed": 27,
+      "attempts": 1,
+      "converged": true
+    },
+    {
+      "mode": "tga-insert",
+      "amount": 8,
+      "seed": 28,
+      "attempts": 1,
+      "converged": true
+    },
+    {
+      "mode": "tga-insert",
+      "amount": 8,
+      "seed": 29,
+      "attempts": 1,
+      "converged": true
+    },
+    {
+      "mode": "tga-insert",
+      "amount": 8,
+      "seed": 30,
+      "attempts": 1,
+      "converged": true
+    },
+    {
+      "mode": "tga-insert",
+      "amount": 8,
+      "seed": 31,
+      "attempts": 1,
+      "converged": true
+    },
+    {
+      "mode": "tga-insert",
+      "amount": 8,
+      "seed": 32,
+      "attempts": 1,
+      "converged": true
+    },
+    {
+      "mode": "tga-insert",
+      "amount": 8,
+      "seed": 33,
+      "attempts": 1,
+      "converged": true
+    },
+    {
+      "mode": "tga-insert",
+      "amount": 8,
+      "seed": 34,
+      "attempts": 1,
+      "converged": true
+    },
+    {
+      "mode": "tga-insert",
+      "amount": 8,
+      "seed": 35,
+      "attempts": 1,
+      "converged": true
+    },
+    {
+      "mode": "tga-insert",
+      "amount": 8,
+      "seed": 36,
+      "attempts": 1,
+      "converged": true
+    },
+    {
+      "mode": "tga-insert",
+      "amount": 8,
+      "seed": 37,
+      "attempts": 1,
+      "converged": true
+    },
+    {
+      "mode": "tga-insert",
+      "amount": 8,
+      "seed": 38,
+      "attempts": 1,
+      "converged": true
+    },
+    {
+      "mode": "tga-insert",
+      "amount": 8,
+      "seed": 39,
+      "attempts": 1,
+      "converged": true
+    },
+    {
+      "mode": "png-idat-crc",
+      "amount": 2,
+      "seed": 39,
+      "attempts": 1,
+      "converged": true
+    },
+    {
+      "mode": "png-idat-crc",
+      "amount": 4,
+      "seed": 39,
+      "attempts": 1,
+      "converged": true
+    },
+    {
+      "mode": "png-idat-crc",
+      "amount": 8,
+      "seed": 39,
+      "attempts": 1,
+      "converged": true
+    },
+    {
+      "mode": "bmp-insert",
+      "amount": 1,
+      "seed": 39,
+      "attempts": 1,
+      "converged": true
+    },
+    {
+      "mode": "bmp-insert",
+      "amount": 2,
+      "seed": 39,
+      "attempts": 1,
+      "converged": true
+    },
+    {
+      "mode": "bmp-insert",
+      "amount": 4,
+      "seed": 39,
+      "attempts": 1,
+      "converged": true
+    },
+    {
+      "mode": "bmp-insert",
+      "amount": 8,
+      "seed": 39,
+      "attempts": 1,
+      "converged": true
+    }
+  ],
+  "aggregate": [
+    {
+      "mode": "bmp-insert",
+      "amount": 1,
+      "n": 40,
+      "converged": 40,
+      "firstAttemptOk": 40,
+      "p50": 1,
+      "p95": 1,
+      "max": 1,
+      "retryFiredPct": 0,
+      "exhaustedPct": 0
+    },
+    {
+      "mode": "bmp-insert",
+      "amount": 2,
+      "n": 40,
+      "converged": 40,
+      "firstAttemptOk": 40,
+      "p50": 1,
+      "p95": 1,
+      "max": 1,
+      "retryFiredPct": 0,
+      "exhaustedPct": 0
+    },
+    {
+      "mode": "bmp-insert",
+      "amount": 4,
+      "n": 40,
+      "converged": 40,
+      "firstAttemptOk": 40,
+      "p50": 1,
+      "p95": 1,
+      "max": 1,
+      "retryFiredPct": 0,
+      "exhaustedPct": 0
+    },
+    {
+      "mode": "bmp-insert",
+      "amount": 8,
+      "n": 40,
+      "converged": 40,
+      "firstAttemptOk": 40,
+      "p50": 1,
+      "p95": 1,
+      "max": 1,
+      "retryFiredPct": 0,
+      "exhaustedPct": 0
+    },
+    {
+      "mode": "jpeg-swap",
+      "amount": 10,
+      "n": 40,
+      "converged": 40,
+      "firstAttemptOk": 40,
+      "p50": 1,
+      "p95": 1,
+      "max": 1,
+      "retryFiredPct": 0,
+      "exhaustedPct": 0
+    },
+    {
+      "mode": "jpeg-swap",
+      "amount": 2,
+      "n": 40,
+      "converged": 40,
+      "firstAttemptOk": 40,
+      "p50": 1,
+      "p95": 1,
+      "max": 1,
+      "retryFiredPct": 0,
+      "exhaustedPct": 0
+    },
+    {
+      "mode": "jpeg-swap",
+      "amount": 20,
+      "n": 40,
+      "converged": 40,
+      "firstAttemptOk": 40,
+      "p50": 1,
+      "p95": 1,
+      "max": 1,
+      "retryFiredPct": 0,
+      "exhaustedPct": 0
+    },
+    {
+      "mode": "jpeg-swap",
+      "amount": 5,
+      "n": 40,
+      "converged": 40,
+      "firstAttemptOk": 40,
+      "p50": 1,
+      "p95": 1,
+      "max": 1,
+      "retryFiredPct": 0,
+      "exhaustedPct": 0
+    },
+    {
+      "mode": "png-idat-crc",
+      "amount": 1,
+      "n": 40,
+      "converged": 40,
+      "firstAttemptOk": 40,
+      "p50": 1,
+      "p95": 1,
+      "max": 1,
+      "retryFiredPct": 0,
+      "exhaustedPct": 0
+    },
+    {
+      "mode": "png-idat-crc",
+      "amount": 2,
+      "n": 40,
+      "converged": 40,
+      "firstAttemptOk": 40,
+      "p50": 1,
+      "p95": 1,
+      "max": 1,
+      "retryFiredPct": 0,
+      "exhaustedPct": 0
+    },
+    {
+      "mode": "png-idat-crc",
+      "amount": 4,
+      "n": 40,
+      "converged": 40,
+      "firstAttemptOk": 40,
+      "p50": 1,
+      "p95": 1,
+      "max": 1,
+      "retryFiredPct": 0,
+      "exhaustedPct": 0
+    },
+    {
+      "mode": "png-idat-crc",
+      "amount": 8,
+      "n": 40,
+      "converged": 40,
+      "firstAttemptOk": 40,
+      "p50": 1,
+      "p95": 1,
+      "max": 1,
+      "retryFiredPct": 0,
+      "exhaustedPct": 0
+    },
+    {
+      "mode": "png-idat-raw",
+      "amount": 1,
+      "n": 40,
+      "converged": 40,
+      "firstAttemptOk": 40,
+      "p50": 1,
+      "p95": 1,
+      "max": 1,
+      "retryFiredPct": 0,
+      "exhaustedPct": 0
+    },
+    {
+      "mode": "png-idat-raw",
+      "amount": 2,
+      "n": 40,
+      "converged": 40,
+      "firstAttemptOk": 40,
+      "p50": 1,
+      "p95": 1,
+      "max": 1,
+      "retryFiredPct": 0,
+      "exhaustedPct": 0
+    },
+    {
+      "mode": "png-idat-raw",
+      "amount": 4,
+      "n": 40,
+      "converged": 40,
+      "firstAttemptOk": 40,
+      "p50": 1,
+      "p95": 1,
+      "max": 1,
+      "retryFiredPct": 0,
+      "exhaustedPct": 0
+    },
+    {
+      "mode": "png-idat-raw",
+      "amount": 8,
+      "n": 40,
+      "converged": 40,
+      "firstAttemptOk": 40,
+      "p50": 1,
+      "p95": 1,
+      "max": 1,
+      "retryFiredPct": 0,
+      "exhaustedPct": 0
+    },
+    {
+      "mode": "png-idat-zlib",
+      "amount": 1,
+      "n": 40,
+      "converged": 0,
+      "firstAttemptOk": 0,
+      "p50": 10,
+      "p95": 10,
+      "max": 10,
+      "retryFiredPct": 100,
+      "exhaustedPct": 100
+    },
+    {
+      "mode": "png-idat-zlib",
+      "amount": 2,
+      "n": 40,
+      "converged": 0,
+      "firstAttemptOk": 0,
+      "p50": 10,
+      "p95": 10,
+      "max": 10,
+      "retryFiredPct": 100,
+      "exhaustedPct": 100
+    },
+    {
+      "mode": "png-idat-zlib",
+      "amount": 4,
+      "n": 40,
+      "converged": 0,
+      "firstAttemptOk": 0,
+      "p50": 10,
+      "p95": 10,
+      "max": 10,
+      "retryFiredPct": 100,
+      "exhaustedPct": 100
+    },
+    {
+      "mode": "tga-insert",
+      "amount": 1,
+      "n": 40,
+      "converged": 40,
+      "firstAttemptOk": 40,
+      "p50": 1,
+      "p95": 1,
+      "max": 1,
+      "retryFiredPct": 0,
+      "exhaustedPct": 0
+    },
+    {
+      "mode": "tga-insert",
+      "amount": 2,
+      "n": 40,
+      "converged": 40,
+      "firstAttemptOk": 40,
+      "p50": 1,
+      "p95": 1,
+      "max": 1,
+      "retryFiredPct": 0,
+      "exhaustedPct": 0
+    },
+    {
+      "mode": "tga-insert",
+      "amount": 4,
+      "n": 40,
+      "converged": 40,
+      "firstAttemptOk": 40,
+      "p50": 1,
+      "p95": 1,
+      "max": 1,
+      "retryFiredPct": 0,
+      "exhaustedPct": 0
+    },
+    {
+      "mode": "tga-insert",
+      "amount": 8,
+      "n": 40,
+      "converged": 40,
+      "firstAttemptOk": 40,
+      "p50": 1,
+      "p95": 1,
+      "max": 1,
+      "retryFiredPct": 0,
+      "exhaustedPct": 0
+    }
+  ],
+  "crosscheck": [
+    {
+      "mode": "jpeg-swap",
+      "viaBitmap": true,
+      "viaImg": true
+    },
+    {
+      "mode": "jpeg-swap",
+      "viaBitmap": true,
+      "viaImg": true
+    },
+    {
+      "mode": "jpeg-swap",
+      "viaBitmap": true,
+      "viaImg": true
+    },
+    {
+      "mode": "jpeg-swap",
+      "viaBitmap": true,
+      "viaImg": true
+    },
+    {
+      "mode": "png-idat-raw",
+      "viaBitmap": true,
+      "viaImg": true
+    },
+    {
+      "mode": "png-idat-raw",
+      "viaBitmap": true,
+      "viaImg": true
+    },
+    {
+      "mode": "png-idat-raw",
+      "viaBitmap": true,
+      "viaImg": true
+    },
+    {
+      "mode": "png-idat-raw",
+      "viaBitmap": true,
+      "viaImg": true
+    },
+    {
+      "mode": "jpeg-swap",
+      "viaBitmap": true,
+      "viaImg": true
+    },
+    {
+      "mode": "jpeg-swap",
+      "viaBitmap": true,
+      "viaImg": true
+    },
+    {
+      "mode": "jpeg-swap",
+      "viaBitmap": true,
+      "viaImg": true
+    },
+    {
+      "mode": "jpeg-swap",
+      "viaBitmap": true,
+      "viaImg": true
+    },
+    {
+      "mode": "png-idat-raw",
+      "viaBitmap": true,
+      "viaImg": true
+    },
+    {
+      "mode": "png-idat-raw",
+      "viaBitmap": true,
+      "viaImg": true
+    },
+    {
+      "mode": "png-idat-raw",
+      "viaBitmap": true,
+      "viaImg": true
+    },
+    {
+      "mode": "png-idat-raw",
+      "viaBitmap": true,
+      "viaImg": true
+    },
+    {
+      "mode": "jpeg-swap",
+      "viaBitmap": true,
+      "viaImg": true
+    },
+    {
+      "mode": "jpeg-swap",
+      "viaBitmap": true,
+      "viaImg": true
+    },
+    {
+      "mode": "jpeg-swap",
+      "viaBitmap": true,
+      "viaImg": true
+    },
+    {
+      "mode": "jpeg-swap",
+      "viaBitmap": true,
+      "viaImg": true
+    },
+    {
+      "mode": "png-idat-raw",
+      "viaBitmap": true,
+      "viaImg": true
+    },
+    {
+      "mode": "png-idat-raw",
+      "viaBitmap": true,
+      "viaImg": true
+    },
+    {
+      "mode": "png-idat-raw",
+      "viaBitmap": true,
+      "viaImg": true
+    },
+    {
+      "mode": "png-idat-raw",
+      "viaBitmap": true,
+      "viaImg": true
+    },
+    {
+      "mode": "jpeg-swap",
+      "viaBitmap": true,
+      "viaImg": true
+    },
+    {
+      "mode": "jpeg-swap",
+      "viaBitmap": true,
+      "viaImg": true
+    },
+    {
+      "mode": "jpeg-swap",
+      "viaBitmap": true,
+      "viaImg": true
+    },
+    {
+      "mode": "jpeg-swap",
+      "viaBitmap": true,
+      "viaImg": true
+    },
+    {
+      "mode": "png-idat-raw",
+      "viaBitmap": true,
+      "viaImg": true
+    },
+    {
+      "mode": "png-idat-raw",
+      "viaBitmap": true,
+      "viaImg": true
+    },
+    {
+      "mode": "png-idat-raw",
+      "viaBitmap": true,
+      "viaImg": true
+    },
+    {
+      "mode": "png-idat-raw",
+      "viaBitmap": true,
+      "viaImg": true
+    },
+    {
+      "mode": "jpeg-swap",
+      "viaBitmap": true,
+      "viaImg": true
+    },
+    {
+      "mode": "jpeg-swap",
+      "viaBitmap": true,
+      "viaImg": true
+    },
+    {
+      "mode": "jpeg-swap",
+      "viaBitmap": true,
+      "viaImg": true
+    },
+    {
+      "mode": "jpeg-swap",
+      "viaBitmap": true,
+      "viaImg": true
+    },
+    {
+      "mode": "png-idat-raw",
+      "viaBitmap": true,
+      "viaImg": true
+    },
+    {
+      "mode": "png-idat-raw",
+      "viaBitmap": true,
+      "viaImg": true
+    },
+    {
+      "mode": "png-idat-raw",
+      "viaBitmap": true,
+      "viaImg": true
+    },
+    {
+      "mode": "png-idat-raw",
+      "viaBitmap": true,
+      "viaImg": true
+    },
+    {
+      "mode": "png-idat-crc",
+      "viaBitmap": true,
+      "viaImg": true
+    },
+    {
+      "mode": "png-idat-crc",
+      "viaBitmap": true,
+      "viaImg": true
+    },
+    {
+      "mode": "png-idat-crc",
+      "viaBitmap": true,
+      "viaImg": true
+    },
+    {
+      "mode": "png-idat-crc",
+      "viaBitmap": true,
+      "viaImg": true
+    },
+    {
+      "mode": "bmp-insert",
+      "viaBitmap": true,
+      "viaImg": true
+    },
+    {
+      "mode": "bmp-insert",
+      "viaBitmap": true,
+      "viaImg": true
+    },
+    {
+      "mode": "bmp-insert",
+      "viaBitmap": true,
+      "viaImg": true
+    },
+    {
+      "mode": "bmp-insert",
+      "viaBitmap": true,
+      "viaImg": true
+    },
+    {
+      "mode": "png-idat-crc",
+      "viaBitmap": true,
+      "viaImg": true
+    },
+    {
+      "mode": "png-idat-crc",
+      "viaBitmap": true,
+      "viaImg": true
+    }
+  ],
+  "timingMs": 961
+}

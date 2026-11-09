@@ -1,0 +1,29 @@
+# Do not manually edit this file, it is managed by Gleam.
+#
+# This file locks the dependency versions used, to make your build
+# deterministic and to prevent unexpected versions from being included
+# in your application.
+#
+# You should check this file into your source control repository.
+
+packages = [
+  { name = "atproto_browser", version = "0.3.1", build_tools = ["gleam"], requirements = ["atproto_core", "gleam_fetch", "gleam_http", "gleam_javascript", "gleam_json", "gleam_stdlib", "gleam_time"], otp_app = "atproto_browser", source = "hex", outer_checksum = "B9F247A66D3362E01F2D90D9AB98A6CA6D8E5C3507A2F9671BF0D5F20F5A3072" },
+  { name = "atproto_core", version = "0.2.2", build_tools = ["gleam"], requirements = ["gleam_http", "gleam_json", "gleam_stdlib"], otp_app = "atproto_core", source = "hex", outer_checksum = "46F161E0B8030AF657C9FA346FBDB221D8F3D7DD0B3C211969A52069256615D0" },
+  { name = "gleam_fetch", version = "1.4.1", build_tools = ["gleam"], requirements = ["gleam_http", "gleam_javascript", "gleam_stdlib"], otp_app = "gleam_fetch", source = "hex", outer_checksum = "D84CEF8A60EC69F40BC5B7191E24E9674D79852006A43E48F0C35744690F12A2" },
+  { name = "gleam_http", version = "4.5.0", build_tools = ["gleam"], requirements = ["gleam_stdlib", "splitter"], otp_app = "gleam_http", source = "hex", outer_checksum = "38D7E5698759D44F21436F365259F7015104F6FAFA23181CD0B2BB0E5B67BE2B" },
+  { name = "gleam_javascript", version = "1.0.1", build_tools = ["gleam"], requirements = ["gleam_stdlib"], otp_app = "gleam_javascript", source = "hex", outer_checksum = "D542C4B4F40E942F5D3372D524419FA521A7BB92D621AF696CC286E89D882D55" },
+  { name = "gleam_json", version = "3.1.0", build_tools = ["gleam"], requirements = ["gleam_stdlib"], otp_app = "gleam_json", source = "hex", outer_checksum = "44FDAA8847BE8FC48CA7A1C089706BD54BADCC4C45B237A992EDDF9F2CDB2836" },
+  { name = "gleam_stdlib", version = "1.0.5", build_tools = ["gleam"], requirements = [], otp_app = "gleam_stdlib", source = "hex", outer_checksum = "CEE5B6C076A85B45F60C585F4316C63EC8B7127C119D5738C3958A9C4D50404E" },
+  { name = "gleam_time", version = "1.11.0", build_tools = ["gleam"], requirements = ["gleam_stdlib"], otp_app = "gleam_time", source = "hex", outer_checksum = "3AB789C3ED4EB9DDA7283F46C3CF83A5487C9CFB790DC3FF8F8ACB5BF7B7A6C1" },
+  { name = "gleeunit", version = "1.11.0", build_tools = ["gleam"], requirements = ["gleam_stdlib"], otp_app = "gleeunit", source = "hex", outer_checksum = "EC31ABA74256AEA531EDF8169931D775BBB384FED0A8A1BDC4DD9354E3E21826" },
+  { name = "splitter", version = "1.3.0", build_tools = ["gleam"], requirements = ["gleam_stdlib"], otp_app = "splitter", source = "hex", outer_checksum = "8F1485306E0D59168A39E12ED8844F9F616EC59C3C63AFCFDAE04DBD68690CBC" },
+]
+
+[requirements]
+atproto_browser = { version = ">= 0.3.1 and < 1.0.0" }
+atproto_core = { version = ">= 0.2.2 and < 1.0.0" }
+gleam_http = { version = ">= 4.5.0 and < 5.0.0" }
+gleam_javascript = { version = ">= 1.0.1 and < 2.0.0" }
+gleam_json = { version = ">= 3.1.0 and < 4.0.0" }
+gleam_stdlib = { version = ">= 1.0.0 and < 2.0.0" }
+gleeunit = { version = ">= 1.0.0 and < 2.0.0" }

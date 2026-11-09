@@ -1,0 +1,32 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Spike S3 — Gleam/Lustre ↔ TypeScript/thi.ng/WebGL2</title>
+    <style>
+      :root { color-scheme: light dark; font-family: system-ui, sans-serif; }
+      body { margin: 0; background: #111318; color: #f3f5f7; }
+      main { max-width: 1080px; margin: 0 auto; padding: 2rem 1rem 4rem; line-height: 1.45; }
+      h1 { font-size: 1.45rem; margin-bottom: 0.25rem; }
+      h2 { font-size: 1rem; margin-top: 2rem; }
+      code { background: #ffffff14; border-radius: 4px; padding: 0.08rem 0.28rem; }
+      button, input { font: inherit; }
+      .panel { border: 1px solid #ffffff22; border-radius: 10px; padding: 1rem; margin-top: 1rem; }
+      .status { font-size: 1.05rem; font-weight: 650; }
+      .pass { color: #62d38b; }
+      .fail { color: #ff7272; }
+      .muted { color: #aeb6c2; }
+      .layout { display: grid; grid-template-columns: minmax(280px, 1fr) 320px; gap: 1.5rem; align-items: start; }
+      canvas { width: 300px; height: 300px; image-rendering: pixelated; border: 1px solid #ffffff33; border-radius: 6px; background: #000; }
+      dl { display: grid; grid-template-columns: auto 1fr; gap: 0.3rem 0.8rem; font-variant-numeric: tabular-nums; }
+      dt { color: #aeb6c2; }
+      dd { margin: 0; }
+      @media (max-width: 760px) { .layout { grid-template-columns: 1fr; } }
+    </style>
+  </head>
+  <body>
+    <div id="app"></div>
+    <script type="module" src="/src/bootstrap.ts"></script>
+  </body>
+</html>

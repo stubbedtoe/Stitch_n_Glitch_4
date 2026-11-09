@@ -1,0 +1,17 @@
+{
+  "name": "sng-spike5-confusability-matrix",
+  "private": true,
+  "version": "0.1.0",
+  "type": "module",
+  "description": "Spike S5: prove the F-047 confusability-matrix generator — SVG glyph library rasterized at chart-cell size, pairwise distances with ink-bleed robustness variants, curated overrides, consumed by a toy max-min assignment",
+  "scripts": {
+    "dev": "gleam build && vite --host localhost --port 4173 --strictPort",
+    "build": "gleam build && vite build",
+    "check": "gleam check",
+    "test": "gleam test",
+    "spike": "node scripts/run-spike.mjs"
+  },
+  "devDependencies": {
+    "vite": "^6.0.0"
+  }
+}

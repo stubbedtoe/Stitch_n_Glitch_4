@@ -1,0 +1,45 @@
+{
+  "pass": true,
+  "checks": {
+    "lustre_round_trip": true,
+    "thi_ng_worker": true,
+    "imported_source": true,
+    "chart_shape": true,
+    "webgl2_render": true,
+    "canvas_readback": true,
+    "fps_60": true
+  },
+  "result": {
+    "status": "done",
+    "engine": "@thi.ng/pixel",
+    "worker": true,
+    "fileName": "sng-spike3-sample.png",
+    "sourceWidth": 1200,
+    "sourceHeight": 900,
+    "width": 300,
+    "height": 300,
+    "decodeMs": 35.099999994039536,
+    "resizeMs": 11.400000005960464,
+    "quantizeMs": 5.799999982118607,
+    "workerMs": 52.29999998211861,
+    "webgl2": true,
+    "renderMs": 7.4000000059604645,
+    "uniqueColors": 16,
+    "checksum": 1703118460,
+    "measurementMs": 1001.4000000059605,
+    "fps": 59.916117435233545,
+    "jankFrames": 0
+  },
+  "sample": {
+    "width": 1200,
+    "height": 900,
+    "bytes": 2756788
+  },
+  "environment": {
+    "userAgent": "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) HeadlessChrome/156.0.0.0 Safari/537.36",
+    "hardwareConcurrency": 8
+  },
+  "chrome": "/Applications/Google Chrome.app/Contents/MacOS/Google Chrome",
+  "node": "v23.11.0",
+  "ranAt": "2026-11-07T13:50:05.427Z"
+}

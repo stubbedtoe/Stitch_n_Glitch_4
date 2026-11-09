@@ -1,0 +1,12 @@
+{
+  "name": "sng-spike2-databend-decode-tolerance",
+  "private": true,
+  "version": "0.1.0",
+  "type": "module",
+  "description": "Spike S2: prove NFR-C1 / AC-F030-03 — seeded databend corruption modes vs real browser decoders; retry loop converges <= 3 attempts (P95) on Chrome/Firefox/Safari",
+  "scripts": {
+    "spike": "node scripts/run.mjs",
+    "serve": "node server.mjs",
+    "report": "node scripts/report.mjs"
+  }
+}

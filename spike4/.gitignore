@@ -1,0 +1,7 @@
+node_modules/
+dist/
+build/
+.pds/
+public/did:*
+public/s4-config.json
+.DS_Store
