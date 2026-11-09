@@ -1,0 +1,14 @@
+{
+  "name": "sng-e2e",
+  "private": true,
+  "version": "0.1.0",
+  "description": "Browser-level Playwright test suite for the Stitch'n'Glitch M1 spec (specs/m1-local-foundation.allium). Contract tests for the shell slice — do not implement the app here.",
+  "type": "module",
+  "scripts": {
+    "test": "playwright test",
+    "test:headed": "playwright test --headed"
+  },
+  "devDependencies": {
+    "@playwright/test": "1.65.0"
+  }
+}

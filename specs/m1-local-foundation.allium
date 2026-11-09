@@ -1,0 +1,469 @@
+-- allium: 3
+-- m1-local-foundation.allium
+
+-- Scope: M1 local-first foundation (Build Plan §4, milestone M1)
+-- Includes:
+--   - F-014 local pattern library: event-sourced store (immutable snapshots +
+--     append-only command log), persistence across sessions, rename/duplicate/delete
+--   - F-045 part 1: undo/redo for document edits via inverse commands (PRD §7.7)
+--   - F-001 anonymous local mode: no sign-in wall, no network egress of documents
+--   - F-015 offline PWA: cached app shell, installable, offline indicator
+--   - Stub import/export placeholders so the AC-F001-01 flow is exercisable end to
+--     end (real conversion lands M3, real PDF export lands M5)
+-- Excludes (deferred to later milestones per Build Plan §4):
+--   - F-008 full editor toolset (M1 ships minimal stitch grid + pencil only)
+--   - F-003 real import / F-005 conversion / F-013 PDF export (stubs here)
+--   - F-016 sync (M6) — including the sync-queue half of AC-F015-03 and the
+--     cross-device half of AC-F045-04
+--   - AC-F014-03 storage-pressure warning (M8)
+--   - Sign-in and accounts (M6) — every user is anonymous in this spec
+-- Source of truth: StitchNGlitch-Online-PRD.md v1.15, StitchNGlitch-Build-Plan.md v1.6
+
+config {
+    snapshot_interval_commands: Integer = 100
+    offline_indicator_deadline: Duration = 5.seconds
+}
+
+-- ---------------------------------------------------------------------------
+-- Value types
+-- ---------------------------------------------------------------------------
+
+value CellPosition {
+    x: Integer
+    y: Integer
+}
+
+value CellState {
+    position: CellPosition
+    color_index: Integer?      -- null = empty cell
+}
+
+value CellChange {
+    position: CellPosition
+    before: Integer?
+    after: Integer?
+}
+
+value DocumentEdit {
+    changes: List<CellChange>
+}
+
+value PaletteEntry {
+    name: String
+    rgb: String
+}
+
+value Thumbnail {
+    data: String              -- base64-encoded PNG raster of the document
+    generated_at: Timestamp
+}
+
+value StubGrid {
+    width: Integer
+    height: Integer
+    cells: List<CellState>
+    palette: List<PaletteEntry>
+}
+
+-- ---------------------------------------------------------------------------
+-- Entities
+-- ---------------------------------------------------------------------------
+
+entity User {
+    -- M1: every user is anonymous (sign-in is F-002, M6). Identity is the
+    -- local device installation; no account exists or is required.
+    id: String
+    has_account: Boolean
+
+    is_anonymous: not has_account
+}
+
+entity PatternDocument {
+    name: String
+    width: Integer
+    height: Integer
+    cells: List<CellState>            -- materialized current grid; must always
+                                      -- equal replay of the command log (see
+                                      -- invariant LogMaterialization)
+    palette: List<PaletteEntry>
+    created_at: Timestamp
+    last_edited: Timestamp
+
+    thumbnail: Thumbnail = render_thumbnail(this)
+
+    commands: DocumentCommand with document = this
+    snapshots: DocumentSnapshot with document = this
+    source: SourceImage? with document = this
+
+    commands_since_snapshot: replay_commands_since_last_snapshot(this)
+    pending_snapshot: commands_since_snapshot >= config.snapshot_interval_commands
+}
+
+entity DocumentCommand {
+    -- Append-only log entry (PRD §7.7). State is a fold over the log: replay
+    -- applies each entry's edit in sequence. Undo/redo are themselves log
+    -- entries carrying precomputed inverses — no cursor, no mutation of
+    -- history, so undo persists across sessions and can never resurrect
+    -- undone edits (AC-F045-04, local half).
+    document: PatternDocument
+    sequence: Integer
+    verb: draw | undo | redo
+    edit: DocumentEdit
+    inverse: DocumentEdit             -- exact restore of the edit's cells
+    committed_at: Timestamp
+}
+
+entity DocumentSnapshot {
+    -- Immutable restore point bounding log replay (PRD §7.7). Snapshots are
+    -- never mutated; log compaction is a separate, user-controlled history
+    -- purge and is out of M1 scope.
+    document: PatternDocument
+    sequence: Integer
+    cells: List<CellState>
+    taken_at: Timestamp
+}
+
+entity SourceImage {
+    -- The imported source bitmap is retained for the life of the document
+    -- (PRD §7.7: inputs are never silently discarded). Content-addressed.
+    document: PatternDocument
+    content_hash: String
+    imported_at: Timestamp
+}
+
+entity AppSession {
+    started_at: Timestamp
+    network_available: Boolean
+    offline_notice_shown: Boolean
+}
+
+-- ---------------------------------------------------------------------------
+-- Rules
+-- ---------------------------------------------------------------------------
+
+rule BlankDocumentCreated {
+    when: CreateBlankDocument(width, height)
+    requires: width >= 1 and height >= 1
+    ensures: PatternDocument.created(
+        name: "Untitled",
+        width: width,
+        height: height,
+        cells: empty_grid(width, height),
+        palette: default_stub_palette(),
+        created_at: now,
+        last_edited: now
+    )
+    @guidance
+        -- default_stub_palette() is a minimal placeholder until brand palettes
+        -- (F-010/F-011, M3). The 1x1 minimum is a sanity bound; the editor UI
+        -- chooses the real default canvas size.
+}
+
+rule ImageImportedStub {
+    when: ImportImageStub(file_name, image_bytes)
+    let grid = stub_convert(image_bytes)   -- returns StubGrid; black-box return types
+                                           -- are opaque to the checker (see open questions)
+    let hash = content_hash(image_bytes)
+    ensures:
+        let doc = PatternDocument.created(
+            name: file_name,
+            width: grid.width,
+            height: grid.height,
+            cells: grid.cells,
+            palette: grid.palette,
+            created_at: now,
+            last_edited: now
+        )
+        SourceImage.created(
+            document: doc,
+            content_hash: hash,
+            imported_at: now
+        )
+    @guidance
+        -- stub_convert is a placeholder for the M3 conversion pipeline
+        -- (F-003/F-004/F-005): it proves the import flow end to end while
+        -- keeping the real pipeline out of M1. The source image is retained
+        -- content-addressed so later milestones can re-run real conversion
+        -- against it (PRD §7.7). The stub must run locally — no upload.
+}
+
+rule StitchesDrawn {
+    -- One committed gesture = one log entry (PRD §7.7 granularity): a pencil
+    -- stroke batches all its cell deltas into a single draw command.
+    when: DrawStitches(document, changes)
+    requires: document.palette.count > 0
+    requires: for ch in changes:
+        ch.position.x >= 0 and ch.position.x < document.width
+        and ch.position.y >= 0 and ch.position.y < document.height
+    let edit = DocumentEdit(changes: changes)
+    ensures: DocumentCommand.created(
+        document: document,
+        sequence: document.commands.count + 1,
+        verb: draw,
+        edit: edit,
+        inverse: inverse_of(document, edit),
+        committed_at: now
+    )
+    ensures: document.cells = apply_edit(document.cells, edit)
+    ensures: document.last_edited = now
+}
+
+rule EditUndone {
+    -- Undo appends the inverse of the newest log entry as a new entry (PRD
+    -- §7.7). An undo entry as the newest entry means there is nothing further
+    -- to undo with this gesture (redo handles it) — so this rule does not fire.
+    when: Undo(document)
+    requires: document.commands.count > 0
+    requires: document.commands.last.verb != undo
+    let latest = document.commands.last
+    ensures: DocumentCommand.created(
+        document: document,
+        sequence: document.commands.count + 1,
+        verb: undo,
+        edit: latest.inverse,
+        inverse: latest.edit,
+        committed_at: now
+    )
+    ensures: document.cells = apply_edit(document.cells, latest.inverse)
+    ensures: document.last_edited = now
+}
+
+rule EditRedone {
+    -- Redo reverses the newest entry only when it is an undo entry; any
+    -- committed edit since clears the redo path (standard linear history).
+    when: Redo(document)
+    requires: document.commands.count > 0
+    requires: document.commands.last.verb = undo
+    let latest = document.commands.last
+    ensures: DocumentCommand.created(
+        document: document,
+        sequence: document.commands.count + 1,
+        verb: redo,
+        edit: latest.inverse,
+        inverse: latest.edit,
+        committed_at: now
+    )
+    ensures: document.cells = apply_edit(document.cells, latest.inverse)
+    ensures: document.last_edited = now
+}
+
+rule DocumentRenamed {
+    when: RenameDocument(document, name)
+    requires: name != ""
+    ensures: document.name = name
+    ensures: document.last_edited = now
+}
+
+rule DocumentDuplicated {
+    when: DuplicateDocument(document)
+    ensures: PatternDocument.created(
+        name: document.name + " (copy)",
+        width: document.width,
+        height: document.height,
+        cells: document.cells,
+        palette: document.palette,
+        created_at: now,
+        last_edited: now
+    )
+    @guidance
+        -- The copy starts with a fresh command log and no source image
+        -- attachment of its own (AC-F014-02). It is an independent document
+        -- from this point on.
+}
+
+rule DocumentDeleted {
+    -- Deletion requires explicit confirmation in the surface before this
+    -- trigger fires (AC-F014-02); the rule itself is unconditional.
+    when: DeleteDocument(document)
+    ensures:
+        not exists DocumentCommand{document: document}
+        not exists DocumentSnapshot{document: document}
+        not exists SourceImage{document: document}
+        not exists document
+    @guidance
+        -- Deletion cascades to the document's command log, snapshots, and
+        -- retained source image. Confirmed deletion is permanent; there is
+        -- no soft-delete/restore in M1.
+}
+
+rule SnapshotTaken {
+    when: document: PatternDocument.pending_snapshot
+    requires: document.commands.count > 0
+    ensures: DocumentSnapshot.created(
+        document: document,
+        sequence: document.commands.count,
+        cells: document.cells,
+        taken_at: now
+    )
+}
+
+rule OfflineIndicatorShown {
+    when: session: AppSession.network_available becomes false
+    ensures: session.offline_notice_shown = true
+    @guidance
+        -- The indicator must appear within config.offline_indicator_deadline
+        -- of the connectivity drop, must be non-blocking, and editing must
+        -- never be interrupted (AC-F015-03). The pending-sync-queue half of
+        -- AC-F015-03 is F-016 (M6).
+}
+
+rule OnlineIndicatorHidden {
+    when: session: AppSession.network_available becomes true
+    ensures: session.offline_notice_shown = false
+}
+
+-- ---------------------------------------------------------------------------
+-- Invariants
+-- ---------------------------------------------------------------------------
+
+invariant LogMaterialization {
+    -- The materialized grid is exactly the replay of the append-only log over
+    -- the latest snapshot. This is what makes crash recovery (NFR-A3) and
+    -- undo-across-sessions (AC-F045-04, local half) hold: reopening the
+    -- persisted log can never resurrect undone edits.
+    for d in PatternDocuments:
+        d.cells = replay_materialize(d)
+}
+
+invariant CommandsTotallyOrdered {
+    for d in PatternDocuments:
+        d.commands.count = d.commands.unique(c => c.sequence).count
+}
+
+-- ---------------------------------------------------------------------------
+-- Contracts
+-- ---------------------------------------------------------------------------
+
+contract LocalOnlyBoundary {
+    @invariant NoUnpublishedEgress
+        -- With sync disabled (the only mode in M1), no network request
+        -- transmits a pattern document, command log, snapshot, or source
+        -- image to any server (AC-F001-03, NFR-PR1).
+}
+
+-- ---------------------------------------------------------------------------
+-- Surfaces
+-- ---------------------------------------------------------------------------
+
+surface LibraryBrowser {
+    facing viewer: User
+
+    exposes:
+        for d in PatternDocuments:
+            d.name
+            d.thumbnail
+            d.last_edited
+
+    provides:
+        CreateBlankDocument(viewer, width, height)
+        ImportImageStub(viewer, image_bytes, file_name)
+        OpenDocument(viewer, document)
+        RenameDocument(viewer, document, name)
+        DuplicateDocument(viewer, document)
+        DeleteDocument(viewer, document)
+            -- confirmation dialog precedes this action (AC-F014-02)
+
+    contracts:
+        demands LocalOnlyBoundary
+
+    @guarantee PromptFreeEntry
+        -- The workspace is immediately usable with no sign-in wall or modal
+        -- blocking it (AC-F001-02); every action here works for an anonymous
+        -- user (AC-F001-01).
+
+    @guarantee LibraryPersists
+        -- Saved documents survive browser restarts: on reopening, every
+        -- document appears with name, thumbnail, and last-edited timestamp
+        -- (AC-F014-01).
+
+    @guidance
+        -- Library search (F-014) is not part of M1 exit criteria and lands
+        -- with the M2 editor milestone.
+}
+
+surface Editor {
+    facing viewer: User
+
+    context document: PatternDocument
+
+    exposes:
+        document.name
+        document.width
+        document.height
+        document.cells
+        document.palette
+
+    provides:
+        DrawStitches(viewer, document, changes)
+            when document.palette.count > 0
+        Undo(viewer, document)
+            when document.commands.count > 0 and document.commands.last.verb != undo
+        Redo(viewer, document)
+            when document.commands.last.verb = undo
+        ExportPdfPlaceholder(viewer, document)
+            -- Placeholder so the AC-F001-01 flow completes end to end in M1;
+            -- replaced by real F-013 export in M5. Must produce its file
+            -- locally and transmit nothing.
+
+    contracts:
+        demands LocalOnlyBoundary
+
+    @guarantee CrashRecovery
+        -- Every committed gesture is dispatched to the local autosave
+        -- (IndexedDB) atomically with the commit. After a crash or
+        -- force-close, reopening restores the document to its state at the
+        -- last autosave — at most the in-flight gesture is lost
+        -- (NFR-A3 "recovers cleanly to the last autosaved state",
+        -- AC-F008-03 "restored to its state at the last autosave with no
+        -- more than the last action lost").
+
+    @guarantee UndoPersists
+        -- Undo/redo is per-document and persists across sessions: force-close
+        -- and reopen after an undo shows the undone state, with no
+        -- resurrection of the undone edits (AC-F045-04, local half; the
+        -- cross-device half is F-016, M6).
+
+    @guidance
+        -- M1 editor depth is intentionally minimal: stitch grid + pencil only
+        -- (full F-008 toolset is M2). Conversion preview and real export are
+        -- stubs (M3/M5).
+}
+
+surface AppShell {
+    facing viewer: User
+
+    exposes:
+        session.network_available
+        session.offline_notice_shown
+
+    contracts:
+        demands LocalOnlyBoundary
+
+    @guarantee OfflineCapable
+        -- After the first successful load, the app shell is cached and every
+        -- creation feature works with no network access, including across
+        -- reloads while offline (AC-F015-01, NFR-A1).
+
+    @guarantee Installable
+        -- The app is installable as a PWA with name, icon, and standalone
+        -- window per the web app manifest (AC-F015-02).
+
+    @guarantee OfflineIndicatorTimely
+        -- When connectivity drops, a non-blocking offline indicator appears
+        -- within config.offline_indicator_deadline and pending work is never
+        -- lost or blocked (AC-F015-03, NFR-A2).
+
+    @guidance
+        -- The sync-status banner (NFR-AV1) and visible sync queue land with
+        -- F-016 in M6; the M1 offline indicator is the local-only precursor.
+}
+
+-- ---------------------------------------------------------------------------
+-- Open questions (parked, non-blocking for M1)
+-- ---------------------------------------------------------------------------
+
+open question "AC-F001-01 M1 exit: is exercising PDF export through ExportPdfPlaceholder acceptable for M1, or must the stub flow stop short of export until M5 (F-013)?"
+
+open question "Thumbnail rendering (black box render_thumbnail) needs a detailed spec before M2 exit — what generates thumbnails for the library list (AC-F014-01)?"
+
+open question "Default blank-canvas size and stub palette contents are placeholder decisions until F-004/F-010 land in M3 — confirm the placeholders are acceptable for M1."

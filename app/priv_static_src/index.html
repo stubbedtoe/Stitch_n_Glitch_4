@@ -1,0 +1,115 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Stitch'n'Glitch</title>
+    <meta name="description" content="Local-first cross-stitch pattern editor." />
+    <meta name="theme-color" content="#cc0000" />
+    <link rel="manifest" href="/manifest.webmanifest" />
+    <link rel="icon" type="image/png" href="/icons/icon-192.png" />
+    <link rel="apple-touch-icon" href="/icons/icon-192.png" />
+    <style>
+      :root {
+        color-scheme: light dark;
+        font-family: system-ui, sans-serif;
+        --accent: #cc0000;
+      }
+      body { margin: 0; }
+      #app { max-width: 960px; margin: 0 auto; padding: 1.5rem 1rem 4rem; }
+      h1 { font-size: 1.5rem; }
+      .tagline, .meta { color: #888; font-size: 0.9rem; }
+      button {
+        font: inherit;
+        border: 1px solid #999;
+        border-radius: 6px;
+        background: transparent;
+        color: inherit;
+        padding: 0.35rem 0.8rem;
+        cursor: pointer;
+      }
+      button:disabled { opacity: 0.4; cursor: default; }
+      button.tool.active { border-color: var(--accent); color: var(--accent); }
+      .toolbar { display: flex; gap: 1rem; align-items: center; margin: 1rem 0; }
+      .import-control { display: inline-flex; gap: 0.5rem; align-items: center; }
+      .create-form {
+        display: flex;
+        gap: 1rem;
+        align-items: end;
+        padding: 1rem;
+        border: 1px solid #999;
+        border-radius: 8px;
+        margin-bottom: 1rem;
+      }
+      .create-form label { display: grid; gap: 0.25rem; }
+      .create-form input { width: 5rem; font: inherit; }
+      .library-list {
+        list-style: none;
+        margin: 0;
+        padding: 0;
+        display: grid;
+        gap: 0.75rem;
+      }
+      .entry {
+        display: grid;
+        grid-template-columns: 48px 1fr auto;
+        gap: 0.25rem 0.75rem;
+        align-items: center;
+        border: 1px solid #999;
+        border-radius: 8px;
+        padding: 0.75rem;
+      }
+      .entry h3 { margin: 0; font-size: 1.05rem; }
+      .thumb {
+        grid-row: span 3;
+        width: 48px;
+        height: 48px;
+        border-radius: 6px;
+        background:
+          linear-gradient(135deg, var(--accent), #0000cc);
+      }
+      .entry .actions { display: flex; gap: 0.5rem; flex-wrap: wrap; }
+      .dialog {
+        position: fixed;
+        inset: 30% auto auto 50%;
+        transform: translateX(-50%);
+        background: Canvas;
+        border: 2px solid var(--accent);
+        border-radius: 10px;
+        padding: 1.25rem;
+        max-width: 24rem;
+        display: grid;
+        gap: 0.75rem;
+      }
+      .offline-banner {
+        border: 1px solid #b8860b;
+        background: #fff3cd;
+        color: #664d03;
+        border-radius: 6px;
+        padding: 0.4rem 0.8rem;
+        margin-bottom: 1rem;
+      }
+      .editor-bar {
+        display: flex;
+        gap: 0.6rem;
+        align-items: center;
+        flex-wrap: wrap;
+        margin-bottom: 1.25rem;
+      }
+      .editor-bar h1 { margin: 0 auto 0 0; }
+      .stitch-grid { display: grid; gap: 0; width: max-content; }
+      .cell {
+        width: 28px;
+        height: 28px;
+        box-sizing: border-box;
+        border: 1px solid #bbb;
+        touch-action: none;
+      }
+      .cell.stitched { background: var(--accent); }
+    </style>
+  </head>
+  <body>
+    <div id="app"></div>
+    <script type="module" src="/bootstrap.mjs"></script>
+  </body>
+</html>

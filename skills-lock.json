@@ -31,6 +31,12 @@
       "skillPath": "skills/tend/SKILL.md",
       "computedHash": "7727facf46f78c2e93b73e871aebda24a2737abce07372bfba8e3350d70b842f"
     },
+    "use_gleam": {
+      "source": "metruzanca/use_gleam",
+      "sourceType": "github",
+      "skillPath": "skills/use_gleam/SKILL.md",
+      "computedHash": "6142ee75c5e2b50e0aafdeca70b976bcff8d63a64db490b4faf210bd77d70a1b"
+    },
     "weed": {
       "source": "juxt/allium",
       "sourceType": "github",
