@@ -13,7 +13,13 @@ export function online() {
 // (OfflineCapable degrades gracefully if registration is unavailable).
 export function register_service_worker(path) {
   if ("serviceWorker" in navigator) {
-    navigator.serviceWorker.register(path).catch(() => {});
+    navigator.serviceWorker
+      .register(path)
+      // Check for a new worker on every boot so deploys reach returning
+      // users promptly — the browser's own update check is throttled
+      // (roughly 24 h), which would otherwise pin the first-seen bundle.
+      .then((registration) => registration.update())
+      .catch(() => {});
   }
 }
 

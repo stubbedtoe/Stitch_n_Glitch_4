@@ -29,7 +29,16 @@ export function stitchedCell(page: Page, x: number, y: number) {
  * cell names so it works before and after drawing.
  */
 export async function drawStroke(page: Page, cells: Array<[number, number]>) {
-  await page.getByRole('button', { name: 'Pencil' }).click();
+  // The Pencil is a toggle: activate it only when it is not already active.
+  const pencil = page.getByRole('button', { name: 'Pencil' });
+  if ((await pencil.getAttribute('aria-pressed')) !== 'true') {
+    await pencil.click();
+  }
+  await dragOverCells(page, cells);
+}
+
+/** The raw mouse gesture only, without touching the Pencil toggle. */
+export async function dragOverCells(page: Page, cells: Array<[number, number]>) {
   const centers: Array<{ x: number; y: number }> = [];
   for (const [x, y] of cells) {
     const target = grid(page).getByRole('gridcell', {

@@ -10,6 +10,7 @@ import * as fs from 'node:fs';
 import {
   cell,
   createBlankDocument,
+  dragOverCells,
   drawStroke,
   libraryEntry,
   persistentProfile,
@@ -68,6 +69,58 @@ test('Undo/Redo availability guards — buttons mirror the surface-provides.Edit
   await expect(stitchedCell(page, 4, 4)).toBeVisible();
   await expect(undo).toBeEnabled();
   await expect(redo).toBeDisabled();
+});
+
+test('Hovering cells is not a gesture — a click after a hover reverts the real stroke, not a phantom', async ({
+  page,
+}) => {
+  await page.goto('/');
+  await createBlankDocument(page, { width: 8, height: 8 });
+  await drawStroke(page, [[1, 1]]);
+
+  // Real-user behaviour: with no button pressed, move the pointer across the
+  // grid on the way to the Undo button. Hover must not grow the stroke —
+  // otherwise the click's pointerup commits the hovered cells as a phantom
+  // gesture, and Undo then reverts that phantom instead of the real stroke.
+  const hover = await cell(page, 6, 6).boundingBox();
+  await page.mouse.move(hover!.x + hover!.width / 2, hover!.y + hover!.height / 2, {
+    steps: 20,
+  });
+
+  await page.getByRole('button', { name: 'Undo' }).click();
+  // The real stroke is undone (rule StitchesDrawn granularity)...
+  await expect(cell(page, 1, 1)).toBeVisible();
+  // ...and the hover never produced a log entry: nothing is stitched.
+  await expect(
+    page.getByRole('gridcell', { name: /^Stitched cell/ }),
+  ).toHaveCount(0);
+  await expect(page.getByRole('button', { name: 'Redo' })).toBeEnabled();
+});
+
+test('Pencil toggle — the tool gates the gesture pipeline and its state is visible', async ({
+  page,
+}) => {
+  await page.goto('/');
+  await createBlankDocument(page, { width: 8, height: 8 });
+  const pencil = page.getByRole('button', { name: 'Pencil' });
+  const undo = page.getByRole('button', { name: 'Undo' });
+
+  // Active on entry; aria-pressed mirrors the state so it is perceivable.
+  await expect(pencil).toHaveAttribute('aria-pressed', 'true');
+
+  // Deactivate: the state flips and gestures no longer commit anything.
+  await pencil.click();
+  await expect(pencil).toHaveAttribute('aria-pressed', 'false');
+  await dragOverCells(page, [[2, 2]]);
+  await expect(cell(page, 2, 2)).toBeVisible();
+  await expect(undo).toBeDisabled();
+
+  // Reactivate: gestures commit again.
+  await pencil.click();
+  await expect(pencil).toHaveAttribute('aria-pressed', 'true');
+  await dragOverCells(page, [[2, 2]]);
+  await expect(stitchedCell(page, 2, 2)).toBeVisible();
+  await expect(undo).toBeEnabled();
 });
 
 test('CrashRecovery — a committed gesture survives a force-close; reopening restores the last committed state', async () => {

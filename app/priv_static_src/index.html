@@ -29,7 +29,11 @@
         cursor: pointer;
       }
       button:disabled { opacity: 0.4; cursor: default; }
-      button.tool.active { border-color: var(--accent); color: var(--accent); }
+      button.tool.active {
+        border-color: var(--accent);
+        color: var(--accent);
+        background: #cc000014;
+      }
       .toolbar { display: flex; gap: 1rem; align-items: center; margin: 1rem 0; }
       .import-control { display: inline-flex; gap: 0.5rem; align-items: center; }
       .create-form {

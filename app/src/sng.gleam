@@ -88,9 +88,9 @@ type Msg {
   DeleteClicked(String)
   DeleteConfirmed
   DeleteCancelled
-  PencilActivated
+  PencilToggled
   StrokeStarted(id: String, x: Int, y: Int)
-  StrokeMoved(id: String, x: Int, y: Int)
+  StrokeMoved(id: String, x: Int, y: Int, buttons: Int)
   StrokeEnded
   UndoClicked
   RedoClicked
@@ -277,13 +277,14 @@ fn update(model: Model, msg: Msg) -> #(Model, Effect(Msg)) {
       effect.none(),
     )
 
-    PencilActivated -> {
+    PencilToggled -> {
       // M1 ships the pencil as the only tool (spec guidance, stitch grid +
-      // pencil only): activating it selects the tool; strokes commit only
-      // while it is active, so the control genuinely gates the gesture
-      // pipeline rather than being decorative chrome.
+      // pencil only): the button is a toggle, and its class/aria-pressed
+      // reflect the state so the user can see whether the tool is active.
+      // Strokes commit only while it is active, so the control genuinely
+      // gates the gesture pipeline rather than being decorative chrome.
       #(
-        Model(..model, pencil_active: True),
+        Model(..model, pencil_active: !model.pencil_active),
         effect.none(),
       )
     }
@@ -296,9 +297,23 @@ fn update(model: Model, msg: Msg) -> #(Model, Effect(Msg)) {
       False -> #(model, effect.none())
     }
 
-    StrokeMoved(id, x, y) -> {
+    StrokeMoved(id, x, y, buttons) -> {
       let position = CellPosition(x, y)
-      case model.route == Editor(id) && !list.contains(model.stroke, position) {
+      // Only an in-progress drag accumulates cells. Two guards, because
+      // pointerover fires for mere hover too:
+      //   - buttons != 0: no button is held, so this is hover, not a drag;
+      //   - stroke non-empty: the drag was seeded by a pointerdown on a
+      //     cell (StrokeStarted), so a stroke exists to extend.
+      // Without these, hovered cells would pile up and the next pointerup
+      // (e.g. the click on Undo or Redo) would commit them as a phantom
+      // gesture — which the button's own action would then undo/redo
+      // instead of the user's real edit.
+      case
+        model.route == Editor(id)
+        && buttons != 0
+        && !list.is_empty(model.stroke)
+        && !list.contains(model.stroke, position)
+      {
         True -> #(
           Model(..model, stroke: [position, ..model.stroke]),
           effect.none(),
@@ -605,7 +620,7 @@ fn editor_view(model: Model, id: String) -> Element(Msg) {
           html.h1([], [html.text(editor.name)]),
           html.button(
             [
-              event.on_click(PencilActivated),
+              event.on_click(PencilToggled),
               attribute.aria_pressed(bool_string(model.pencil_active)),
               attribute.class(case model.pencil_active {
                 True -> "tool active"
@@ -666,7 +681,11 @@ fn stitch_grid(id: String, editor: store.EditorView) -> Element(Msg) {
           // Lustre attaches these directly on the cell node, so the
           // non-bubbling hover events work during a drag.
           event.on("pointerdown", decode.success(StrokeStarted(id, x, y))),
-          event.on("pointerover", decode.success(StrokeMoved(id, x, y))),
+          event.on("pointerover", {
+            // buttons tells hover (0) from drag (non-zero): see StrokeMoved.
+            use buttons <- decode.field("buttons", decode.int)
+            decode.success(StrokeMoved(id, x, y, buttons))
+          }),
         ],
         [],
       )

@@ -25,6 +25,11 @@ npx playwright test
    **`app/priv/static/`**. That directory is served as-is by
    `python3 -m http.server 4719`.
 3. `baseURL` is `http://localhost:4719`. `/` must load the app shell.
+4. The service worker must not pin a stale bundle: same-origin GETs are
+   served network-first with the cache only as the offline fallback (a
+   cache-first worker with a fixed cache name never delivers deploys to
+   returning users). OfflineCapable must still hold — after one online
+   load the shell works fully offline.
 
 No other server, framework, or dependency is required; a plain static file
 server is sufficient because M1 is fully local (all state in the browser via
@@ -64,7 +69,7 @@ no test depends on the placeholder default canvas size.
 |---|---|
 | Document title | `role="heading"` with the exact document name. |
 | Stitch grid | `role="grid"`, accessible name `Stitch grid`, with one `role="gridcell"` per cell. An empty cell's accessible name is `Cell <x>, <y>`; a stitched cell's is `Stitched cell <x>, <y>`. |
-| Pencil | `role="button"` named `Pencil`. With pencil active, `mouse.down` → drag across cells → `mouse.up` is **one committed gesture** (rule `StitchesDrawn`): every dragged cell becomes `Stitched cell <x>, <y>`, and a single Undo reverts the whole stroke (one log entry). |
+| Pencil | `role="button"` named `Pencil` — a **toggle** whose state is mirrored by `aria-pressed` (and an active-state style). With the pencil active, `mouse.down` → drag across cells → `mouse.up` is **one committed gesture** (rule `StitchesDrawn`): every dragged cell becomes `Stitched cell <x>, <y>`, and a single Undo reverts the whole stroke (one log entry). With the pencil inactive, drags commit nothing. Hovering cells with no button pressed is **not** part of any gesture: it must not create, extend, or commit a stroke — a pointerup that ends no drag (e.g. a toolbar click) commits nothing. |
 | Undo / Redo | Buttons named `Undo` / `Redo` mirroring the surface guards: Undo disabled when there is nothing to undo, enabled after a gesture; Redo enabled only when the newest entry is an undo (surface-provides.Editor). |
 | Export placeholder | Button named `/export pdf/i` that produces a **local** download (Playwright `download` event) with a `.pdf` filename and non-empty payload. It must transmit nothing (ExportPdfPlaceholder). |
 
