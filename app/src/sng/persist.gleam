@@ -160,8 +160,11 @@ fn document_decoder() -> Decoder(PatternDocument) {
   use height <- decode.field("height", decode.int)
   use cells <- decode.field("cells", decode.list(cell_decoder()))
   use palette <- decode.field("palette", decode.list(palette_entry_decoder()))
-  use created_at <- decode.field("created_at", decode.int)
-  use last_edited <- decode.field("last_edited", decode.int)
+  // Records written outside the app (seeded stores, pre-M2 exports) may lack
+  // the timestamps; default them to 0. The migration path initialises M2 view
+  // state on first open regardless.
+  use created_at <- decode.optional_field("created_at", 0, decode.int)
+  use last_edited <- decode.optional_field("last_edited", 0, decode.int)
   decode.success(PatternDocument(
     id: id,
     name: name,

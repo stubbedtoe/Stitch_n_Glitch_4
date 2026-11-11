@@ -9,3 +9,6 @@ app/priv/
 
 # ExportPdfPlaceholder downloads during local testing
 /*.pdf
+
+.DS_Store
+/app/test/red-baseline-*

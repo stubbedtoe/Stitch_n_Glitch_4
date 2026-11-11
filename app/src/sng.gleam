@@ -1,12 +1,20 @@
-//// Stitch'n'Glitch — M1 browser shell: Lustre UI (library browser + editor),
-//// PWA wiring, and the IndexedDB persistence adapter on top of the domain
-//// core (sng/store, sng/persist).
+//// Stitch'n'Glitch — M1 browser shell + M2 chart view: Lustre UI (library
+//// browser + editor + symbol chart), PWA wiring, and the IndexedDB
+//// persistence adapter on top of the domain core (sng/store, sng/persist,
+//// sng/chart, sng/symbols).
 ////
-//// Surfaces and guarantees wired here (specs/m1-local-foundation.allium):
+//// Surfaces and guarantees wired here (specs/m1-local-foundation.allium,
+//// specs/m2-chart-core.allium):
 ////   LibraryBrowser — create blank, import image stub, rename, duplicate,
-////     delete behind confirmation (AC-F014-02)
+////     delete behind confirmation (AC-F014-02); locally rendered thumbnails
+////     (ThumbnailsRenderedLocally: SVG data URIs, no network involved)
 ////   Editor — pencil gestures (rule StitchesDrawn: one drag = one command),
-////     undo/redo guards, local PDF export placeholder
+////     undo/redo guards, local PDF export placeholder, Show chart
+////   ChartViewControls / SymbolLibrary (F-009) — style switcher, symbol set
+////     selector, zoom (clamped 10..4000 %, grid auto-hide below 25 %), pan
+////     (clamped to the canvas), symbol key; the WebGL2 canvas is rendered off
+////     the UI thread by a dedicated module worker (S3 architecture) as a
+////     stateless function of the committed model
 ////   AppShell — no sign-in wall (AC-F001-02), non-blocking offline indicator
 ////     within config.offline_indicator_deadline (OfflineIndicatorTimely)
 ////   IndexedDB persistence — every committed operation is durable before it
@@ -14,9 +22,12 @@
 
 import gleam/dynamic.{type Dynamic}
 import gleam/dynamic/decode
+import gleam/float
 import gleam/int
+import gleam/json
 import gleam/list
 import gleam/option.{type Option, None, Some}
+import gleam/string
 import lustre
 import lustre/attribute
 import lustre/effect.{type Effect}
@@ -24,18 +35,34 @@ import lustre/element.{type Element}
 import lustre/element/html
 import lustre/event
 import sng/browser_ffi
+import sng/chart
+import sng/chart_ffi
 import sng/config
 import sng/persist
 import sng/persist_ffi
 import sng/store
+import sng/symbols
 import sng/types.{
-  type AppSession, type CellPosition, CellChange, CellPosition, DocumentEdit,
+  type AppSession, type CellPosition, type PatternDocument, CellChange,
+  CellPosition, DocumentEdit,
 }
 import sng/ui/pdf
 
 const import_input_id = "import-image"
 
 const default_grid_size = 8
+
+/// DOM id of the chart canvas (the chart_ffi bridge binds a dedicated worker
+/// to this element).
+const chart_canvas_dom_id = "sng-chart-canvas"
+
+/// Wheel-zoom factor, multiplicative with integer truncation (UI gesture
+/// constant; the spec pins only the clamp bounds — config.min/max_zoom_pct —
+/// which chart.zoom_chart applies). Truncation makes alternating zoom
+/// notches drift instead of exactly cancelling.
+const wheel_zoom_in_num = 6
+
+const wheel_zoom_in_den = 5
 
 // ---------------------------------------------------------------------------
 // Model
@@ -56,12 +83,21 @@ type Model {
     // Editor view state
     pencil_active: Bool,
     stroke: List(CellPosition),
+    // Chart view state (F-009): the renderer is a stateless function of the
+    // committed model, so the render effect recomputes a payload from the
+    // store on every chart-affecting message. The document half (cells,
+    // palette, glyph source) is cached: it changes only with the document or
+    // the symbol assignment, while pan/zoom/style frames are cheap.
+    chart_zoom_input: String,
+    chart_drag: Option(#(Float, Float, CellPosition)),
+    chart_doc_cache: Option(#(String, Int, Int, String)),
   )
 }
 
 type Route {
   Library
   Editor(id: String)
+  Chart(id: String)
 }
 
 type ImportedFile {
@@ -96,6 +132,17 @@ type Msg {
   RedoClicked
   ExportClicked
   ConnectivityChanged(Bool)
+  // Chart view (F-009, surface ChartViewControls + SymbolLibrary)
+  ChartShown(String)
+  ChartHidden
+  ChartStylePicked(chart.ChartStyle)
+  ChartSymbolSetPicked(String)
+  ChartZoomInputChanged(String)
+  ChartWheel(Float)
+  ChartPanButtonClicked(Int, Int)
+  ChartDragStarted(Float, Float)
+  ChartDragMoved(Float, Float, Int)
+  ChartDragEnded
 }
 
 // ---------------------------------------------------------------------------
@@ -117,6 +164,9 @@ fn init(_flags: Nil) -> #(Model, Effect(Msg)) {
       pending_delete: None,
       pencil_active: True,
       stroke: [],
+      chart_zoom_input: "",
+      chart_drag: None,
+      chart_doc_cache: None,
     ),
     effect.batch([
       effect.from(fn(dispatch) {
@@ -130,6 +180,9 @@ fn init(_flags: Nil) -> #(Model, Effect(Msg)) {
       }),
       effect.from(fn(dispatch) {
         browser_ffi.watch_pointer_end(fn() { dispatch(StrokeEnded) })
+      }),
+      effect.from(fn(dispatch) {
+        browser_ffi.watch_pointer_end(fn() { dispatch(ChartDragEnded) })
       }),
       effect.from(fn(_) { browser_ffi.register_service_worker("/sw.js") }),
       effect.after_paint(fn(dispatch, _) {
@@ -179,15 +232,35 @@ fn update(model: Model, msg: Msg) -> #(Model, Effect(Msg)) {
       let height =
         int.parse(model.create_height) |> or_default(default_grid_size)
       case store.create_blank(model.store, width, height, now) {
-        Ok(#(new_store, document)) -> #(
-          Model(
-            ..model,
-            store: new_store,
-            route: Editor(document.id),
-            creating: False,
-          ),
-          persist(new_store),
-        )
+        Ok(#(new_store, document)) ->
+          // rule DocumentViewInitialised: the new document gets its chart
+          // view and symbol assignment right after creation.
+          case chart.initialise_chart_view(new_store, document.id, now) {
+            Error(_) -> #(model, effect.none())
+            Ok(store_with_view) ->
+              case
+                symbols.initialise_assignment(store_with_view, document.id, now)
+              {
+                Error(_) -> #(
+                  Model(
+                    ..model,
+                    store: store_with_view,
+                    route: Editor(document.id),
+                    creating: False,
+                  ),
+                  persist(store_with_view),
+                )
+                Ok(initialised) -> #(
+                  Model(
+                    ..model,
+                    store: initialised,
+                    route: Editor(document.id),
+                    creating: False,
+                  ),
+                  persist(initialised),
+                )
+              }
+          }
         Error(_) -> #(model, effect.none())
       }
     }
@@ -206,10 +279,26 @@ fn update(model: Model, msg: Msg) -> #(Model, Effect(Msg)) {
       }
     }
 
-    DocumentOpened(id) -> #(
-      Model(..model, route: Editor(id), stroke: []),
-      effect.none(),
-    )
+    DocumentOpened(id) -> {
+      // Migration half of rule DocumentViewInitialised: a document that
+      // predates M2 view state (seeded record, pre-M2 export) gets its
+      // ChartView and SymbolAssignment exactly once, on first open.
+      let opened = Model(..model, route: Editor(id), stroke: [])
+      case chart.initialise_chart_view(opened.store, id, now) {
+        Error(_) -> #(opened, effect.none())
+        Ok(store_with_view) ->
+          case symbols.initialise_assignment(store_with_view, id, now) {
+            Error(_) -> #(
+              Model(..opened, store: store_with_view),
+              persist(store_with_view),
+            )
+            Ok(initialised) -> #(
+              Model(..opened, store: initialised),
+              persist(initialised),
+            )
+          }
+      }
+    }
 
     BackToLibrary -> #(
       Model(..model, route: Library, stroke: [], renaming: None),
@@ -355,7 +444,7 @@ fn update(model: Model, msg: Msg) -> #(Model, Effect(Msg)) {
             Ok(new_store) -> #(Model(..model, store: new_store), persist(new_store))
             Error(_) -> #(model, effect.none())
           }
-        Library -> #(model, effect.none())
+        _ -> #(model, effect.none())
       }
     }
 
@@ -366,7 +455,7 @@ fn update(model: Model, msg: Msg) -> #(Model, Effect(Msg)) {
             Ok(new_store) -> #(Model(..model, store: new_store), persist(new_store))
             Error(_) -> #(model, effect.none())
           }
-        Library -> #(model, effect.none())
+        _ -> #(model, effect.none())
       }
     }
 
@@ -387,7 +476,7 @@ fn update(model: Model, msg: Msg) -> #(Model, Effect(Msg)) {
             )
             Error(_) -> #(model, effect.none())
           }
-        Library -> #(model, effect.none())
+        _ -> #(model, effect.none())
       }
     }
 
@@ -399,6 +488,216 @@ fn update(model: Model, msg: Msg) -> #(Model, Effect(Msg)) {
         False -> store.offline_detected(model.session)
       }
       #(Model(..model, session:), effect.none())
+    }
+
+    // -- Chart view (F-009) --------------------------------------------------
+
+    ChartShown(id) -> {
+      let zoom_input = case chart.chart_view_of(model.store, id) {
+        Ok(view) -> int.to_string(view.zoom_pct)
+        Error(_) -> model.chart_zoom_input
+      }
+      let opened =
+        Model(..model, route: Chart(id), chart_drag: None, chart_zoom_input: zoom_input)
+      with_chart_render(opened, id)
+    }
+
+    ChartHidden -> {
+      case model.route {
+        Chart(id) -> #(Model(..model, route: Editor(id), chart_drag: None), effect.none())
+        _ -> #(model, effect.none())
+      }
+    }
+
+    // rule ChartStyleSelected: the style is the document's persisted export
+    // style (AC-F009-04); the mapping is untouched.
+    ChartStylePicked(style) -> {
+      case model.route {
+        Chart(id) ->
+          case chart.select_chart_style(model.store, id, style) {
+            Ok(new_store) -> {
+              let updated = Model(..model, store: new_store)
+              let #(updated, render_fx) = with_chart_render(updated, id)
+              #(updated, effect.batch([persist(new_store), render_fx]))
+            }
+            Error(_) -> #(model, effect.none())
+          }
+        _ -> #(model, effect.none())
+      }
+    }
+
+    // rule SymbolSetSelected: re-runs the deterministic sequential strategy;
+    // the canvas then renders (and names) the new set.
+    ChartSymbolSetPicked(name) -> {
+      case list.find(symbols.symbol_sets(), fn(set) { set.name == name }) {
+        Error(_) -> #(model, effect.none())
+        Ok(set) ->
+          case model.route {
+            Chart(id) ->
+              case symbols.select_symbol_set(model.store, id, set, now) {
+                Ok(new_store) -> {
+                  let updated = Model(..model, store: new_store)
+                  let #(updated, render_fx) = with_chart_render(updated, id)
+                  #(updated, effect.batch([persist(new_store), render_fx]))
+                }
+                Error(_) -> #(model, effect.none())
+              }
+            _ -> #(model, effect.none())
+          }
+      }
+    }
+
+    // rule ChartZoomed: the zoom input commits on input, clamps to
+    // config.min_zoom_pct..config.max_zoom_pct and reflects the clamped
+    // value (AC-F009-02).
+    ChartZoomInputChanged(value) -> {
+      case model.route {
+        Chart(id) ->
+          case int.parse(value) {
+            Error(_) -> #(
+              Model(..model, chart_zoom_input: value),
+              effect.none(),
+            )
+            Ok(requested) ->
+              case chart.zoom_chart(model.store, id, requested) {
+                Ok(new_store) -> {
+                  let zoom = case chart.chart_view_of(new_store, id) {
+                    Ok(view) -> view.zoom_pct
+                    Error(_) -> requested
+                  }
+                  let updated =
+                    Model(
+                      ..model,
+                      store: new_store,
+                      chart_zoom_input: int.to_string(zoom),
+                    )
+                  let #(updated, render_fx) = with_chart_render(updated, id)
+                  #(updated, effect.batch([persist(new_store), render_fx]))
+                }
+                Error(_) -> #(model, effect.none())
+              }
+          }
+        _ -> #(model, effect.none())
+      }
+    }
+
+    // Canvas wheel zoom: the same clamped rule ChartZoomed.
+    ChartWheel(delta_y) -> {
+      case model.route {
+        Chart(id) ->
+          case chart.chart_view_of(model.store, id) {
+            Error(_) -> #(model, effect.none())
+            Ok(view) -> {
+              let requested = case delta_y <. 0.0 {
+                True -> view.zoom_pct * wheel_zoom_in_num / wheel_zoom_in_den
+                False -> view.zoom_pct * wheel_zoom_in_den / wheel_zoom_in_num
+              }
+              case chart.zoom_chart(model.store, id, requested) {
+                Ok(new_store) -> {
+                  let zoom = case chart.chart_view_of(new_store, id) {
+                    Ok(next) -> next.zoom_pct
+                    Error(_) -> requested
+                  }
+                  let updated =
+                    Model(
+                      ..model,
+                      store: new_store,
+                      chart_zoom_input: int.to_string(zoom),
+                    )
+                  let #(updated, render_fx) = with_chart_render(updated, id)
+                  #(updated, effect.batch([persist(new_store), render_fx]))
+                }
+                Error(_) -> #(model, effect.none())
+              }
+            }
+          }
+        _ -> #(model, effect.none())
+      }
+    }
+
+    // rule ChartPanned via the pan buttons: one cell per click, clamped.
+    ChartPanButtonClicked(dx, dy) -> {
+      case model.route {
+        Chart(id) ->
+          case chart.chart_view_of(model.store, id) {
+            Error(_) -> #(model, effect.none())
+            Ok(view) ->
+              case
+                chart.pan_chart(
+                  model.store,
+                  id,
+                  CellPosition(view.center.x + dx, view.center.y + dy),
+                )
+              {
+                Ok(new_store) -> {
+                  let updated = Model(..model, store: new_store)
+                  let #(updated, render_fx) = with_chart_render(updated, id)
+                  #(updated, effect.batch([persist(new_store), render_fx]))
+                }
+                Error(_) -> #(model, effect.none())
+              }
+          }
+        _ -> #(model, effect.none())
+      }
+    }
+
+    // Canvas drag pan: the drag is one gesture; committed view state follows
+    // the pointer (clamped by rule ChartPanned) and is persisted on release.
+    ChartDragStarted(x, y) -> {
+      case model.route {
+        Chart(id) ->
+          case chart.chart_view_of(model.store, id) {
+            Ok(view) -> #(
+              Model(..model, chart_drag: Some(#(x, y, view.center))),
+              effect.none(),
+            )
+            Error(_) -> #(model, effect.none())
+          }
+        _ -> #(model, effect.none())
+      }
+    }
+
+    ChartDragMoved(x, y, buttons) -> {
+      case model.route, model.chart_drag {
+        Chart(id), Some(#(start_x, start_y, start_center)) ->
+          case buttons != 0 {
+            False -> #(model, effect.none())
+            True ->
+              case chart.chart_view_of(model.store, id) {
+                Error(_) -> #(model, effect.none())
+                Ok(view) -> {
+                  let cell_px = chart.rendered_cell_px(view.zoom_pct)
+                  let dx_cells = float.truncate({ x -. start_x } /. cell_px)
+                  let dy_cells = float.truncate({ y -. start_y } /. cell_px)
+                  case
+                    chart.pan_chart(
+                      model.store,
+                      id,
+                      CellPosition(
+                        start_center.x - dx_cells,
+                        start_center.y - dy_cells,
+                      ),
+                    )
+                  {
+                    Ok(new_store) -> {
+                      let updated = Model(..model, store: new_store)
+                      let #(updated, render_fx) = with_chart_render(updated, id)
+                      #(updated, render_fx)
+                    }
+                    Error(_) -> #(model, effect.none())
+                  }
+                }
+              }
+          }
+        _, _ -> #(model, effect.none())
+      }
+    }
+
+    ChartDragEnded -> {
+      case model.chart_drag {
+        Some(_) -> #(Model(..model, chart_drag: None), persist(model.store))
+        None -> #(model, effect.none())
+      }
     }
   }
 }
@@ -429,6 +728,166 @@ fn imported_file_decoder() -> decode.Decoder(ImportedFile) {
 }
 
 // ---------------------------------------------------------------------------
+// Chart rendering (F-009): payload builders + the render effect
+// ---------------------------------------------------------------------------
+
+/// The render effect: post the current committed chart state to the renderer
+/// worker. The payload is a pure function of the model; the document half is
+/// cached (rebuilt only when the document or its symbol assignment changed),
+/// so pan/zoom/style frames never re-serialize the grid.
+fn with_chart_render(model: Model, id: String) -> #(Model, Effect(Msg)) {
+  let model = ensure_chart_doc_cache(model, id)
+  let payload = chart_payload(model, id)
+  #(
+    model,
+    effect.after_paint(fn(_, _) {
+      chart_ffi.render_chart(chart_canvas_dom_id, payload)
+    }),
+  )
+}
+
+fn ensure_chart_doc_cache(model: Model, id: String) -> Model {
+  case store.document(model.store, id) {
+    Error(_) -> model
+    Ok(document) -> {
+      let assigned_at = case symbols.assignment_of(model.store, id) {
+        Ok(assignment) -> assignment.assigned_at
+        Error(_) -> 0
+      }
+      case model.chart_doc_cache {
+        Some(#(cached_id, edited, at, _))
+          if cached_id == id
+          && edited == document.last_edited
+          && at == assigned_at
+        -> model
+        _ ->
+          Model(..model, chart_doc_cache: Some(#(
+            id,
+            document.last_edited,
+            assigned_at,
+            build_doc_payload(id, document, model.store),
+          )))
+      }
+    }
+  }
+}
+
+fn chart_payload(model: Model, id: String) -> String {
+  let doc_part = case model.chart_doc_cache {
+    Some(#(cached_id, _, _, payload)) if cached_id == id -> payload
+    _ -> "null"
+  }
+  let view_part = case chart.chart_view_of(model.store, id) {
+    Error(_) -> "{}"
+    Ok(view) ->
+      "{\"style\":"
+      <> json_string(chart.style_token(view.style))
+      <> ",\"zoom\":"
+      <> int.to_string(view.zoom_pct)
+      <> ",\"center\":["
+      <> int.to_string(view.center.x)
+      <> ","
+      <> int.to_string(view.center.y)
+      <> "],\"gridVisible\":"
+      <> bool_string(chart.grid_visible(view))
+      <> ",\"minCellPx\":"
+      <> int.to_string(config.min_cell_px_at_100pct)
+      <> "}"
+  }
+  "{\"doc\":" <> doc_part <> ",\"view\":" <> view_part <> "}"
+}
+
+/// The document half of the render payload: indexed chart data plus the
+/// SingleGlyphSource glyph data (atlas input) and the color→glyph mapping.
+fn build_doc_payload(
+  id: String,
+  document: types.PatternDocument,
+  store_data: store.Store,
+) -> String {
+  let #(glyphs, mapping) = case symbols.assignment_of(store_data, id) {
+    Ok(assignment) -> #(
+      glyphs_json(assignment.symbol_set.glyphs),
+      mapping_json(assignment.symbol_set.glyphs, assignment.mapping),
+    )
+    Error(_) -> #("[]", "[]")
+  }
+  let cells =
+    document.cells
+    |> list.filter(fn(cell) { cell.color_index != None })
+    |> list.map(cell_json)
+    |> string.join(",")
+  let palette =
+    document.palette
+    |> list.map(fn(entry) { json_string(entry.rgb) })
+    |> string.join(",")
+  "{\"version\":"
+  <> json_string(id <> ":" <> int.to_string(document.last_edited))
+  <> ",\"width\":"
+  <> int.to_string(document.width)
+  <> ",\"height\":"
+  <> int.to_string(document.height)
+  <> ",\"cells\":["
+  <> cells
+  <> "],\"palette\":["
+  <> palette
+  <> "],\"glyphs\":"
+  <> glyphs
+  <> ",\"mapping\":"
+  <> mapping
+  <> "}"
+}
+
+fn cell_json(cell: types.CellState) -> String {  let color = case cell.color_index {
+    Some(index) -> index
+    None -> -1
+  }
+  "["
+  <> int.to_string(cell.position.x)
+  <> ","
+  <> int.to_string(cell.position.y)
+  <> ","
+  <> int.to_string(color)
+  <> "]"
+}
+
+fn glyphs_json(glyphs: List(symbols.Glyph)) -> String {
+  glyphs
+  |> list.map(fn(glyph) {
+    "{\"name\":"
+    <> json_string(glyph.name)
+    <> ",\"path\":"
+    <> json_string(glyph.svg_path)
+    <> "}"
+  })
+  |> string.join(",")
+  |> fn(body) { "[" <> body <> "]" }
+}
+
+/// One glyph-table index per mapping entry, in mapping (color) order; -1
+/// where the glyph is not in the set (never expected, defensive).
+fn mapping_json(
+  glyphs: List(symbols.Glyph),
+  mapping: List(symbols.ColorSymbol),
+) -> String {
+  mapping
+  |> list.map(fn(entry) { int.to_string(glyph_index(glyphs, entry.glyph.name, 0)) })
+  |> string.join(",")
+  |> fn(body) { "[" <> body <> "]" }
+}
+
+fn glyph_index(glyphs: List(symbols.Glyph), name: String, index: Int) -> Int {
+  case glyphs {
+    [] -> -1
+    [first, ..] if first.name == name -> index
+    [_, ..rest] -> glyph_index(rest, name, index + 1)
+  }
+}
+
+fn json_string(value: String) -> String {
+  json.to_string(json.string(value))
+}
+
+// ---------------------------------------------------------------------------
 // View
 // ---------------------------------------------------------------------------
 
@@ -438,6 +897,7 @@ fn view(model: Model) -> Element(Msg) {
     case model.route {
       Library -> library_view(model)
       Editor(id) -> editor_view(model, id)
+      Chart(id) -> chart_view_page(model, id)
     },
   ])
 }
@@ -530,14 +990,17 @@ fn create_form(model: Model) -> Element(Msg) {
 fn library_entry_view(model: Model, entry: store.LibraryEntry) -> Element(Msg) {
   let id = entry.document_id
   html.li([attribute.class("entry")], [
-    html.div(
-      [
-        attribute.role("img"),
-        attribute.aria_label("Thumbnail of " <> entry.name),
-        attribute.class("thumb"),
-      ],
-      [],
-    ),
+    // ThumbnailsRenderedLocally: rendered on-device to a data: URI — no
+    // network request is involved at any point.
+    case store.document(model.store, id) {
+      Ok(document) ->
+        html.img([
+          attribute.alt("Thumbnail of " <> entry.name),
+          attribute.class("thumb"),
+          attribute.src(chart.thumbnail_data_uri(document)),
+        ])
+      Error(_) -> element.none()
+    },
     html.h3([], [html.text(entry.name)]),
     case model.renaming == Some(id) {
       True ->
@@ -640,6 +1103,9 @@ fn editor_view(model: Model, id: String) -> Element(Msg) {
           html.button([event.on_click(ExportClicked)], [
             html.text("Export PDF"),
           ]),
+          html.button([event.on_click(ChartShown(id))], [
+            html.text("Show chart"),
+          ]),
         ]),
         stitch_grid(id, editor),
       ])
@@ -708,6 +1174,215 @@ fn on_enter(msg: Msg) -> attribute.Attribute(Msg) {  event.on("keydown", {
       _ -> decode.failure(msg, "Enter")
     }
   })
+}
+
+// ---------------------------------------------------------------------------
+// Chart view (F-009, surfaces ChartViewControls / SymbolLibrary)
+// ---------------------------------------------------------------------------
+
+type NamedStyle {
+  NamedStyle(style: chart.ChartStyle, label: String)
+}
+
+/// The three spec styles, in switcher order (AC-F009-04).
+fn chart_styles() -> List(NamedStyle) {
+  [
+    NamedStyle(chart.SymbolsOnColoredBackground, "Symbols on colored background"),
+    NamedStyle(chart.ColoredSymbolsOnly, "Colored symbols only"),
+    NamedStyle(chart.BlackAndWhiteSymbolsOnly, "Black and white symbols only"),
+  ]
+}
+
+fn chart_view_page(model: Model, id: String) -> Element(Msg) {
+  case chart.chart_view_of(model.store, id) {
+    Error(_) ->
+      html.main([], [
+        html.button([event.on_click(BackToLibrary)], [
+          html.text("Back to library"),
+        ]),
+        html.p([], [html.text("Chart view is not initialised for this document.")]),
+      ])
+    Ok(view) ->
+      case store.document(model.store, id) {
+        Error(_) ->
+          html.main([], [
+            html.button([event.on_click(BackToLibrary)], [
+              html.text("Back to library"),
+            ]),
+            html.p([], [html.text("Document not found.")]),
+          ])
+        Ok(document) ->
+          html.main([attribute.class("editor chart-open")], [
+            html.header([attribute.class("editor-bar")], [
+              html.button([event.on_click(BackToLibrary)], [
+                html.text("Back to library"),
+              ]),
+              html.h1([], [html.text(document.name)]),
+              html.button([event.on_click(ChartHidden)], [
+                html.text("Back to editor"),
+              ]),
+            ]),
+            html.section(
+              [
+                attribute.role("region"),
+                attribute.aria_label("Chart view"),
+                attribute.class("chart-view"),
+              ],
+              [
+                chart_canvas(view, document),
+                chart_controls(model, view),
+                symbol_key(model, view, document),
+              ],
+            ),
+          ])
+      }
+  }
+}
+
+/// The WebGL2 chart canvas. Every piece of view state is observable on the
+/// element via data-* attributes (e2e/CONTRACT.md "Chart view"); the pixels
+/// are drawn off the UI thread by the dedicated worker (chart_ffi).
+fn chart_canvas(view: chart.ChartView, document: PatternDocument) -> Element(Msg) {
+  html.canvas([
+    attribute.id(chart_canvas_dom_id),
+    attribute.class("chart-canvas"),
+    attribute.role("img"),
+    attribute.aria_label("Symbol chart"),
+    attribute.style(
+      "width",
+      "min(720px, 100%); height: 540px; touch-action: none; display: block; border: 1px solid #999; background: #fff;",
+    ),
+    attribute.attribute("data-style", chart.style_token(view.style)),
+    attribute.attribute("data-symbol-set", view.symbol_set.name),
+    attribute.attribute("data-zoom-pct", int.to_string(view.zoom_pct)),
+    attribute.attribute("data-grid-visible", bool_string(chart.grid_visible(view))),
+    attribute.attribute("data-center-x", int.to_string(view.center.x)),
+    attribute.attribute("data-center-y", int.to_string(view.center.y)),
+    attribute.attribute("data-chart-width", int.to_string(document.width)),
+    attribute.attribute("data-chart-height", int.to_string(document.height)),
+    event.on("pointerdown", {
+      use x <- decode.field("offsetX", decode.float)
+      use y <- decode.field("offsetY", decode.float)
+      decode.success(ChartDragStarted(x, y))
+    }),
+    event.on("pointermove", {
+      use x <- decode.field("offsetX", decode.float)
+      use y <- decode.field("offsetY", decode.float)
+      use buttons <- decode.field("buttons", decode.int)
+      decode.success(ChartDragMoved(x, y, buttons))
+    }),
+    event.on("wheel", {
+      use delta_y <- decode.field("deltaY", decode.float)
+      decode.success(ChartWheel(delta_y))
+    })
+      |> event.prevent_default,
+  ])
+}
+
+fn chart_controls(model: Model, view: chart.ChartView) -> Element(Msg) {
+  html.div([attribute.class("chart-controls")], [
+    html.div(
+      [attribute.role("radiogroup"), attribute.aria_label("Chart style")],
+      list.map(chart_styles(), fn(named) {
+        html.label([], [
+          html.input([
+            attribute.type_("radio"),
+            attribute.name("chart-style"),
+            attribute.value(chart.style_token(named.style)),
+            attribute.checked(named.style == view.style),
+            event.on_click(ChartStylePicked(named.style)),
+          ]),
+          html.text(named.label),
+        ])
+      }),
+    ),
+    html.div(
+      [attribute.role("radiogroup"), attribute.aria_label("Symbol set")],
+      list.map(symbols.symbol_sets(), fn(set) {
+        html.label([], [
+          html.input([
+            attribute.type_("radio"),
+            attribute.name("symbol-set"),
+            attribute.attribute("data-colorblind-safe", bool_string(set.colorblind_safe)),
+            attribute.checked(set.name == view.symbol_set.name),
+            event.on_click(ChartSymbolSetPicked(set.name)),
+          ]),
+          html.text(set.name),
+        ])
+      }),
+    ),
+    html.label([], [
+      html.text("Zoom %"),
+      html.input([
+        attribute.type_("number"),
+        attribute.min(int.to_string(config.min_zoom_pct)),
+        attribute.max(int.to_string(config.max_zoom_pct)),
+        attribute.value(model.chart_zoom_input),
+        event.on_input(ChartZoomInputChanged),
+      ]),
+    ]),
+    html.div([attribute.class("pan-buttons")], [
+      pan_button("Pan up", 0, -1),
+      pan_button("Pan down", 0, 1),
+      pan_button("Pan left", -1, 0),
+      pan_button("Pan right", 1, 0),
+    ]),
+  ])
+}
+
+fn pan_button(label: String, dx: Int, dy: Int) -> Element(Msg) {
+  html.button([event.on_click(ChartPanButtonClicked(dx, dy))], [html.text(label)])
+}
+
+/// The symbol key (AC-F009-01): one item per color used in the committed
+/// chart, ordered by color index, identical across all three styles and equal
+/// to the persisted SymbolAssignment mapping.
+fn symbol_key(
+  model: Model,
+  view: chart.ChartView,
+  document: PatternDocument,
+) -> Element(Msg) {
+  let usage = chart.usage_counts(document)
+  let mapping = case symbols.assignment_of(model.store, view.document_id) {
+    Ok(assignment) -> assignment.mapping
+    Error(_) -> []
+  }
+  let items =
+    list.filter(mapping, fn(entry) { count_at(usage, entry.color_index) > 0 })
+  html.ul(
+    [attribute.role("list"), attribute.aria_label("Symbol key")],
+    list.map(items, fn(entry) {
+      html.li(
+        [
+          attribute.attribute("data-color-index", int.to_string(entry.color_index)),
+          attribute.attribute("data-glyph-name", entry.glyph.name),
+        ],
+        [
+          html.text(
+            name_at(document.palette, entry.color_index)
+              <> ": "
+              <> entry.glyph.name,
+          ),
+        ],
+      )
+    }),
+  )
+}
+
+fn count_at(counts: List(Int), index: Int) -> Int {
+  case counts, index {
+    [], _ -> 0
+    [first, ..], 0 -> first
+    [_, ..rest], _ -> count_at(rest, index - 1)
+  }
+}
+
+fn name_at(palette: List(types.PaletteEntry), index: Int) -> String {
+  case palette, index {
+    [], _ -> ""
+    [first, ..], 0 -> first.name
+    [_, ..rest], _ -> name_at(rest, index - 1)
+  }
 }
 
 // ---------------------------------------------------------------------------

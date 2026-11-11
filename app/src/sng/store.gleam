@@ -353,10 +353,34 @@ pub fn snapshots_of(store: Store, document_id: Id) -> List(DocumentSnapshot) {
 }
 
 pub fn source_of(store: Store, document_id: Id) -> Result(SourceImage, StoreError) {
-  case list.find(store.sources, fn(s) { s.document_id == document_id }) {
+  // M2 marker entries (types.tool_state_source_id: editor tool state;
+  // types.pipeline_state_source_id: pipeline op stack;
+  // types.symbol_assignment_source_id: color→symbol assignment;
+  // types.chart_view_source_id: chart view state) are not
+  // source images; the retained-source query must never return them.
+  case
+    list.find(store.sources, fn(s) {
+      s.document_id == document_id
+      && s.id != types.tool_state_source_id
+      && s.id != types.pipeline_state_source_id
+      && s.id != types.symbol_assignment_source_id
+      && s.id != types.chart_view_source_id
+    })
+  {
     Ok(source) -> Ok(source)
     Error(_) -> Error(DocumentNotFound)
   }
+}
+
+/// Update only `last_edited` — used by the M2 rules whose ensures touch
+/// document.last_edited without committing a grid edit (pipeline ops).
+pub fn touch(
+  store: Store,
+  document_id: Id,
+  now: Timestamp,
+) -> Result(Store, StoreError) {
+  use document <- result_guard_document(store, document_id)
+  Ok(put_document(store, PatternDocument(..document, last_edited: now)))
 }
 
 pub fn sequences_unique(store: Store, document_id: Id) -> Bool {

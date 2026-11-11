@@ -107,6 +107,36 @@ pub type SourceImage {
   )
 }
 
+/// Marker id for the M2 per-document editor-tool-state entry (entity
+/// EditorToolState) carried inside Store.sources: the M1 Store record shape
+/// is pinned by M1's tests, so the tool state rides as a marker SourceImage
+/// whose content_hash holds its JSON encoding (see sng/tools).
+/// store.source_of skips entries with this id.
+pub const tool_state_source_id: String = "toolstate"
+
+/// Marker id for the M2 per-document pipeline-op-stack entry (entities
+/// PipelineOpStack/PipelineOp/PipelineOpLog/BakedImage, F-045 pt 2) carried
+/// inside Store.sources: the M1 Store record shape is pinned by M1's tests,
+/// so the op stack rides as a marker SourceImage whose content_hash holds its
+/// JSON encoding (see sng/pipeline). store.source_of skips entries with this
+/// id, and store.delete drops it with the document.
+pub const pipeline_state_source_id: String = "pipeline-state"
+
+/// Marker id for the M2 per-document color→symbol assignment entry (entity
+/// SymbolAssignment, F-009) carried inside Store.sources: the M1 Store record
+/// shape is pinned by M1's tests, so the assignment rides as a marker
+/// SourceImage whose content_hash holds its JSON encoding (see sng/symbols).
+/// store.source_of skips entries with this id, and store.delete drops it with
+/// the document.
+pub const symbol_assignment_source_id: String = "symbol-assignment"
+
+/// Marker id for the M2 per-document chart-view entry (entity ChartView, F-009)
+/// carried inside Store.sources: the M1 Store record shape is pinned by M1's
+/// generated tests, so the view state rides as a marker SourceImage whose
+/// content_hash holds its JSON encoding (see sng/chart). store.source_of
+/// skips entries with this id, and store.delete drops it with the document.
+pub const chart_view_source_id: String = "chart-view"
+
 /// -- entity AppSession
 pub type AppSession {
   AppSession(

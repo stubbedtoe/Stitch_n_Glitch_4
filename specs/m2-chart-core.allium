@@ -1,0 +1,1118 @@
+-- allium: 3
+-- m2-chart-core.allium
+
+-- Scope: M2 chart core (Build Plan v1.6 §4, milestone M2)
+-- Includes:
+--   - F-008 editor toolset: eraser, flood fill, line, rectangle, ellipse,
+--     selection + move, color picker (pencil and the per-cell draw/undo log
+--     semantics are M1's DrawStitches/EditUndone — referenced, not
+--     redeclared); one committed gesture = one log entry (PRD §7.7,
+--     AC-F045-05); color-key usage counts update immediately (AC-F008-01);
+--     F-014 library search (deferred from M1's LibraryBrowser guidance)
+--   - F-009 WebGL2 symbol chart rendering: deterministic sequential
+--     color→symbol assignment from the curated SVG symbol library (user
+--     decision 2026-11-10); three chart styles sharing one color→symbol
+--     mapping (AC-F009-04); zoom 10–4000 %, grid lines auto-hidden below
+--     25 % (AC-F009-02); pan clamped to canvas bounds; >= 55 fps pan/zoom
+--     on a 1000x1000 chart (NFR-P2, measured per user decision 2026-11-10);
+--     >= 2 colorblind-safe symbol sets and legibility at all zoom levels
+--     (NFR-U2) with the S5 16px-cell minimum at 100% zoom (PRD v1.15);
+--     thumbnails generated locally by offscreen render (resolves M1's
+--     parked thumbnail question)
+--   - Curated SVG symbol library as the single glyph source (PRD v1.14):
+--     WebGL glyph atlas, UI sprite, S5 confusability tooling, and reserved
+--     for the build-time symbol font that M5's PDF export embeds
+--   - F-045 part 2: per-document pipeline-op stack harness with a stub op
+--     (StubToneShift) — op undo by removal/re-edit over the retained M1
+--     SourceImage (PRD §7.7 part 2), deterministic re-apply (AC-F045-02
+--     shape), explicit confirmed bake/flatten collapsing the stack with
+--     post-bake undo from history (AC-F045-03), bounded op stack
+-- Excludes (deferred per Build Plan §4 and binding user decisions):
+--   - F-003 real import / F-005 conversion (M3) / F-013 PDF export (M5) /
+--     F-047 max-min symbol assignment (M3; sequential strategy is the
+--     replaceable strategy seam — max-min is deliberately not specced here)
+--   - Real pipeline ops F-041 (crop, M3) / F-042 (tonal, M3) / F-030
+--     (databend, M4) plug into this harness; AC-F045-01/05 are re-proven
+--     when they land (user decision 2026-11-10)
+--   - F-007 confetti cleanup, F-019 backstitch, F-028 layers, NFR-U3
+--     shortcut configuration, history purge (PRD §7.7, storage management)
+-- Source of truth: StitchNGlitch-Online-PRD.md v1.15 (F-008/F-009/F-045,
+-- §7.7), StitchNGlitch-Build-Plan.md v1.6 (M2), spike3/Spike3-Results.md
+-- (renderer architecture), .allium-loop/m2-chart-core.json user_decisions
+-- (binding)
+
+use "./m1-local-foundation.allium" as m1
+
+config {
+    min_zoom_pct: Integer = 10
+    max_zoom_pct: Integer = 4000
+    grid_auto_hide_below_zoom_pct: Integer = 25
+    min_cell_px_at_100pct: Integer = 16
+    min_pan_zoom_fps: Integer = 55
+    p2_benchmark_chart_width: Integer = 1000
+    p2_benchmark_chart_height: Integer = 1000
+    max_pipeline_ops: Integer = 16
+    stub_tone_amount_bound: Integer = 100
+    colorblind_safe_sets_required: Integer = 2
+}
+
+-- ---------------------------------------------------------------------------
+-- Value types
+-- ---------------------------------------------------------------------------
+
+value CellRect {
+    -- A rectangular cell range (selection box, shape bounds).
+    x: Integer
+    y: Integer
+    width: Integer
+    height: Integer
+}
+
+value Glyph {
+    -- One curated chart symbol: a name plus its SVG path data. The path
+    -- data is the single glyph source consumed by the WebGL glyph atlas,
+    -- the UI sprite, the S5 confusability tooling, and (reserved, M5) the
+    -- build-time symbol font (PRD v1.14).
+    name: String
+    svg_path: String
+}
+
+value ColorSymbol {
+    -- One entry of a document's color→symbol mapping.
+    color_index: Integer
+    glyph: Glyph
+}
+
+-- ---------------------------------------------------------------------------
+-- Enumerations
+-- ---------------------------------------------------------------------------
+
+enum ChartStyle {
+    symbols_on_colored_background
+    | colored_symbols_only
+    | black_and_white_symbols_only
+}
+
+enum EditorTool {
+    pencil
+    | eraser
+    | flood_fill
+    | line
+    | rectangle
+    | ellipse
+    | select
+    | color_picker
+}
+
+enum OpVerb {
+    -- Verbs that carry materializable pipeline effects. Undo/redo log
+    -- entries name the verb they reverse via `undone_verb`.
+    add
+    | remove
+    | edit
+    | bake
+}
+
+-- ---------------------------------------------------------------------------
+-- Entities
+-- ---------------------------------------------------------------------------
+
+entity EditorToolState {
+    -- Per-document editor session state (tool choice, active color,
+    -- current selection box).
+    document: m1/PatternDocument
+    active_tool: EditorTool
+    active_color_index: Integer?
+    selection: CellRect?
+}
+
+entity ChartView {
+    -- Per-document chart view state. Persisted with the document so the
+    -- selected style is the document's export style, consumed by F-013
+    -- PDF export in M5 (AC-F009-04).
+    document: m1/PatternDocument
+    style: ChartStyle
+    symbol_set: SymbolSet
+    zoom_pct: Integer
+    center: m1/CellPosition
+
+    grid_visible: zoom_pct >= config.grid_auto_hide_below_zoom_pct
+    rendered_cell_size: Decimal = rendered_cell_px(zoom_pct)
+    color_usage: List<Integer> = usage_counts(document)
+}
+
+entity SymbolSet {
+    -- A curated symbol set: curated data (glyph inventory is maintained
+    -- with the S5 confusability tooling, not in this spec). At least
+    -- config.colorblind_safe_sets_required sets are colorblind-safe (NFR-U2).
+    name: String
+    glyphs: List<Glyph>
+    colorblind_safe: Boolean
+}
+
+entity SymbolAssignment {
+    -- The document's color→symbol mapping. `strategy` is the replaceable
+    -- strategy seam: M2 implements sequential assignment (user decision
+    -- 2026-11-10); F-047's max-min optimizer swaps in during M3 without
+    -- touching the renderer, which consumes only `mapping`.
+    document: m1/PatternDocument
+    symbol_set: SymbolSet
+    strategy: sequential
+    mapping: List<ColorSymbol>
+    assigned_at: Timestamp
+}
+
+entity PipelineOpStack {
+    -- Per-document op stack (F-045 part 2). The retained source bitmap is
+    -- M1's SourceImage; ops are parameterised deterministic transforms
+    -- materialized over it on demand (PRD §7.7 part 2).
+    document: m1/PatternDocument
+    ops: PipelineOp with stack = this
+    logs: PipelineOpLog with stack = this
+
+    active_ops: ops where removed = false
+}
+
+entity PipelineOp {
+    -- One pipeline op. M2 ships only the stub variant; real ops (crop,
+    -- tonal, databend) accrete here in M3/M4 behind the same harness.
+    stack: PipelineOpStack
+    kind: stub_tone_shift
+    amount: Integer
+    seed: Integer
+    position: Integer
+    removed: Boolean
+    committed_at: Timestamp
+}
+
+entity PipelineOpLog {
+    -- Append-only op history mirroring M1's DocumentCommand shape: undo/redo
+    -- are themselves entries, so op history persists across sessions and
+    -- undo-after-bake restores from history (AC-F045-03).
+    stack: PipelineOpStack
+    sequence: Integer
+    verb: add | remove | edit | bake | undo | redo
+    origin: direct | undo | redo
+    op: PipelineOp
+    prior_amount: Integer?
+    baked_hash: String?
+    -- collapsed_ops is empty except on bake entries (and their undo/redo
+    -- counterparts), where it carries the collapsed stack; bake entries
+    -- reference the newest active op in `op`, which they do not affect.
+    collapsed_ops: List<PipelineOp>
+    undone_verb: OpVerb?
+    committed_at: Timestamp
+}
+
+entity BakedImage {
+    -- Working base produced by a confirmed bake (flatten). The retained
+    -- original source (M1 SourceImage) and the op log both survive the
+    -- bake, which is what keeps post-bake undo possible.
+    document: m1/PatternDocument
+    content_hash: String
+    collapsed_ops: Integer
+    baked_at: Timestamp
+}
+
+entity SearchResults {
+    -- One library search execution (F-014 search, deferred from M1).
+    viewer: m1/User
+    query: String
+    matches: List<m1/PatternDocument>
+    returned_at: Timestamp
+}
+
+-- ---------------------------------------------------------------------------
+-- Rules
+-- ---------------------------------------------------------------------------
+
+rule DocumentViewInitialised {
+    -- Every document gets its editor/view state, sequential symbol
+    -- assignment, and empty op stack at creation (covers both M1 creation
+    -- rules: blank and stub import).
+    when: doc: m1/PatternDocument.created
+    let set = primary_symbol_set()
+    @guidance
+        -- The M2 build materialises this state through an explicit idempotent
+        -- initialisation step invoked right after document creation and on
+        -- first open of pre-M2 documents (per the migration open question);
+        -- duplication/copy paths re-initialise the copy the same way. The
+        -- observable outcome — exactly one EditorToolState (etc.) per
+        -- document from first use — is what ToolStateUniquePerDocument pins.
+    ensures:
+        EditorToolState.created(
+            document: doc,
+            active_tool: pencil,
+            active_color_index: null
+        )
+        ChartView.created(
+            document: doc,
+            style: symbols_on_colored_background,
+            symbol_set: set,
+            zoom_pct: 100,
+            center: grid_center(doc),
+            grid_visible: true,
+            rendered_cell_size: rendered_cell_px(100),
+            color_usage: usage_counts(doc)
+        )
+        SymbolAssignment.created(
+            document: doc,
+            symbol_set: set,
+            strategy: sequential,
+            mapping: sequential_assign(set, doc.palette),
+            assigned_at: now
+        )
+        PipelineOpStack.created(document: doc)
+    @guidance
+        -- Documents saved before M2 lack this state; the M2 build
+        -- initialises it once on first open (migration, not a rule).
+}
+
+rule ToolSelected {
+    when: SelectTool(viewer, document, tool)
+    let tool_state = EditorToolState{document: document}
+    ensures: tool_state.active_tool = tool
+}
+
+rule ColorPicked {
+    -- The color picker samples the stitch under the pointer and makes it
+    -- the active color; it commits no document edit.
+    when: PickColor(viewer, document, position)
+    requires: within_grid(document, position)
+    let cell = cell_at(document, position)
+    requires: cell.color_index != null
+    let tool_state = EditorToolState{document: document}
+    ensures: tool_state.active_color_index = cell.color_index
+}
+
+rule EraserUsed {
+    when: EraseCells(viewer, document, positions)
+    requires: positions.all(p => within_grid(document, p))
+    let edit = eraser_edit(document, positions)
+    let next_seq = document.commands.count + 1
+    ensures: m1/DocumentCommand.created(
+        document: document,
+        sequence: next_seq,
+        verb: draw,
+        edit: edit,
+        inverse: inverse_of(document, edit),
+        committed_at: now
+    )
+    ensures: document.cells = apply_edit(document.cells, edit)
+    ensures: document.last_edited = now
+    @guidance
+        -- One committed gesture = one log entry (PRD §7.7, AC-F045-05): the
+        -- whole erase stroke commits as a single command. Erased cells get
+        -- after = null; usage counts update immediately (AC-F008-01).
+}
+
+rule RegionFlooded {
+    when: FloodFill(viewer, document, origin, color_index)
+    requires: within_grid(document, origin)
+    requires: color_index >= 0 and color_index < document.palette.count
+    let edit = flood_fill_edit(document, origin, color_index)
+    let next_seq = document.commands.count + 1
+    ensures: m1/DocumentCommand.created(
+        document: document,
+        sequence: next_seq,
+        verb: draw,
+        edit: edit,
+        inverse: inverse_of(document, edit),
+        committed_at: now
+    )
+    ensures: document.cells = apply_edit(document.cells, edit)
+    ensures: document.last_edited = now
+    @guidance
+        -- flood_fill_edit computes the contiguous same-color region at the
+        -- origin and recolors it; one fill = one log entry (AC-F008-01,
+        -- AC-F045-05).
+}
+
+rule LineDrawn {
+    when: DrawLine(viewer, document, from, to, color_index)
+    requires: within_grid(document, from) and within_grid(document, to)
+    requires: color_index >= 0 and color_index < document.palette.count
+    let edit = line_edit(document, from, to, color_index)
+    let next_seq = document.commands.count + 1
+    ensures: m1/DocumentCommand.created(
+        document: document,
+        sequence: next_seq,
+        verb: draw,
+        edit: edit,
+        inverse: inverse_of(document, edit),
+        committed_at: now
+    )
+    ensures: document.cells = apply_edit(document.cells, edit)
+    ensures: document.last_edited = now
+}
+
+rule RectangleDrawn {
+    when: DrawRectangle(viewer, document, from, to, color_index)
+    requires: within_grid(document, from) and within_grid(document, to)
+    requires: color_index >= 0 and color_index < document.palette.count
+    let edit = rectangle_edit(document, from, to, color_index)
+    let next_seq = document.commands.count + 1
+    ensures: m1/DocumentCommand.created(
+        document: document,
+        sequence: next_seq,
+        verb: draw,
+        edit: edit,
+        inverse: inverse_of(document, edit),
+        committed_at: now
+    )
+    ensures: document.cells = apply_edit(document.cells, edit)
+    ensures: document.last_edited = now
+    @guidance
+        -- Rectangle and ellipse tools draw outline strokes; a filled-body
+        -- variant is an editor UI option over the same single commit.
+}
+
+rule EllipseDrawn {
+    when: DrawEllipse(viewer, document, from, to, color_index)
+    requires: within_grid(document, from) and within_grid(document, to)
+    requires: color_index >= 0 and color_index < document.palette.count
+    let edit = ellipse_edit(document, from, to, color_index)
+    let next_seq = document.commands.count + 1
+    ensures: m1/DocumentCommand.created(
+        document: document,
+        sequence: next_seq,
+        verb: draw,
+        edit: edit,
+        inverse: inverse_of(document, edit),
+        committed_at: now
+    )
+    ensures: document.cells = apply_edit(document.cells, edit)
+    ensures: document.last_edited = now
+}
+
+rule SelectionMoved {
+    -- Selection + move: lifts the stitches in from_rect and re-commits them
+    -- at to_rect (offsets preserved, source cells emptied). One drag = one
+    -- log entry (AC-F045-05).
+    when: MoveSelection(viewer, document, from_rect, to_rect)
+    requires: rect_within_grid(document, from_rect)
+    requires: rect_within_grid(document, to_rect)
+    let edit = selection_move_edit(document, from_rect, to_rect)
+    let next_seq = document.commands.count + 1
+    let tool_state = EditorToolState{document: document}
+    ensures: m1/DocumentCommand.created(
+        document: document,
+        sequence: next_seq,
+        verb: draw,
+        edit: edit,
+        inverse: inverse_of(document, edit),
+        committed_at: now
+    )
+    ensures: document.cells = apply_edit(document.cells, edit)
+    ensures: document.last_edited = now
+    ensures: tool_state.selection = to_rect
+    @guidance
+        -- Block-move semantics, pinned by the generated tests: every source
+        -- cell is cleared and every offset position written, so an empty
+        -- source cell clears the destination cell it lands on, and when
+        -- from_rect and to_rect overlap the post-move block wins (all
+        -- before/after values are read from the pre-move grid, clears
+        -- applied before writes, in one committed edit).
+}
+
+rule ChartStyleSelected {
+    -- The selected style is recorded on the document's persisted view
+    -- state; it is the export style F-013 consumes in M5 (AC-F009-04).
+    when: SelectChartStyle(viewer, document, style)
+    let chart_view = ChartView{document: document}
+    ensures: chart_view.style = style
+}
+
+rule ChartZoomed {
+    when: ZoomChart(viewer, document, zoom_pct)
+    let clamped =
+        if zoom_pct < config.min_zoom_pct: config.min_zoom_pct
+        else if zoom_pct > config.max_zoom_pct: config.max_zoom_pct
+        else: zoom_pct
+    let chart_view = ChartView{document: document}
+    ensures: chart_view.zoom_pct = clamped
+}
+
+rule ChartPanned {
+    when: PanChart(viewer, document, center)
+    let chart_view = ChartView{document: document}
+    ensures: chart_view.center = clamp_center(document, center)
+    @guidance
+        -- clamp_center keeps the viewport on the canvas: panning can never
+        -- leave the document bounds (AC-F009-02).
+}
+
+rule SymbolSetSelected {
+    when: SelectSymbolSet(viewer, document, symbol_set)
+    requires: document.palette.count <= symbol_set.glyphs.count
+    let assignment = SymbolAssignment{document: document}
+    ensures: assignment.symbol_set = symbol_set
+    ensures: assignment.mapping = sequential_assign(symbol_set, document.palette)
+    ensures: assignment.assigned_at = now
+    @guidance
+        -- Switching sets re-runs the same deterministic sequential strategy,
+        -- so the mapping is stable per (palette, set) — the renderer reads
+        -- only `mapping`, which is the strategy seam F-047 swaps in M3.
+}
+
+rule StubToneShiftCommitted {
+    -- F-045 pt 2 harness, exercised with a stub op mirroring M1's stub
+    -- pattern: a minimal deterministic transform with parameters. Real ops
+    -- (F-041/F-042/F-030) plug into this harness in M3/M4.
+    when: ApplyStubToneShift(viewer, document, amount, seed)
+    requires: exists m1/SourceImage{document: document}
+    requires: amount >= -config.stub_tone_amount_bound
+        and amount <= config.stub_tone_amount_bound
+    let stack = PipelineOpStack{document: document}
+    requires: stack.active_ops.count < config.max_pipeline_ops
+    let next_position = stack.ops.count + 1
+    let next_seq = stack.logs.count + 1
+    ensures:
+        let op = PipelineOp.created(
+            stack: stack,
+            kind: stub_tone_shift,
+            amount: amount,
+            seed: seed,
+            position: next_position,
+            removed: false,
+            committed_at: now
+        )
+        PipelineOpLog.created(
+            stack: stack,
+            sequence: next_seq,
+            verb: add,
+            origin: direct,
+            op: op,
+            prior_amount: null,
+            baked_hash: null,
+            collapsed_ops: [],
+            undone_verb: add,
+            committed_at: now
+        )
+    ensures: document.last_edited = now
+    @guidance
+        -- The stub op adjusts a deterministic tone value over the retained
+        -- source; its materialization is recomputed on demand (PRD §7.7).
+        -- The op stack is bounded (config.max_pipeline_ops), not unlimited.
+}
+
+rule StubToneShiftEdited {
+    -- Re-edit over the retained source (PRD §7.7 part 2): editing the op's
+    -- parameters and recomputing replaces any inverse-function undo.
+    when: EditStubToneShift(viewer, document, amount)
+    requires: exists m1/SourceImage{document: document}
+    requires: amount >= -config.stub_tone_amount_bound
+        and amount <= config.stub_tone_amount_bound
+    let stack = PipelineOpStack{document: document}
+    requires: stack.active_ops.count > 0
+    let op = newest_active_op(stack)
+    let next_seq = stack.logs.count + 1
+    ensures: PipelineOpLog.created(
+        stack: stack,
+        sequence: next_seq,
+        verb: edit,
+        origin: direct,
+        op: op,
+        prior_amount: op.amount,
+        baked_hash: null,
+        collapsed_ops: [],
+        undone_verb: edit,
+        committed_at: now
+    )
+    ensures: op.amount = amount
+    ensures: document.last_edited = now
+    @guidance
+        -- One committed gesture = one log entry (AC-F045-05): a slider-style
+        -- drag through intermediate values commits once on release;
+        -- intermediate preview values are ephemeral and never logged.
+}
+
+rule StubToneShiftRemoved {
+    -- Direct op removal — the "removes the crop op from the pipeline" half
+    -- of AC-F045-01, exercised against the stub in M2.
+    when: RemovePipelineOp(viewer, document, op)
+    requires: exists m1/SourceImage{document: document}
+    let stack = PipelineOpStack{document: document}
+    requires: op in stack.active_ops
+    let next_seq = stack.logs.count + 1
+    ensures: PipelineOpLog.created(
+        stack: stack,
+        sequence: next_seq,
+        verb: remove,
+        origin: direct,
+        op: op,
+        prior_amount: null,
+        baked_hash: null,
+        collapsed_ops: [],
+        undone_verb: remove,
+        committed_at: now
+    )
+    ensures: op.removed = true
+    ensures: document.last_edited = now
+}
+
+rule PipelineBaked {
+    -- Bake (flatten): the single explicitly destructive step (PRD §7.7).
+    -- Confirmation in the surface precedes this trigger (AC-F045-03). The
+    -- bake appends to the log, so undo-after-bake restores pre-bake state.
+    when: BakePipeline(viewer, document)
+    requires: exists m1/SourceImage{document: document}
+    let stack = PipelineOpStack{document: document}
+    requires: stack.active_ops.count > 0
+    let active = stack.active_ops
+    let collapsed = stack.active_ops.count
+    let last_op = newest_active_op(stack)
+    let hash = materialized_hash(document)
+    let next_seq = stack.logs.count + 1
+    ensures:
+        PipelineOpLog.created(
+            stack: stack,
+            sequence: next_seq,
+            verb: bake,
+            origin: direct,
+            op: last_op,
+            prior_amount: null,
+            baked_hash: hash,
+            collapsed_ops: active,
+            undone_verb: bake,
+            committed_at: now
+        )
+        BakedImage.created(
+            document: document,
+            content_hash: hash,
+            collapsed_ops: collapsed,
+            baked_at: now
+        )
+        for op in active:
+            op.removed = true
+    ensures: document.last_edited = now
+    @guidance
+        -- The bake collapses the op stack: the baked image becomes the
+        -- working base, upstream ops are marked removed. The pre-bake
+        -- source and op stack stay in the append-only log, so undoing the
+        -- bake restores the pre-bake state (AC-F045-03).
+}
+
+rule LibrarySearched {
+    -- F-014 library search, deferred from M1: local name matching over the
+    -- pattern library; nothing is transmitted.
+    when: SearchLibrary(viewer, query)
+    requires: query != ""
+    ensures: SearchResults.created(
+        viewer: viewer,
+        query: query,
+        matches: matching_documents(query),
+        returned_at: now
+    )
+}
+
+rule DocumentEditUndone {
+    -- Unified undo gesture (PRD §7.7), family 1: document edits undo by
+    -- appending the newest entry's precomputed inverse to the M1 command
+    -- log — the exact semantics of M1's EditUndone, dispatched by the
+    -- shared gesture.
+    when: UndoGesture(viewer, document)
+    requires: not newest_history_entry_is_op(document)
+    requires: document.commands.count > 0
+    requires: document.commands.last.verb != undo
+    @guidance
+        -- Dispatch is over the newest FIREABLE unified-history entry, not the
+        -- newest entry simpliciter: entries whose verb makes them
+        -- non-fireable for this gesture (an undo/redo entry at the head of
+        -- either family's log) are passed over, and the gesture fires on the
+        -- newest fireable entry across both logs by committed_at (family 1
+        -- wins committed_at ties). Under this reading the requires clauses
+        -- above select family 1 exactly when its newest fireable entry is a
+        -- document edit. Without the pass-over, a cross-family history such
+        -- as op@2000, draw@3000, undo@4000 would leave a second undo
+        -- gesture dead — contradicting PRD §7.7 ("one undo gesture covers
+        -- two op families") and the UnlimitedUndoWithinRetainedHistory
+        -- guarantee below. Symmetric wording applies to the sibling
+        -- DocumentEditRedone / PipelineOpUndone / PipelineOpRedone rules.
+    let latest = document.commands.last
+    let next_seq = document.commands.count + 1
+    ensures: m1/DocumentCommand.created(
+        document: document,
+        sequence: next_seq,
+        verb: undo,
+        edit: latest.inverse,
+        inverse: latest.edit,
+        committed_at: now
+    )
+    ensures: document.cells = apply_edit(document.cells, latest.inverse)
+    ensures: document.last_edited = now
+}
+
+rule PipelineOpUndone {
+    -- Unified undo gesture, family 2: pipeline ops undo by removal/re-edit
+    -- over the retained source — no inverse function exists or is needed
+    -- (PRD §7.7 part 2; AC-F045-01 shape, proven against the stub op).
+    when: UndoGesture(viewer, document)
+    requires: newest_history_entry_is_op(document)
+    let stack = PipelineOpStack{document: document}
+    requires: stack.logs.count > 0
+    let entry = stack.logs.last
+    requires: entry.verb != undo
+    @guidance
+        -- Fireable-entry dispatch, symmetric with DocumentEditUndone: an
+        -- undo/redo entry at the head of the op log is passed over and the
+        -- gesture may fire on an older fireable entry of EITHER family by
+        -- committed_at. The family's own verb guard still prevents
+        -- double-undoing an undo entry.
+    let next_seq = stack.logs.count + 1
+    ensures:
+        PipelineOpLog.created(
+            stack: stack,
+            sequence: next_seq,
+            verb: undo,
+            origin: undo,
+            op: entry.op,
+            prior_amount: entry.op.amount,
+            baked_hash: entry.baked_hash,
+            collapsed_ops: entry.collapsed_ops,
+            undone_verb: entry.undone_verb,
+            committed_at: now
+        )
+        if entry.verb = add:
+            entry.op.removed = true
+        if entry.verb = remove:
+            entry.op.removed = false
+        if entry.verb = edit:
+            entry.op.amount = entry.prior_amount
+        if entry.verb = bake:
+            not exists BakedImage{document: document}
+            for op in entry.collapsed_ops:
+                op.removed = false
+    ensures: document.last_edited = now
+    @guidance
+        -- Undoing an op removes it from the active stack and recomputes the
+        -- working image from the retained source; downstream conversion
+        -- re-runs on the restored framing (AC-F045-01, against the stub in
+        -- M2). Undoing a bake restores the collapsed ops and drops the
+        -- BakedImage — pre-bake state is rebuilt from history, not from an
+        -- inverse (AC-F045-03).
+}
+
+rule DocumentEditRedone {
+    -- Unified redo gesture, family 1: mirrors M1's EditRedone.
+    when: RedoGesture(viewer, document)
+    requires: not newest_history_entry_is_op(document)
+    requires: document.commands.count > 0
+    requires: document.commands.last.verb = undo
+    @guidance
+        -- Fireable-entry dispatch, symmetric with DocumentEditUndone: pass
+        -- over entries non-fireable for this gesture (a redo entry is not
+        -- re-redone; a draw/undo head is not redone from family 1), family 1
+        -- wins committed_at ties.
+    let latest = document.commands.last
+    let next_seq = document.commands.count + 1
+    ensures: m1/DocumentCommand.created(
+        document: document,
+        sequence: next_seq,
+        verb: redo,
+        edit: latest.inverse,
+        inverse: latest.edit,
+        committed_at: now
+    )
+    ensures: document.cells = apply_edit(document.cells, latest.inverse)
+    ensures: document.last_edited = now
+}
+
+rule PipelineOpRedone {
+    -- Unified redo gesture, family 2: re-applies the undone op effect.
+    -- Deterministic re-apply: same parameters + seed + retained source =>
+    -- identical result (AC-F045-02 shape).
+    when: RedoGesture(viewer, document)
+    requires: newest_history_entry_is_op(document)
+    let stack = PipelineOpStack{document: document}
+    requires: stack.logs.count > 0
+    let entry = stack.logs.last
+    requires: entry.verb = undo
+    @guidance
+        -- Fireable-entry dispatch, symmetric with PipelineOpUndone: pass
+        -- over op-log heads non-fireable for redo (add/edit/remove/bake are
+        -- not redone; an already-redone undo is not re-redone).
+    let next_seq = stack.logs.count + 1
+    ensures:
+        PipelineOpLog.created(
+            stack: stack,
+            sequence: next_seq,
+            verb: redo,
+            origin: redo,
+            op: entry.op,
+            prior_amount: entry.prior_amount,
+            baked_hash: entry.baked_hash,
+            collapsed_ops: entry.collapsed_ops,
+            undone_verb: entry.undone_verb,
+            committed_at: now
+        )
+        if entry.undone_verb = add:
+            entry.op.removed = false
+        if entry.undone_verb = remove:
+            entry.op.removed = true
+        if entry.undone_verb = edit:
+            entry.op.amount = entry.prior_amount
+        if entry.undone_verb = bake:
+            BakedImage.created(
+                document: document,
+                content_hash: entry.baked_hash,
+                collapsed_ops: entry.collapsed_ops.count,
+                baked_at: now
+            )
+            for op in entry.collapsed_ops:
+                op.removed = true
+    ensures: document.last_edited = now
+}
+
+-- ---------------------------------------------------------------------------
+-- Invariants
+-- ---------------------------------------------------------------------------
+
+invariant SymbolUniquenessPerColor {
+    -- Sequential assignment guarantees one glyph per palette color and no
+    -- glyph reuse within a document's mapping (AC-F009-01).
+    for a in SymbolAssignments:
+        a.mapping.count = a.document.palette.count
+            and a.mapping.unique(m => m.glyph.name).count = a.mapping.count
+}
+
+invariant StyleMappingConsistency {
+    -- All three chart styles render the same document mapping; style is a
+    -- render mode over one assignment, never a per-style mapping
+    -- (AC-F009-04).
+    for v in ChartViews:
+        exists SymbolAssignment{document: v.document}
+}
+
+invariant SymbolAssignmentUniquePerDocument {
+    for a in SymbolAssignments:
+        for b in SymbolAssignments:
+            a != b implies a.document != b.document
+}
+
+invariant ChartViewUniquePerDocument {
+    for a in ChartViews:
+        for b in ChartViews:
+            a != b implies a.document != b.document
+}
+
+invariant ToolStateUniquePerDocument {
+    for a in EditorToolStates:
+        for b in EditorToolStates:
+            a != b implies a.document != b.document
+}
+
+invariant OpStackUniquePerDocument {
+    for a in PipelineOpStacks:
+        for b in PipelineOpStacks:
+            a != b implies a.document != b.document
+}
+
+invariant OpStackBounded {
+    -- F-045 "bounded by storage": the active op stack is capped, so
+    -- recompute cost is bounded; "unlimited undo" means as far back as the
+    -- retained log reaches (PRD §7.7), not an unbounded stack.
+    for s in PipelineOpStacks:
+        s.active_ops.count <= config.max_pipeline_ops
+}
+
+invariant OpLogTotallyOrdered {
+    for a in PipelineOpLogs:
+        for b in PipelineOpLogs:
+            a != b and a.stack = b.stack implies a.sequence != b.sequence
+}
+
+invariant SourceRetainedWhileOpsActive {
+    -- Materialization across pipeline ops: an active op stack requires the
+    -- retained source bitmap (PRD §7.7 — inputs are never silently
+    -- discarded; op undo = removal/re-edit over the retained source).
+    for s in PipelineOpStacks:
+        s.active_ops.count > 0 implies exists m1/SourceImage{document: s.document}
+}
+
+invariant GlyphNamesUniquePerSet {
+    for s in SymbolSets:
+        s.glyphs.count = s.glyphs.unique(g => g.name).count
+}
+
+invariant MinColorblindSafeSets {
+    count_matching(SymbolSets, s => s.colorblind_safe) >= config.colorblind_safe_sets_required
+}
+
+-- ---------------------------------------------------------------------------
+-- Contracts
+-- ---------------------------------------------------------------------------
+
+contract SingleGlyphSource {
+    svg_path: (set_name: String, glyph_name: String) -> String
+    glyph_count: (set_name: String) -> Integer
+
+    @invariant SingleSource
+        -- Each glyph's SVG path data is defined exactly once per symbol
+        -- set. Every consumer — the WebGL glyph atlas, the UI sprite, the
+        -- S5 confusability tooling, and (reserved, M5) the build-time
+        -- symbol font embedded by PDF export — derives from this single
+        -- source (PRD v1.14). No consumer keeps a parallel glyph
+        -- definition.
+
+    @invariant NamesUniqueWithinSet
+        -- Glyph names are unique within a set (the same property the
+        -- GlyphNamesUniquePerSet invariant asserts over the entity data).
+}
+
+contract DeterministicPipelineOp {
+    materialize: (source: m1/SourceImage, ops: List<PipelineOp>) -> String
+
+    @invariant SameParamsSameResult
+        -- Applying an op with identical parameters and seed over the
+        -- identical retained source yields a byte-identical working image
+        -- (AC-F045-02 shape). Proven against the stub op in M2; each real
+        -- op (F-041/F-042/F-030) re-proves this when it lands in M3/M4.
+
+    @invariant PureAndLocal
+        -- materialize is pure (no I/O, no clock) and local: the source
+        -- image never leaves the device (NFR-PR1, LocalOnlyBoundary).
+}
+
+-- ---------------------------------------------------------------------------
+-- Surfaces
+-- ---------------------------------------------------------------------------
+
+surface EditorTools {
+    facing viewer: m1/User
+
+    context document: m1/PatternDocument
+
+    let tool_state = EditorToolState{document: document}
+    let chart_view = ChartView{document: document}
+    let assignment = SymbolAssignment{document: document}
+    let stack = PipelineOpStack{document: document}
+
+    exposes:
+        document.name
+        document.width
+        document.height
+        document.cells
+        document.palette
+        tool_state.active_tool
+        tool_state.active_color_index
+        chart_view.color_usage
+        assignment.mapping
+
+    provides:
+        m1/DrawStitches(viewer, document, changes)
+            -- pencil: owned by M1's StitchesDrawn; referenced here so the
+            -- full F-008 toolset is one surface (AC-F008-01)
+            when document.palette.count > 0
+        SelectTool(viewer, document, tool)
+        PickColor(viewer, document, position)
+        EraseCells(viewer, document, positions)
+        FloodFill(viewer, document, origin, color_index)
+        DrawLine(viewer, document, from, to, color_index)
+        DrawRectangle(viewer, document, from, to, color_index)
+        DrawEllipse(viewer, document, from, to, color_index)
+        MoveSelection(viewer, document, from_rect, to_rect)
+        ApplyStubToneShift(viewer, document, amount, seed)
+            when stack.active_ops.count < config.max_pipeline_ops
+        EditStubToneShift(viewer, document, amount)
+            when stack.active_ops.count > 0
+        RemovePipelineOp(viewer, document, op)
+            when op in stack.active_ops
+        BakePipeline(viewer, document)
+            when stack.active_ops.count > 0
+            -- confirmation explaining the op-stack collapse precedes this
+            -- action (AC-F045-03)
+        UndoGesture(viewer, document)
+            when document.commands.count > 0 or stack.logs.count > 0
+        RedoGesture(viewer, document)
+
+    contracts:
+        demands m1/LocalOnlyBoundary
+
+    @guarantee GestureGranularity
+        -- One committed gesture = one log entry (PRD §7.7, AC-F045-05):
+        -- each tool commits a single command; drag-style gestures (shape
+        -- drags, op slider edits) commit once on release, and intermediate
+        -- preview values are ephemeral and never logged.
+
+    @guarantee UsageCountsCurrent
+        -- Color-key usage counts reflect the committed grid immediately
+        -- after every edit — no deferred or batched update (AC-F008-01).
+
+    @guarantee UnlimitedUndoWithinRetainedHistory
+        -- Undo/redo is unlimited as far back as the retained logs reach
+        -- (PRD §7.7): N consecutive edits undo then redo back to exact
+        -- states (AC-F008-02 shape), persisting across sessions via the
+        -- append-only logs.
+
+    @guarantee OpUndoRerunsDownstream
+        -- Undoing, removing, or re-editing a pipeline op recomputes the
+        -- working image from the retained source — no inverse function —
+        -- and the conversion re-runs on the restored framing (AC-F045-01
+        -- shape, proven against the stub op in M2 and re-proven with the
+        -- real crop op in M3).
+
+    @guidance
+        -- The single undo/redo gesture covers both op families of PRD §7.7
+        -- (UndoGesture/RedoGesture here subsume M1's per-family Undo/Redo
+        -- provides in the M2 editor build). Crash recovery and undo
+        -- persistence are M1's guarantees and carry over unchanged.
+}
+
+surface ChartViewControls {
+    facing viewer: m1/User
+
+    context document: m1/PatternDocument
+
+    let chart_view = ChartView{document: document}
+
+    exposes:
+        chart_view.style
+        chart_view.zoom_pct
+        chart_view.center
+        chart_view.grid_visible
+        chart_view.rendered_cell_size
+        chart_view.symbol_set
+        chart_view.color_usage
+
+    provides:
+        SelectChartStyle(viewer, document, style)
+        ZoomChart(viewer, document, zoom_pct)
+        PanChart(viewer, document, center)
+
+    contracts:
+        demands m1/LocalOnlyBoundary
+
+    @guarantee PanZoomPerformance
+        -- Continuous pan/zoom on a config.p2_benchmark_chart_width x
+        -- config.p2_benchmark_chart_height chart with symbols rendered
+        -- holds at least config.min_pan_zoom_fps fps (NFR-P2, AC-F009-03).
+        -- Measured per user decision 2026-11-10 on a fanless Apple M2 Air
+        -- in headless Chromium with an S3-style rAF harness, with the
+        -- environment recorded in the measurement report; re-verification
+        -- on a mid-range Windows laptop is an M3 target-hardware task.
+
+    @guarantee ZoomBoundsAndGridAutoHide
+        -- Zoom is clamped to config.min_zoom_pct..config.max_zoom_pct
+        -- (10-4000 %) and the chart remains legible at both extremes;
+        -- grid lines auto-hide below config.grid_auto_hide_below_zoom_pct
+        -- (AC-F009-02).
+        -- @guidance The M2 renderer additionally suppresses grid pixels
+        -- below a ~6 px rendered-cell floor to avoid hairlines, so between
+        -- grid_auto_hide_below_zoom_pct (25 %) and ~37.5 % the grid_visible
+        -- attribute is true while no grid pixels are drawn — a presentation
+        -- quality guard, not a behavioural change.
+
+    @guarantee PanClampedToCanvas
+        -- Panning never carries the viewport outside the canvas bounds
+        -- (AC-F009-02).
+
+    @guarantee StyleConsistentMapping
+        -- All three chart styles render the identical color→symbol
+        -- mapping, symbols are unique per color, and the symbol key
+        -- matches the chart (AC-F009-01, AC-F009-04). The selected style
+        -- is persisted on the document and is the style F-013 PDF export
+        -- consumes in M5.
+
+    @guarantee SymbolLegibilityAtAllZoomLevels
+        -- Symbols remain legible at every zoom level. The minimum
+        -- supported chart cell is config.min_cell_px_at_100pct device px
+        -- at 100% zoom (16 px per S5, PRD v1.15 — validated with 5.2x
+        -- margin over the cross-renderer noise floor at the ~14%-of-cell
+        -- feature floor; 12 px is marginal). At least
+        -- config.colorblind_safe_sets_required curated colorblind-safe
+        -- symbol sets are available (NFR-U2).
+
+    @guarantee ThumbnailsRenderedLocally
+        -- Thumbnails (M1's parked open question, resolved here) are
+        -- generated locally on the device — an inline vector encoding of
+        -- the committed document (an offscreen render is an equivalent
+        -- implementation) — and no network request is involved at any
+        -- point.
+
+    @guarantee RendererIsStatelessFunctionOfModel
+        -- Per S3 and PRD §7.2: Gleam owns the model; the WebGL2 renderer
+        -- is a stateless function of the document plus view state, running
+        -- off the UI thread in a dedicated worker via Gleam FFI. The
+        -- renderer never mutates the model; pan/zoom/style changes re-render
+        -- from committed state only.
+
+    @guidance
+        -- The WebGL2 glyph atlas is built from the curated SVG symbol
+        -- library through the SingleGlyphSource contract. Chart styles are
+        -- render modes over the single SymbolAssignment mapping — a style
+        -- switch never re-assigns symbols.
+}
+
+surface SymbolLibrary {
+    facing viewer: m1/User
+
+    exposes:
+        for s in SymbolSets:
+            s.name
+            s.glyphs
+            s.colorblind_safe
+
+    provides:
+        SelectSymbolSet(viewer, document, symbol_set)
+            when document.palette.count <= symbol_set.glyphs.count
+
+    contracts:
+        demands m1/LocalOnlyBoundary
+        fulfils SingleGlyphSource
+
+    @guarantee CuratedColorblindSafeSets
+        -- At least config.colorblind_safe_sets_required curated
+        -- colorblind-safe symbol sets ship (NFR-U2). Sets are curated data
+        -- produced with the S5 confusability tooling; the glyph inventory
+        -- itself is data, not spec content (see open questions).
+
+    @guidance
+        -- Single glyph source (PRD v1.14): the SVG path data exposed here
+        -- feeds the WebGL glyph atlas, the UI sprite, and the S5
+        -- confusability tooling, and is reserved for the build-time symbol
+        -- font that M5's PDF export embeds. Symbol assignment strategy is
+        -- the replaceable seam on SymbolAssignment: M2 ships deterministic
+        -- sequential assignment; F-047's max-min optimizer swaps in during
+        -- M3 without renderer changes.
+}
+
+surface LibrarySearch {
+    facing viewer: m1/User
+
+    let mine = SearchResults where viewer = viewer
+
+    exposes:
+        for r in mine:
+            r.query
+            r.returned_at
+            for d in r.matches:
+                d.name
+                d.thumbnail
+                d.last_edited
+
+    provides:
+        SearchLibrary(viewer, query)
+
+    contracts:
+        demands m1/LocalOnlyBoundary
+
+    @guarantee SearchRunsLocally
+        -- Matching runs against the local library only; the query and
+        -- results never leave the device. This completes the F-014 search
+        -- deferred from M1's LibraryBrowser.
+
+    @guidance
+        -- Search matches on document names (F-014); richer filters
+        -- (palette, date) are not an M2 exit criterion.
+}
+
+-- ---------------------------------------------------------------------------
+-- Open questions (parked, non-blocking for M2)
+-- ---------------------------------------------------------------------------
+
+open question "Curated launch symbol-set inventory: the glyph lists per set are data curated with the S5 confusability tooling — this spec pins the SingleGlyphSource contract, glyph-name uniqueness, and the >= 2 colorblind-safe sets requirement, not the inventory. Full curation lands with F-047 (M3) / AC-F047-05 (M5)."
+
+open question "Editor keyboard-shortcut configuration (NFR-U3) is not an M2 exit criterion: M2 tools ship with default bindings; user-configurable shortcuts need their own task (M8 hardening or sooner)."
+
+open question "Pre-M2 library documents lack M2 view state (ChartView/EditorToolState/SymbolAssignment/PipelineOpStack, created only on PatternDocument.created) — the M2 build must initialise them once on first open; treat as a build task, revisit if migration needs spec-level behaviour."

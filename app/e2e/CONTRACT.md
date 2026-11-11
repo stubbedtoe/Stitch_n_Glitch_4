@@ -1,8 +1,10 @@
-# E2E contract — Stitch'n'Glitch M1 shell slice
+# E2E contract — Stitch'n'Glitch M1 shell + M2 chart slices
 
 This directory holds the **browser-level (Playwright) contract suite** derived
-from `specs/m1-local-foundation.allium`. These tests are the obligations the
-shell slice (Lustre UI + PWA + IndexedDB adapter) must satisfy. The domain
+from `specs/m1-local-foundation.allium` (M1 shell) and
+`specs/m2-chart-core.allium` (M2 chart view, surfaces ChartViewControls and
+SymbolLibrary). These tests are the obligations the
+shell slice (Lustre UI + PWA + IndexedDB adapter) and the M2 chart view must satisfy. The domain
 core obligations are covered by the Gleam gleeunit suite in `app/test/` and are
 out of scope here.
 
@@ -71,7 +73,43 @@ no test depends on the placeholder default canvas size.
 | Stitch grid | `role="grid"`, accessible name `Stitch grid`, with one `role="gridcell"` per cell. An empty cell's accessible name is `Cell <x>, <y>`; a stitched cell's is `Stitched cell <x>, <y>`. |
 | Pencil | `role="button"` named `Pencil` — a **toggle** whose state is mirrored by `aria-pressed` (and an active-state style). With the pencil active, `mouse.down` → drag across cells → `mouse.up` is **one committed gesture** (rule `StitchesDrawn`): every dragged cell becomes `Stitched cell <x>, <y>`, and a single Undo reverts the whole stroke (one log entry). With the pencil inactive, drags commit nothing. Hovering cells with no button pressed is **not** part of any gesture: it must not create, extend, or commit a stroke — a pointerup that ends no drag (e.g. a toolbar click) commits nothing. |
 | Undo / Redo | Buttons named `Undo` / `Redo` mirroring the surface guards: Undo disabled when there is nothing to undo, enabled after a gesture; Redo enabled only when the newest entry is an undo (surface-provides.Editor). |
+| Chart view | Button named `Show chart` switches the editor body to the chart view (see Chart view below); while the chart view is open the DOM stitch grid is unmounted, so large documents stay operable. |
 | Export placeholder | Button named `/export pdf/i` that produces a **local** download (Playwright `download` event) with a `.pdf` filename and non-empty payload. It must transmit nothing (ExportPdfPlaceholder). |
+
+### Chart view (M2, surfaces ChartViewControls / SymbolLibrary)
+
+Opened from the editor with `Show chart`. While the chart view is open the
+DOM stitch grid is unmounted, so large documents stay operable. The chart
+view is a `role="region"` named `Chart view` containing:
+
+| Control / element | Contract |
+|---|---|
+| Chart canvas | `role="img"`, accessible name `Symbol chart` (WebGL2). Carries `data-style` (`symbols_on_colored_background` \| `colored_symbols_only` \| `black_and_white_symbols_only`), `data-symbol-set` (the document's current symbol-set name), `data-zoom-pct`, `data-grid-visible` (`"true"`/`"false"`), `data-center-x`, `data-center-y`, `data-chart-width`, `data-chart-height`. Pans with pointer drag and zooms with the wheel; both clamp exactly like the button controls. |
+| Style switcher | `role="radiogroup"` name `Chart style`; three radios named exactly `Symbols on colored background` / `Colored symbols only` / `Black and white symbols only`; exactly one checked; default `Symbols on colored background`; the selection is persisted with the document and survives reload (AC-F009-04 — it is the export style F-013 consumes in M5). |
+| Symbol set selector | `role="radiogroup"` name `Symbol set`; one radio per shipped set, each carrying `data-colorblind-safe` (`"true"`/`"false"`); at least `config.colorblind_safe_sets_required` (2) with `"true"` (NFR-U2). The canvas `data-symbol-set` always names the selected set. |
+| Zoom | `role="spinbutton"` name `Zoom %`; commits on change, clamps to `config.min_zoom_pct`..`config.max_zoom_pct` (10–4000), and reflects the clamped value; grid lines auto-hide below `config.grid_auto_hide_below_zoom_pct` (25), observable as `data-grid-visible` flipping at the boundary (AC-F009-02). |
+| Pan | Buttons `Pan up` / `Pan down` / `Pan left` / `Pan right`; the center stays within the canvas: `data-center-x` ∈ [0, width−1], `data-center-y` ∈ [0, height−1] (AC-F009-02). |
+| Symbol key | `role="list"` name `Symbol key`; one `role="listitem"` per color used in the committed chart, ordered by color index, each carrying `data-color-index` and `data-glyph-name`; glyph names are unique across items (AC-F009-01); the list is identical across all three styles (AC-F009-04) and equal to the persisted `SymbolAssignment` mapping. |
+
+A document that predates M2 view state (e.g. a seeded document) gets its
+ChartView/SymbolAssignment initialised once on first open (rule
+`DocumentViewInitialised`'s migration guidance) — no chart is ever shown
+without exactly one initialised view state.
+
+**Seeded documents.** Tests may seed a store record directly into IndexedDB
+(DB `sng`, object store `store`, key `store` — see `tests/helpers.ts`);
+a seeded document's `cells` array may be **sparse** (only non-empty cells):
+cells absent from the array render as empty. This keeps large-document
+benchmarks (the 1000×1000 NFR-P2 chart) cheap to seed.
+
+**Performance measurement.** NFR-P2 (`PanZoomPerformance`, AC-F009-03) is
+measured by `tests/chart-performance.spec.ts` with an S3-style rAF
+frame-time harness during continuous drag-pan and wheel-zoom, asserting a
+sustained `config.min_pan_zoom_fps` (55) on a
+`config.p2_benchmark_chart_width`×`config.p2_benchmark_chart_height`
+(1000×1000) chart; the environment is recorded in the test report (user
+decision 2026-11-10: fanless Apple M2 Air, headless Chromium; Windows
+re-verification is an M3 target-hardware task).
 
 ## Persistence contract
 
@@ -93,4 +131,10 @@ cross-origin requests, ever.
 Each test file names the obligation(s) it exercises in its header comment.
 Domain-level obligations (rules, invariants, value/entity structure, config
 defaults, Editor surface guards, LibraryBrowser actor/exposure) are covered by
-the gleeunit suite (`app/test/sng/`, 47 tests) and are not re-tested here.
+the gleeunit suite (`app/test/sng/`, 150 tests) and are not re-tested here.
+The M2 chart-view obligations of `specs/m2-chart-core.allium` (surface
+ChartViewControls guarantees, SymbolLibrary exposure, NFR-P2 measurement) are
+browser-level by nature and live in `tests/chart-view.spec.ts` and
+`tests/chart-performance.spec.ts`; their domain halves (rules ChartStyleSelected
+/ ChartZoomed / ChartPanned, derived fields, ChartViewUniquePerDocument,
+StyleMappingConsistency) are covered by `app/test/sng/chart_test.gleam`.

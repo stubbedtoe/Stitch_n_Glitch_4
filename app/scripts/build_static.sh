@@ -22,6 +22,11 @@ rsync -a --delete \
   --exclude="/sng/priv" \
   build/dev/javascript/ "$STATIC_DIR/"
 
+# The F-009 chart renderer worker: a dedicated module worker referenced by
+# src/sng/sng_chart_ffi.mjs via new URL, not a gleam FFI file, so the build
+# does not copy it — place it next to the compiled sng modules.
+cp src/sng/sng_chart_worker.mjs "$STATIC_DIR/sng/sng_chart_worker.mjs"
+
 # Static shell files.
 rsync -a priv_static_src/ "$STATIC_DIR/"
 

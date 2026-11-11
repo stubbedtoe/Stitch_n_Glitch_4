@@ -158,10 +158,18 @@ export function persistentProfile() {
 /** The parsed shape of the record the app persists (see sng/persist.gleam). */
 export type PersistedStore = {
   documents: Array<{
+    id: string;
     name: string;
+    width: number;
+    height: number;
     cells: Array<{ x: number; y: number; color: number | null }>;
   }>;
   commands: Array<{ verb: string }>;
+  sources?: Array<{
+    id: string;
+    document_id: string;
+    content_hash: string;
+  }>;
 };
 
 /**
@@ -216,4 +224,220 @@ export async function waitForDurableState(
       return stored != null && predicate(stored);
     })
     .toBe(true);
+}
+
+// ---------------------------------------------------------------------------
+// M2 chart-view contract helpers (specs/m2-chart-core.allium, surface
+// ChartViewControls — see e2e/CONTRACT.md "Chart view").
+// ---------------------------------------------------------------------------
+
+/** The chart view region (opened from the editor via `Show chart`). */
+export function chartRegion(page: Page) {
+  return page.getByRole('region', { name: 'Chart view' });
+}
+
+/** The WebGL2 chart canvas. All view state is observable via data-* attrs. */
+export function chartCanvas(page: Page) {
+  return chartRegion(page).getByRole('img', { name: 'Symbol chart' });
+}
+
+/** Open the chart view from the editor (the stitch grid unmounts meanwhile). */
+export async function showChart(page: Page) {
+  await page.getByRole('button', { name: 'Show chart' }).click();
+  await expect(chartRegion(page)).toBeVisible();
+}
+
+export function zoomInput(page: Page) {
+  return chartRegion(page).getByRole('spinbutton', { name: 'Zoom %' });
+}
+
+export function styleRadio(page: Page, name: string) {
+  return chartRegion(page).getByRole('radio', { name });
+}
+
+export function panButton(page: Page, direction: 'up' | 'down' | 'left' | 'right') {
+  return chartRegion(page).getByRole('button', { name: `Pan ${direction}` });
+}
+
+/** One listitem per color used in the committed chart (see CONTRACT.md). */
+export function symbolKeyItems(page: Page) {
+  return chartRegion(page)
+    .getByRole('list', { name: 'Symbol key' })
+    .getByRole('listitem');
+}
+
+export type ChartState = {
+  style: string | null;
+  symbol_set: string | null;
+  zoom_pct: string | null;
+  grid_visible: string | null;
+  center_x: string | null;
+  center_y: string | null;
+  chart_width: string | null;
+  chart_height: string | null;
+};
+
+/** Every observable piece of chart view state, straight off the canvas. */
+export async function chartState(page: Page): Promise<ChartState> {
+  const canvas = chartCanvas(page);
+  return {
+    style: await canvas.getAttribute('data-style'),
+    symbol_set: await canvas.getAttribute('data-symbol-set'),
+    zoom_pct: await canvas.getAttribute('data-zoom-pct'),
+    grid_visible: await canvas.getAttribute('data-grid-visible'),
+    center_x: await canvas.getAttribute('data-center-x'),
+    center_y: await canvas.getAttribute('data-center-y'),
+    chart_width: await canvas.getAttribute('data-chart-width'),
+    chart_height: await canvas.getAttribute('data-chart-height'),
+  };
+}
+
+// -- Seeded documents (store record written straight into IndexedDB) ---------
+
+export type SeededPaletteEntry = { name: string; rgb: string };
+export type SeededDocument = {
+  id: string;
+  name: string;
+  width: number;
+  height: number;
+  palette: SeededPaletteEntry[];
+  /** Sparse: only non-empty cells; cells absent from the array are empty. */
+  cells: Array<{ x: number; y: number; color: number }>;
+};
+
+export type SeededStore = {
+  documents: SeededDocument[];
+  commands: unknown[];
+  snapshots: unknown[];
+  sources: unknown[];
+  counter: number;
+};
+
+/**
+ * Write a full store record into IndexedDB (DB "sng", store "store", key
+ * "store" — the exact seam sng_persist_ffi.mjs reads). Call after the app
+ * has loaded once (so the object store exists), then reload the page.
+ */
+export async function seedStore(page: Page, store: SeededStore) {
+  await page.evaluate(async (payload) => {
+    const request = indexedDB.open('sng', 1);
+    const db = await new Promise<IDBDatabase>((resolve, reject) => {
+      request.onsuccess = () => resolve(request.result);
+      request.onerror = () => reject(request.error);
+      request.onblocked = () => reject(new Error('indexeddb blocked'));
+    });
+    await new Promise<void>((resolve, reject) => {
+      const tx = db.transaction('store', 'readwrite');
+      tx.objectStore('store').put(JSON.stringify(payload), 'store');
+      tx.oncomplete = () => resolve();
+      tx.onerror = () => reject(tx.error);
+    });
+    db.close();
+  }, store as unknown as Record<string, unknown>);
+}
+
+function seededStore(...documents: SeededDocument[]): SeededStore {
+  return { documents, commands: [], snapshots: [], sources: [], counter: 10 };
+}
+
+/** Wrap one or more seeded documents as a full store record. */
+export function storeWith(...documents: SeededDocument[]): SeededStore {
+  return seededStore(...documents);
+}
+
+const SEED_COLORS = [
+  '#CC0000',
+  '#00CC00',
+  '#0000CC',
+  '#000000',
+  '#CCCC00',
+  '#CC00CC',
+  '#00CCCC',
+  '#999999',
+  '#CC6600',
+  '#6600CC',
+  '#006600',
+  '#990033',
+];
+
+/** 24x24 document whose committed chart uses all twelve palette colors. */
+export function twelveColorDoc(): SeededDocument {
+  const width = 24;
+  const height = 24;
+  const cells: Array<{ x: number; y: number; color: number }> = [];
+  for (let y = 0; y < height; y++) {
+    for (let x = 0; x < width; x++) {
+      // A guaranteed block of every color, plus a scattered fill.
+      const block = y < 2 && x < 24 ? x >> 1 : -1;
+      const scattered = (x + y) % 2 === 0 ? (x + 3 * y) % 12 : -1;
+      const color = block >= 0 ? block : scattered;
+      if (color >= 0) cells.push({ x, y, color });
+    }
+  }
+  const used = new Set(cells.map((c) => c.color));
+  if (used.size !== 12) {
+    throw new Error(`twelveColorDoc seed uses ${used.size} colors, expected 12`);
+  }
+  return {
+    id: 'doc-1',
+    name: 'Twelve Color Sampler',
+    width,
+    height,
+    palette: SEED_COLORS.slice(0, 12).map((rgb, i) => ({
+      name: `Seed C${i}`,
+      rgb,
+    })),
+    cells,
+  };
+}
+
+/**
+ * 1000x1000 sparse document for the NFR-P2 benchmark (config
+ * p2_benchmark_chart_width/height). Only a 100x100 corner carries cells so
+ * the seed stays small; the chart itself is the full 1000x1000 grid.
+ */
+export function benchmarkDoc(): SeededDocument {
+  const width = 1000;
+  const height = 1000;
+  const cells: Array<{ x: number; y: number; color: number }> = [];
+  for (let y = 0; y < 100; y++) {
+    for (let x = 0; x < 100; x++) {
+      if ((x + y) % 2 === 0) cells.push({ x, y, color: (x + 3 * y) % 4 });
+    }
+  }
+  return {
+    id: 'doc-1',
+    name: 'NFR-P2 Benchmark',
+    width,
+    height,
+    palette: SEED_COLORS.slice(0, 4).map((rgb, i) => ({
+      name: `Bench C${i}`,
+      rgb,
+    })),
+    cells,
+  };
+}
+
+/**
+ * The document's persisted SymbolAssignment (marker SourceImage id
+ * "symbol-assignment", content_hash = the assignment JSON — the storage
+ * convention of sng/symbols.gleam), decoded to (color_index, glyph_name)
+ * pairs in mapping order.
+ */
+export async function readSymbolAssignment(
+  page: Page,
+  documentId: string,
+): Promise<Array<{ color_index: number; glyph_name: string }> | null> {
+  const stored = await readPersistedStore(page);
+  const marker = stored?.sources?.find(
+    (s) => s.id === 'symbol-assignment' && s.document_id === documentId,
+  );
+  if (!marker) return null;
+  const decoded = JSON.parse(marker.content_hash) as {
+    mapping: Array<{ color_index: number; glyph: { name: string } }>;
+  };
+  return decoded.mapping.map((m) => ({
+    color_index: m.color_index,
+    glyph_name: m.glyph.name,
+  }));
 }
